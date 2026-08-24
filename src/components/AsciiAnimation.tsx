@@ -66,6 +66,7 @@ export default function AsciiAnimation() {
   const [animationPhase, setAnimationPhase] = useState(0);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isWaitlisted, setIsWaitlisted] = useState(false);
   const [layoutMetrics, setLayoutMetrics] = useState<LayoutMetrics | null>(null);
 
@@ -129,7 +130,7 @@ export default function AsciiAnimation() {
     ? { "--ascii-font-size": `${layoutMetrics.fontSize}px` }
     : undefined;
 
-  const handleWaitlistSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleWaitlistSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const normalizedEmail = email.trim().toLowerCase();
@@ -138,7 +139,35 @@ export default function AsciiAnimation() {
       return;
     }
 
-    setIsWaitlisted(true);
+    setIsSubmitting(true);
+    setEmailError("");
+
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: normalizedEmail }),
+      });
+
+      if (!response.ok) {
+        const body = (await response.json().catch(() => null)) as
+          | { error?: string }
+          | null;
+        throw new Error(body?.error ?? "Could not join the waitlist.");
+      }
+
+      setIsWaitlisted(true);
+    } catch (error) {
+      setEmailError(
+        error instanceof Error
+          ? error.message
+          : "Could not join the waitlist. Try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isWaitlisted) {
@@ -176,6 +205,7 @@ export default function AsciiAnimation() {
           aria-invalid={emailError ? "true" : "false"}
           autoComplete="email"
           className="waitlist-email-input"
+          disabled={isSubmitting}
           id="waitlist-email"
           inputMode="email"
           onChange={(event) => {

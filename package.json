@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "convex:dev": "convex dev",
     "start": "next start",
     "lint": "eslint"
   },
@@ -14,6 +15,7 @@
     "@vercel/analytics": "^2.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "convex": "^1.45.0",
     "lucide-react": "^0.577.0",
     "next": "16.1.6",
     "pdfjs-dist": "^5.5.207",
