@@ -8,30 +8,42 @@
  * @module
  */
 
+import type * as emails from "../emails.js";
+
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
 } from "convex/server";
-import { anyApi } from "convex/server";
-import type * as emails from "../emails.js";
 
-const fullApi: ApiFromModules<{
+declare const fullApi: ApiFromModules<{
   emails: typeof emails;
-}> = anyApi as any;
+}>;
 
 /**
  * A utility for referencing Convex functions in your app's public API.
+ *
+ * Usage:
+ * ```js
+ * const myFunctionReference = api.myModule.myFunction;
+ * ```
  */
-export const api: FilterApi<
+export declare const api: FilterApi<
   typeof fullApi,
   FunctionReference<any, "public">
-> = anyApi as any;
+>;
 
 /**
  * A utility for referencing Convex functions in your app's internal API.
+ *
+ * Usage:
+ * ```js
+ * const myFunctionReference = internal.myModule.myFunction;
+ * ```
  */
-export const internal: FilterApi<
+export declare const internal: FilterApi<
   typeof fullApi,
   FunctionReference<any, "internal">
-> = anyApi as any;
+>;
+
+export declare const components: {};
