@@ -176,6 +176,8 @@ body {
   width: 54px;
   height: 104px;
   transform: translateX(50%);
+  animation: rocket-to-mars 3.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  will-change: transform, opacity;
 }
 
 .rocket {
@@ -211,6 +213,7 @@ body {
   background: linear-gradient(to bottom, #ffe08a, #ff7b54 45%, transparent);
   filter: blur(1px);
   transform: translateX(-50%);
+  animation: rocket-flame-flicker 180ms ease-in-out infinite alternate;
 }
 
 .rocket-window {
@@ -267,6 +270,7 @@ body {
   border-radius: 999px;
   background: #f5f0ff;
   box-shadow: 0 0 10px rgba(245, 240, 255, 0.74);
+  animation: star-pulse 1.8s ease-in-out infinite alternate;
 }
 
 .launch-star-one {
@@ -277,16 +281,19 @@ body {
 .launch-star-two {
   top: 38%;
   right: 19%;
+  animation-delay: 240ms;
 }
 
 .launch-star-three {
   bottom: 30%;
   left: 24%;
+  animation-delay: 520ms;
 }
 
 .launch-star-four {
   right: 30%;
   bottom: 14%;
+  animation-delay: 800ms;
 }
 
 .cheat-wordmark {
@@ -393,6 +400,54 @@ body {
   }
 }
 
+@keyframes rocket-to-mars {
+  0% {
+    opacity: 0;
+    transform: translate(50%, 34px) rotate(-5deg) scale(0.84);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  62% {
+    opacity: 1;
+    transform: translate(50%, -62%) rotate(5deg) scale(0.98);
+  }
+
+  86% {
+    opacity: 1;
+    transform: translate(50%, -168%) rotate(0deg) scale(0.5);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(50%, -196%) rotate(0deg) scale(0.35);
+  }
+}
+
+@keyframes rocket-flame-flicker {
+  from {
+    transform: translateX(-50%) scaleY(0.76);
+  }
+
+  to {
+    transform: translateX(-50%) scaleY(1.08);
+  }
+}
+
+@keyframes star-pulse {
+  from {
+    opacity: 0.35;
+    transform: scale(0.72);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
 @media (max-width: 520px) {
   .cheat-wordmark {
     --cheat-cell-size: clamp(4px, 1.6vw, 7px);
@@ -402,10 +457,21 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cheat-block {
+  .cheat-block,
+  .rocket-flight,
+  .rocket::after,
+  .launch-star {
     animation: none;
+  }
+
+  .cheat-block {
     opacity: 1;
     transform: none;
+  }
+
+  .rocket-flight {
+    opacity: 1;
+    transform: translate(50%, -74%) scale(0.8);
   }
 }
 
