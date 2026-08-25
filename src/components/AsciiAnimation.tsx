@@ -192,7 +192,7 @@ export default function AsciiAnimation() {
           <span className="launch-star launch-star-three" />
           <span className="launch-star launch-star-four" />
         </div>
-        <p>we are going to go to mars together</p>
+        <p>yay, were gna go to mars tog :)</p>
       </main>
     );
   }
