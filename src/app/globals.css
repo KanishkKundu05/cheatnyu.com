@@ -95,6 +95,19 @@ body {
   font-size: clamp(20px, 3vw, 34px);
   line-height: 1.2;
   text-align: center;
+  background: radial-gradient(
+      circle at 50% 38%,
+      rgba(139, 92, 246, 0.18),
+      rgba(26, 10, 46, 0.42) 34%,
+      transparent 62%
+    ),
+    linear-gradient(
+      to bottom,
+      #1a0a2e 0%,
+      #1a0a2e 18%,
+      #201036 48%,
+      #1a0a2e 100%
+    );
   text-shadow: 0 0 10px rgba(139, 92, 246, 0.45),
     0 0 20px rgba(255, 255, 255, 0.18);
 }
@@ -109,6 +122,11 @@ body {
   height: clamp(260px, 52vh, 460px);
   margin-bottom: clamp(24px, 5vh, 44px);
   overflow: hidden;
+  background: radial-gradient(
+    circle at 50% 38%,
+    rgba(139, 92, 246, 0.16),
+    transparent 68%
+  );
 }
 
 .mars-launch-scene::before {
