@@ -172,8 +172,27 @@ export default function AsciiAnimation() {
 
   if (isWaitlisted) {
     return (
-      <main className="ascii-container waitlist-confirmation flex min-h-screen w-full items-center justify-center px-6">
-        <p>you&apos;re on the waitlist</p>
+      <main className="ascii-container waitlist-confirmation flex min-h-screen w-full flex-col items-center justify-center px-6">
+        <div className="mars-launch-scene" aria-hidden="true">
+          <div className="mars-planet">
+            <span className="mars-crater mars-crater-one" />
+            <span className="mars-crater mars-crater-two" />
+            <span className="mars-crater mars-crater-three" />
+          </div>
+          <div className="rocket-flight">
+            <div className="rocket">
+              <span className="rocket-window" />
+              <span className="rocket-fin rocket-fin-left" />
+              <span className="rocket-fin rocket-fin-right" />
+              <span className="rocket-flame" />
+            </div>
+          </div>
+          <span className="launch-star launch-star-one" />
+          <span className="launch-star launch-star-two" />
+          <span className="launch-star launch-star-three" />
+          <span className="launch-star launch-star-four" />
+        </div>
+        <p>we are going to go to mars together</p>
       </main>
     );
   }

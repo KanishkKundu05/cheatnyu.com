@@ -99,6 +99,196 @@ body {
     0 0 20px rgba(255, 255, 255, 0.18);
 }
 
+.waitlist-confirmation p {
+  max-width: min(100%, 720px);
+}
+
+.mars-launch-scene {
+  position: relative;
+  width: min(72vw, 380px);
+  height: clamp(260px, 52vh, 460px);
+  margin-bottom: clamp(24px, 5vh, 44px);
+  overflow: hidden;
+}
+
+.mars-launch-scene::before {
+  position: absolute;
+  inset: 14% 49% 12%;
+  width: 2px;
+  content: "";
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(245, 240, 255, 0.18),
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.28);
+}
+
+.mars-planet {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: clamp(82px, 18vw, 126px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle at 32% 30%, #ffc6a3 0 8%, transparent 9%),
+    radial-gradient(circle at 68% 62%, #a94038 0 10%, transparent 11%),
+    linear-gradient(145deg, #f78d55 0%, #c4483e 52%, #7b263c 100%);
+  box-shadow: 0 0 22px rgba(247, 141, 85, 0.42),
+    0 0 56px rgba(139, 92, 246, 0.26);
+  transform: translateX(-50%);
+}
+
+.mars-crater {
+  position: absolute;
+  display: block;
+  border-radius: 999px;
+  background: rgba(93, 31, 44, 0.34);
+  box-shadow: inset 2px 2px 3px rgba(61, 14, 30, 0.36);
+}
+
+.mars-crater-one {
+  top: 28%;
+  left: 28%;
+  width: 18%;
+  height: 18%;
+}
+
+.mars-crater-two {
+  right: 24%;
+  bottom: 28%;
+  width: 14%;
+  height: 14%;
+}
+
+.mars-crater-three {
+  right: 34%;
+  top: 18%;
+  width: 9%;
+  height: 9%;
+}
+
+.rocket-flight {
+  position: absolute;
+  right: 50%;
+  bottom: 4%;
+  width: 54px;
+  height: 104px;
+  transform: translateX(50%);
+}
+
+.rocket {
+  position: relative;
+  width: 34px;
+  height: 76px;
+  margin: 0 auto;
+  border-radius: 50% 50% 38% 38%;
+  background: linear-gradient(90deg, #ddd9ff 0%, #ffffff 48%, #bdb3ff 100%);
+  box-shadow: 0 0 18px rgba(245, 240, 255, 0.28);
+}
+
+.rocket::before {
+  position: absolute;
+  top: -18px;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-right: 17px solid transparent;
+  border-bottom: 24px solid #ff6b9d;
+  border-left: 17px solid transparent;
+  content: "";
+}
+
+.rocket::after {
+  position: absolute;
+  bottom: -34px;
+  left: 50%;
+  width: 14px;
+  height: 38px;
+  border-radius: 999px;
+  content: "";
+  background: linear-gradient(to bottom, #ffe08a, #ff7b54 45%, transparent);
+  filter: blur(1px);
+  transform: translateX(-50%);
+}
+
+.rocket-window {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border: 3px solid #8b5cf6;
+  border-radius: 999px;
+  background: #1a0a2e;
+  box-shadow: inset 0 0 6px rgba(245, 240, 255, 0.36);
+  transform: translateX(-50%);
+}
+
+.rocket-fin {
+  position: absolute;
+  bottom: 7px;
+  width: 18px;
+  height: 28px;
+  background: #8b5cf6;
+}
+
+.rocket-fin-left {
+  left: -12px;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.rocket-fin-right {
+  right: -12px;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+.rocket-flame {
+  position: absolute;
+  bottom: -74px;
+  left: 50%;
+  width: 2px;
+  height: 72px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 224, 138, 0.58),
+    rgba(139, 92, 246, 0.18),
+    transparent
+  );
+  box-shadow: 0 0 14px rgba(255, 107, 157, 0.24);
+  transform: translateX(-50%);
+}
+
+.launch-star {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #f5f0ff;
+  box-shadow: 0 0 10px rgba(245, 240, 255, 0.74);
+}
+
+.launch-star-one {
+  top: 18%;
+  left: 16%;
+}
+
+.launch-star-two {
+  top: 38%;
+  right: 19%;
+}
+
+.launch-star-three {
+  bottom: 30%;
+  left: 24%;
+}
+
+.launch-star-four {
+  right: 30%;
+  bottom: 14%;
+}
+
 .cheat-wordmark {
   --cheat-cell-size: clamp(6px, 1.1vw, 12px);
   --cheat-cell-gap: clamp(2px, 0.32vw, 4px);
