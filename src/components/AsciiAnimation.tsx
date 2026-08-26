@@ -40,6 +40,8 @@ const RAGEBAITED_EMAILS = new Set([
 ]);
 const DEFAULT_CONFIRMATION_COPY = "yay, were gna go to mars tog :)";
 const RAGEBAITED_CONFIRMATION_COPY = "sorry i ragebaited you";
+const EARLY_JOURNEY_EMAIL = "zg2312@nyu.edu";
+const EARLY_JOURNEY_CONFIRMATION_COPY = "TY for being so early in my journey";
 
 function isAllowedWaitlistEmail(email: string) {
   return /^[^\s@]+@nyu\.edu$/.test(email) || RAGEBAITED_EMAILS.has(email);
@@ -172,11 +174,13 @@ export default function AsciiAnimation() {
         throw new Error(body?.error ?? "Could not join the waitlist.");
       }
 
-      setConfirmationCopy(
-        RAGEBAITED_EMAILS.has(normalizedEmail)
-          ? RAGEBAITED_CONFIRMATION_COPY
-          : DEFAULT_CONFIRMATION_COPY
-      );
+      if (RAGEBAITED_EMAILS.has(normalizedEmail)) {
+        setConfirmationCopy(RAGEBAITED_CONFIRMATION_COPY);
+      } else if (normalizedEmail === EARLY_JOURNEY_EMAIL) {
+        setConfirmationCopy(EARLY_JOURNEY_CONFIRMATION_COPY);
+      } else {
+        setConfirmationCopy(DEFAULT_CONFIRMATION_COPY);
+      }
       setIsWaitlisted(true);
     } catch (error) {
       setEmailError(
