@@ -33,6 +33,17 @@ const BASE_LINE_HEIGHT = 1.15;
 const TARGET_FRAME_MS = 1000 / 30;
 const PRETEXT_FONT =
   '14px "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", Consolas, Monaco, monospace';
+const RAGEBAITED_EMAILS = new Set([
+  "nsl6265@stern.nyu.edu",
+  "ntl2695@stern.nyu.edu",
+  "ck3880@nyu.edu",
+]);
+const DEFAULT_CONFIRMATION_COPY = "yay, were gna go to mars tog :)";
+const RAGEBAITED_CONFIRMATION_COPY = "sorry i ragebaited you";
+
+function isAllowedWaitlistEmail(email: string) {
+  return /^[^\s@]+@nyu\.edu$/.test(email) || RAGEBAITED_EMAILS.has(email);
+}
 
 function parseLineSegments(line: string): Segment[] {
   const segments: Segment[] = [];
@@ -68,6 +79,9 @@ export default function AsciiAnimation() {
   const [emailError, setEmailError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isWaitlisted, setIsWaitlisted] = useState(false);
+  const [confirmationCopy, setConfirmationCopy] = useState(
+    DEFAULT_CONFIRMATION_COPY
+  );
   const [layoutMetrics, setLayoutMetrics] = useState<LayoutMetrics | null>(null);
 
   useEffect(() => {
@@ -134,7 +148,7 @@ export default function AsciiAnimation() {
     event.preventDefault();
 
     const normalizedEmail = email.trim().toLowerCase();
-    if (!/^[^\s@]+@nyu\.edu$/.test(normalizedEmail)) {
+    if (!isAllowedWaitlistEmail(normalizedEmail)) {
       setEmailError("Use your @nyu.edu email.");
       return;
     }
@@ -158,6 +172,11 @@ export default function AsciiAnimation() {
         throw new Error(body?.error ?? "Could not join the waitlist.");
       }
 
+      setConfirmationCopy(
+        RAGEBAITED_EMAILS.has(normalizedEmail)
+          ? RAGEBAITED_CONFIRMATION_COPY
+          : DEFAULT_CONFIRMATION_COPY
+      );
       setIsWaitlisted(true);
     } catch (error) {
       setEmailError(
@@ -192,7 +211,7 @@ export default function AsciiAnimation() {
           <span className="launch-star launch-star-three" />
           <span className="launch-star launch-star-four" />
         </div>
-        <p>yay, were gna go to mars tog :)</p>
+        <p>{confirmationCopy}</p>
       </main>
     );
   }

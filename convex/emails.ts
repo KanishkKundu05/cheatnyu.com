@@ -9,14 +9,29 @@ export type AddEmailResult = {
   status: "created" | "existing";
 };
 
+const SPECIAL_WAITLIST_EMAILS = new Set([
+  "nsl6265@stern.nyu.edu",
+  "ntl2695@stern.nyu.edu",
+  "ck3880@nyu.edu",
+]);
+
+function isAllowedWaitlistEmail(email: string) {
+  return /^[^\s@]+@nyu\.edu$/.test(email) || SPECIAL_WAITLIST_EMAILS.has(email);
+}
+
 export const add = mutation({
   args: {
     email: v.string(),
   },
+  returns: v.object({
+    id: v.id("emails"),
+    email: v.string(),
+    status: v.union(v.literal("created"), v.literal("existing")),
+  }),
   handler: async (ctx, args): Promise<AddEmailResult> => {
     const email = args.email.trim().toLowerCase();
 
-    if (!/^[^\s@]+@nyu\.edu$/.test(email)) {
+    if (!isAllowedWaitlistEmail(email)) {
       throw new Error("Use your @nyu.edu email.");
     }
 

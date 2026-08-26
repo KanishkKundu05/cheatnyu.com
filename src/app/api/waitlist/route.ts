@@ -4,6 +4,15 @@ import { NextResponse, type NextRequest } from "next/server";
 import { api } from "../../../../convex/_generated/api";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL ?? process.env.CONVEX_URL;
+const SPECIAL_WAITLIST_EMAILS = new Set([
+  "nsl6265@stern.nyu.edu",
+  "ntl2695@stern.nyu.edu",
+  "ck3880@nyu.edu",
+]);
+
+function isAllowedWaitlistEmail(email: string) {
+  return /^[^\s@]+@nyu\.edu$/.test(email) || SPECIAL_WAITLIST_EMAILS.has(email);
+}
 
 export async function POST(request: NextRequest) {
   if (!convexUrl) {
@@ -26,7 +35,7 @@ export async function POST(request: NextRequest) {
     : "";
   const normalizedEmail = email.trim().toLowerCase();
 
-  if (!/^[^\s@]+@nyu\.edu$/.test(normalizedEmail)) {
+  if (!isAllowedWaitlistEmail(normalizedEmail)) {
     return NextResponse.json(
       { error: "Use your @nyu.edu email." },
       { status: 400 }
