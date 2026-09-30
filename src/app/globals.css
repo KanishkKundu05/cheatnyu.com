@@ -90,6 +90,35 @@ body {
   text-align: center;
 }
 
+.waitlist-enter-button {
+  display: none;
+  min-height: 44px;
+  margin-top: 10px;
+  border: 1px solid #8b5cf6;
+  border-radius: 8px;
+  background: #8b5cf6;
+  color: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.waitlist-enter-button:focus-visible {
+  outline: 2px solid #f5f0ff;
+  outline-offset: 3px;
+}
+
+.waitlist-enter-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+@media (max-width: 767px) {
+  .waitlist-enter-button {
+    display: block;
+  }
+}
+
 .waitlist-confirmation {
   color: #ffffff;
   font-size: clamp(20px, 3vw, 34px);

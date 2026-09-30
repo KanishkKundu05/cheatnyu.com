@@ -44,7 +44,7 @@ const EARLY_JOURNEY_EMAIL = "zg2312@nyu.edu";
 const EARLY_JOURNEY_CONFIRMATION_COPY = "TY for being so early in my journey";
 
 function isAllowedWaitlistEmail(email: string) {
-  return /^[^\s@]+@nyu\.edu$/.test(email) || RAGEBAITED_EMAILS.has(email);
+  return /^[^\s@]+@(?:stern\.)?nyu\.edu$/.test(email);
 }
 
 function parseLineSegments(line: string): Segment[] {
@@ -148,10 +148,11 @@ export default function AsciiAnimation() {
 
   const handleWaitlistSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isSubmitting) return;
 
     const normalizedEmail = email.trim().toLowerCase();
     if (!isAllowedWaitlistEmail(normalizedEmail)) {
-      setEmailError("Use your @nyu.edu email.");
+      setEmailError("Use your @nyu.edu or @stern.nyu.edu email.");
       return;
     }
 
@@ -248,6 +249,7 @@ export default function AsciiAnimation() {
           autoComplete="email"
           className="waitlist-email-input"
           disabled={isSubmitting}
+          enterKeyHint="go"
           id="waitlist-email"
           inputMode="email"
           onChange={(event) => {
@@ -258,6 +260,13 @@ export default function AsciiAnimation() {
           type="email"
           value={email}
         />
+        <button
+          className="waitlist-enter-button"
+          disabled={isSubmitting}
+          type="submit"
+        >
+          {isSubmitting ? "Entering…" : "Enter"}
+        </button>
         <p
           aria-live="polite"
           className="waitlist-email-error"

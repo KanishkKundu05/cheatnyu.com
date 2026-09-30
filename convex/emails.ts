@@ -9,14 +9,8 @@ export type AddEmailResult = {
   status: "created" | "existing";
 };
 
-const SPECIAL_WAITLIST_EMAILS = new Set([
-  "nsl6265@stern.nyu.edu",
-  "ntl2695@stern.nyu.edu",
-  "ck3880@nyu.edu",
-]);
-
 function isAllowedWaitlistEmail(email: string) {
-  return /^[^\s@]+@nyu\.edu$/.test(email) || SPECIAL_WAITLIST_EMAILS.has(email);
+  return /^[^\s@]+@(?:stern\.)?nyu\.edu$/.test(email);
 }
 
 export const add = mutation({
@@ -32,7 +26,7 @@ export const add = mutation({
     const email = args.email.trim().toLowerCase();
 
     if (!isAllowedWaitlistEmail(email)) {
-      throw new Error("Use your @nyu.edu email.");
+      throw new Error("Use your @nyu.edu or @stern.nyu.edu email.");
     }
 
     const existing = await ctx.db
