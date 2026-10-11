@@ -26,6 +26,28 @@ body {
   min-height: 100%;
 }
 
+.creator-credit {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  z-index: 10;
+  color: #c0c0c0;
+  font-size: clamp(11px, 2.5vw, 13px);
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.creator-credit:hover {
+  color: #f5f0ff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.creator-credit:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 4px;
+}
+
 .ascii-container {
   opacity: 0;
   animation: ascii-fade-in 0.8s ease-in forwards;
