@@ -28,7 +28,7 @@ body {
 
 .creator-credit {
   position: fixed;
-  top: max(16px, env(safe-area-inset-top));
+  bottom: max(16px, env(safe-area-inset-bottom));
   right: max(16px, env(safe-area-inset-right));
   z-index: 10;
   color: #c0c0c0;
