@@ -3,8 +3,12 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Automate NYU",
-  description: "Automate NYU",
+  title: "sign up?",
+  description: "sign up?",
+  openGraph: {
+    title: "sign up?",
+    description: "sign up?",
+  },
 };
 
 export default function RootLayout({
