@@ -8,3 +8,4 @@ out/
 content/extracted/
 playwright-report/
 test-results/
+.vercel
