@@ -1,0 +1,392 @@
+Fall 2026
+
+
+
+CS-UY 2413 (Sections A and B):                                                                                        Prof. Lisa Hellerstein
+
+Design and Analysis of Algorithms                                                                                     lisa.hellerstein@nyu.edu
+
+
+
+
+Slides include material from Introduction to Algorithms, 4th Edition, MIT Press by Cormen, Leiserson, Rivest, and Stein.
+Lecture 7
+❖   Recommended reading:
+
+
+    ❖   Chap. 6 (Heaps, Heapsort, Priority Queues)
+        Appendix C.4 (just the material on geometric distribution)
+        Notes on probability posted on EdStem
+❖   Recommended reading ahead:
+    ❖   Chap. 5 (Randomized algorithms, Sections 5.1-5.3)
+        Chap. 7 (Quicksort)
+Expected number of independent trials to get success?
+❖   Consider repeated independent trials where probability of success in each
+    trial is p
+
+                                                   p = frac
+    ❖   e.g., flip fair coin, success is Heads
+                                                            2
+                                                            1
+                                                                p =frac
+        e.g., roll fair 6-sided die, success is getting 2
+                                                                     4
+                                                                     1
+    ❖
+
+
+❖   Expected number of trials to get first success is frac
+                                                     _________
+                                                                1p
+❖   Consider repeated independent (Bernoulli) trials where probability of success
+    in each trial is p
+    ❖   e.g., flip fair coin, success is Heads     p = 1/2
+    ❖   e.g., roll fair 6-sided die, success is getting 2    p = 1/6
+❖   Expected number of trials to get first success is 1/p
+          ∞
+              i
+          ∑ 2i
+❖
+  Recall:       =2   Expected number of flips of fair coin to get first Heads
+          i=1
+           k
+              i
+          ∑ 2i
+❖
+                <2     for any integer k > 0
+          i=1
+Heaps and Heapsort
+                   Relevant Heap Operations
+
+
+❖   (For Max-Heap)
+    ❖   Max-Heap-Heapify(A,i)     // Helper function, see next slide
+    ❖   BuildMaxHeap(A,n)   // take array A of size n and turn it into max-heap
+    ❖   Max-Heap-Extract-Max(A)    // remove max element from heap
+                            Max-Heapify(A,i)
+
+
+❖   Assumes left and right children of node i are roots of max-heaps
+❖   But A[i] might be less than A[left(i)] and A[right(i)]
+❖   Max-Heapify(A,i) moves element in node i down in the heap to make node i
+    the root of a max-heap
+                                                                 i
+Worst case
+❖   Running time of Max-Heapify
+    ❖   θ(h) where h is height of subtree with root at node i [height here is max # edges from node to leaf]
+    ❖   = θ(log n) if subtree has n elements
+❖   How to convert completely unsorted array into max-heap?
+    ❖   Starting from bottom level of corresponding tree
+        ❖   Run Max-Heapify on all nodes at that level, so all subtrees rooted at that level are max-heaps.
+Never happensfor
+                    heapify
+           Max
+
+     0
+
+
+
+
+                    of heap rooted
+Height   of subtree
+      at node          i      is
+           ominus              nodes in
+                     log           that subtree
+                  Pseudocode for Build-Max-Heap
+                                  1       A hassicen
+Take unorderedarray A
+                                      n
+
+    put it in heap order
+ ❖   Build-Max-Heap(A, n)
+     ❖   A.heapsize = n
+     ❖   for i = ⌊n/2⌋ downto 1                        A heapsize
+         ❖   Max-Heapify(A,i)
+                   Runtime of Build-Max-Heap
+
+❖   Height of entire tree is
+❖   Build-Max-Heap runs Max-Heapify        n/2        times
+❖   Max-Heapify runs in time θ(h), where h is height of subtree
+❖   So each Max-Heapify runs in time O(
+                                           log )
+                                            n
+                                            n
+
+    ⇒ Build-Max-Heap runs in time O(        n log n      )
+What is the              of the Proof
+                height
+           of     the    tree
+        for         A
+
+                                   n   do
+                                       nodes
+              o
+                          ominus
+                                logn
+                       Tighter bound on Build-Max-Heap
+❖   Previous analysis overestimated time for many of the calls to Max-Heapify
+                                                                                                            0
+                                                                                                            L
+                                                                                                            er
+                                                                                                             t
+                                                                                                             l 0
+
+                                                                                                                    0
+                                                                                                                    2
+                                                                                                                    1h
+❖   More careful analysis:                                                                               1 0 o
+                                                                                                         frac
+         Runtime of Max-Heapify is at most ch for some constant c (since it is θ(h))
+     ❖
+
+              Level 0that is root of subtree of height ⌊log n⌋
+                                                                                                         0 0
+                                                                                                         2
+     ❖ Tree has 1 node
+                                                           2
+             Level
+                2    1 that are roots of subtrees of height ⌊log2 n⌋ − 1
+                  nodes
+                  …
+
+                                                                     rangle
+                                                                     langle
+                                                                      right
+                                                                       left
+                                                                       log
+                                                                        n
+                                                                        1hi                              rfloor
+                                                                                                         lfloor
+                                                                                                         right
+                                                                                                           left
+                                                                                                           log
+                                                                                                            2
+                                                                                                            hi
+                                                                                                            n
+                   i
+      Level 2…nodes that are roots of subtrees of height
+                  ≤ 2⌊log2 n⌋ nodes that are roots of subtrees of height
+     ❖
+                                                                                          1
+                   worstcase⌊log2 n⌋                          ⌊log2 n⌋
+                                                                                        1
+                                                                                               ⌊log n⌋
+                                                                                                     n            ∞
+                                                                                                                     h
+                                                                                                         0
+                                                                                                   2
+                                        ⌊log2 n⌋−h                           log2 n
+                                  ∑                            ∑                                 ∑ 2h            ∑ 2h
+         Total runtime at most:         2            ⋅ ch ≤              2            ⋅ h ⋅ ch =       ⋅ ch ≤ cn       = 2cn   WHY?
+     ❖
+                                  h=0                          h=0
+                                                                                       2         h=0             h=0
+Max Heapify
+            of height 1
+    3 trees
+     1   tree   of height
+    Worst case
+❖   Runtime of Build-MaxHeap is θ(n)
+                                  Heapsort
+
+
+22             _
+
+
+
+
+                                 Loop invariant:
+
+     Heap only contains A[1…i]. They are the smallest items in A. Remaining elements
+                          are in A[i+1…n] in sorted order
+    367922    4 3          A
+
+
+
+Build Heap
+             Extract Max
+
+
+
+                      22
+Heapsort
+
+
+
+
+Runtime?
+Priority Queue
+               Priority Queue is an Abstract Data Type
+❖   Stores set S of elements
+❖   Each element has a number, called a key, indicating its priority
+     ❖   e.g., Elements may be print jobs waiting to be processed
+
+                  Job Name     Priority
+                   hw1.pdf       1
+                   joke.pdf     7
+                     cv.pdf      2
+
+
+❖   (Max) Priority queue implementation must support the following operations
+     ❖   Insert(S,x,k)     Insert element x into S with key k
+     ❖   Maximum(S)        Return element in S with largest key (but don’t remove)
+     ❖   Extract-Max(S)    Remove and return element in S with largest key
+     ❖   Increase-Key(S,x,k)   Increase key of element x of S to k (assume it is less than k)
+ ❖   Could implement priority queue (PQ) using different data structures
+
+     Example: Implementation of PQ using unsorted doubly-linked list
+                                                                                           pt
+ ❖
+
+
+       ❖   Insert(S,x,k)       Insert element x into S with key k
+                                                                                         hw1
+              ❖   How? Insert element x with key k at front of doubly-linked list         7
+                                              right
+                                               left
+                                                 1
+                                              theta
+              ❖   Runtime of Insert(S,x,k)?
+   Case
+Worst
+       ❖   Maximum(S)          Return element in S with largest key (but don’t remove)
+              ❖
+                   Linearsearch
+                  How?
+
+
+                     right where n is size of S
+                      left
+                        n
+                     theta
+              ❖   Runtime?
+    Case
+Worst
+    Extract-Max(S)
+       ❖            Remove and return element in S with largest key
+              ❖
+                     linear searchto find delete from list
+                  How?
+
+      we Runtime?              n forsearch theta
+                           theta
+                           right
+                             left                             left
+                                                             right1 fordelete
+              ❖
+
+
+       Increase-Key(S,x,k) Increase key of element x of S to k (assume it is less than k)
+       ❖
+
+
+              ❖   How?
+                           linearsearchto find del increasekey
+                                               1 fordelete
+                  Runtime?
+     We                       theta
+                              right
+                               left
+                                n forsearch theta
+                                             left
+              ❖
+
+
+                                            right
+❖   Usually better to implement using a heap
+     ❖   but need to define heap procedures to support the PQ operations
+          ❖   Insert(S,x,k)
+          ❖   Maximum(S)
+          ❖   Extract-Max(S)
+          ❖   Increase-Key(S,x,k)
+     ❖   For heap sort we only defined
+          ❖   Build-Max-Heap(A)
+          ❖   Max-Heapify(A,i)
+❖   A[i].key is key of element in position i of heap
+    ❖   although actually array may only hold pointers to elements
+
+
+
+
+        hw1 txt
+        w
+
+    key   7
+                            Max-Heap-Maximum
+
+
+CMax-Heap-Maximum(A)
+❖                                    // return max element, don’t delete
+    ❖   if A.heapsize < 1
+        ❖   error “heap underflow”
+    ❖   return
+                    right
+                     left
+                      A
+                      1
+                            Max-Heap-Maximum
+
+
+❖   Max-Heap-Maximum(A)              // return max element, don’t delete
+    ❖   if A.heapsize < 1
+        ❖   error “heap underflow”
+    ❖   return       A[1]
+                     Max-Heap-Extract-Max(A)
+
+❖   Max-Heap-Extract-Max(A)
+    ❖   max = Max-Heap-Maximum(A)
+    ❖
+
+
+    ❖
+                                          Aheap size
+    ❖
+
+
+    ❖   return max
+                     Max-Heap-Extract-Max(A)
+
+❖   Max-Heap-Extract-Max(A)
+    ❖   max = Max-Heap-Maximum(A)
+    ❖   A[1] = A[A.heapsize]        // move last element in heap to root
+    ❖   A.heapsize = A.heapsize-1   // update heapsize
+    ❖   Max-Heapify(A,1)            // restore heap order
+    ❖   return max
+                         Max-Heap-Extract-Max(A)
+ ❖   Max-Heap-Extract-Max(A)
+     ❖   max = Max-Heap-Maximum(A)
+     ❖   A[1] = A[A.heapsize]        // move last element in heap to root
+     ❖   A.heapsize = A.heapsize-1   // update heapsize
+     ❖   Max-Heapify(A,1)            // restore heap order
+     ❖   return max
+
+         Runtime?
+W.C                                                    Express runtime as function of n,
+
+                            log n                     where n is the length of the array A
+
+                                                                size of heap
+                     IncreaseKey and “Handle”
+
+❖   In order to do IncreaseKey(A,x,k), need to be able to locate element x in the
+    array
+❖   Implement a “handle” for x to map between elements and array positions
+    ❖   Locate element x in the heap, i.e., map elements to array indices
+    ❖   (Also, determine which element x is in a given array position, i.e.,map
+        array positions to elements)
+❖   Handle must be updated when elements move during operations on the heap
+❖   One implementation of handle:
+      ❖   add array position information to the element (object) itself
+❖   This implementation has θ(1) overhead per position change of element in heap,
+    but storing info in element violates “abstraction barrier”
+❖   Another implementation of handle
+    ❖   add array position information to the element (object) itself
+        Use hashtable to map elements to array positions
+❖   Need to update information when array position of x changes. Adds overhead.
+❖   Above implementation has θ(1) overhead per position change, but storing info in element violates
+    “abstraction barrier”
+    Above implementation has O(1) overhead “on average” per position change but worst case is O(n).
+    Respects abstraction barrier.
+❖   Going forward, we’ll exclude the runtime of mapping operations from the
+    runtimes.
+

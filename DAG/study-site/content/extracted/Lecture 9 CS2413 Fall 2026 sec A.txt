@@ -1,0 +1,486 @@
+Fall 2026
+
+
+
+CS-UY 2413 (Sections A and B):                                                                                        Prof. Lisa Hellerstein
+
+Design and Analysis of Algorithms                                                                                     lisa.hellerstein@nyu.edu
+
+
+
+
+Slides include material from Introduction to Algorithms, 4th Edition, MIT Press by Cormen, Leiserson, Rivest, and Stein.
+Lecture 9
+❖   Recommended reading:
+    ❖   Chap. 6 (Heaps, Heapsort, Priority Queues)
+    ❖   Probability Handout on EdStem
+    ❖   Appendix C (Counting and Probability)
+❖   Reading ahead
+    ❖   Chap. 5 Randomized Algorithms
+    ❖   Chap. 7 Quicksort
+Some important concepts from probability
+                      Linearity of Expectation
+
+
+❖   We will use following important property called “Linearity of Expectation”
+❖   For any two random variables X and Y, and constants a and b
+      ❖   E[aX + bY] = aE[X] + bE[Y]
+❖   True even if X and Y are not independent!
+                           A coin flipping problem
+❖   Suppose flip a fair coin repeatedly, stopping as soon as get Heads, or have flipped 4 times (get
+    4 Tails)
+❖   What is expected number of flips?
+❖   Standard way to solve this:
+    ❖   Define X to be random variable which is number of flips performed (stop when get Heads)
+    ❖   E[X] = Expected number of flips
+             = 1 ∗ P[X = 1] + 2 ∗ P[X = 2] + 3 ∗ P[X = 3] + 4 ∗ P[X = 4]
+            =
+                                    frac
+                                      4
+                                      8
+                                      3
+                                      2
+                                      1
+                                  A coin flipping problem
+❖   Suppose flip a fair coin repeatedly, stopping as soon as get Heads, or have flipped 4 times (get 4 Tails in a row)
+❖   What is expected number of flips?
+❖   Standard way to solve this:
+     ❖   Define X to be random variable which is total number of flips performed (if stop when get Heads or flipped 4 Tails
+         in a row)
+     ❖   E[X] = Expected number of flips
+              = 1 ∗ P[X = 1] + 2 ∗ P[X = 2] + 3 ∗ P[X = 3] + 4 ∗ P[X = 4]
+
+                     1     1    1     1
+              = 1∗     + 2∗ + 3∗ + 4∗
+                     2     4    8     8
+
+                                                    7
+              = (1/2) + (1/2) + (3/8) + (4/8) = 1
+                                                    8
+    A different approach to coin flipping problem
+
+❖   Can solve using Indicator Random Variables
+❖   Indicator random variable Y for an event
+    ❖   Y = 1 if event occurs
+    ❖   Y = 0 if event does not occur
+❖   Since Y is an indicator random variable, E[Y] = P[Y = 1]
+    ❖   Why?
+                                   right
+                                    left
+                                     Y
+                                     0
+                                     P
+                                     E
+                                     1
+Solving coin flipping problem with indicator variables
+
+❖   Again, suppose you have a fair coin
+❖   Flip it repeatedly until either you get Heads or you’ve flipped it 4 times
+❖   What is the expected number of flips you perform?
+    ❖   Let Xi be indicator variable for the event that you perform an ith flip
+    ❖   Note that the different Xi variables are not independent!
+
+e g                   TH                               X
+                                                       0
+                                                       4
+                                                       3
+                                                       2
+                                                       1
+❖   Let X be random variable which is total number of flips performed
+❖   X = X1 + X2 + X3 + X4
+❖   Expected number of flips performed is
+
+        E[X] = E[X1 + X2 + X3 + X4] =
+
+
+                                              right
+                                               left
+                                                X
+                                                4
+                                                3
+                                                2
+                                                1E
+    ❖
+❖   Let X be random variable which is total number of flips performed
+❖   X = X1 + X2 + X3 + X4                                                  heads
+                                                                        flip
+    Expected number of flips performed is                    P first
+❖
+
+
+    ❖   E[X] = E[X1 + X2 + X3 + X4]
+             = E[X1] + E[X2] + E[X3] + E[X4]
+                                                     right
+                                                      left
+                                                       X
+                                                       P
+                                                       2
+                                                       1
+             = 1 + (1/2) + (1/4) + (1/8)
+              =1
+                 7                                                  right
+                                                                     left
+                                                                      X
+                                                                      Y
+                                                                      3
+                                                                      P
+                                                                      F
+                                                                      1
+                 8                                            P first heads
+                                                                   flips
+❖   Let X be random variable which is total number of flips performed
+❖   X = X1 + X2 + X3 + X4
+❖   Expected number of flips performed is
+    ❖   E[X] = E[X1 + X2 + X3 + X4]
+             = E[X1] + E[X2] + E[X3] + E[X4]
+             = 1 + (1/2) + (1/4) + (1/8)
+                 7
+              =1
+                 8
+Quicksort
+                                             Quicksort
+❖   Very practical (with tuning)                                       n                        17
+❖   Divide-and-conquer                                                            17
+                                                                  Low                       High
+❖   Idea:
+                                                                                pivot
+    ❖   Pick an element x of the array. Call it the “pivot”
+    ❖   Partition the other elements with respect to the pivot, as follows:
+             Elements ≤ x go on left side of array (low side), elements > x go on right side of array (high
+        side)
+             Pivot x goes in between the two sides
+    ❖   Recursively sort the low side
+    ❖   Recursively sort the high side
+                              Partition example
+
+❖   42893175                               4 23         5798
+❖   Suppose pick 5 to be the pivot
+❖   If use extra array, very easy to partition around pivot in time θ(n)
+❖   Can be done in-place in time θ(n) (slightly more complicated)
+                                                               Partition example
+❖   Idea for partitioning A[1:n] in place               (pseudocode on p. 184, for A[p…r])
+      ❖    Pick A[n] to be pivot x
+      ❖    Use loop to partition longer and longer prefixes of A around pivot x
+      ❖    for j = 1 to n-1
+
+           \\ Loop invariant: Elements in A[1:j-1] partitioned into “low side” (elements <= x) and “high side” (elements > x)
+                                   A[1:i] is low side, A[i+1:n] is high side
+             ❖   if A[j] > x, leave A[j] where it is, don’t update i                         right
+                                                                                              left
+                                                                                               A
+                                                                                               1j
+                                                                                                i
+             ❖   if A[j] <= x, increment i then exchange A[i] and A[j]
+                                                                Partioned
+                                                                           around x
+      ❖    At end, exchange A[i+1] and A[n]
+      ❖    (Need to initialize i to 0 at start)               low high
+                                                                                             X
+                                                              x X
+                                                             leq i 1j
+    e.g.         4 2 3 8       9 7 1 5               fast forward to j=6
+                                                                              i is last
+❖
+
+
+
+                                  9j                                        position of low
+                     i           j
+❖   Note:
+    ❖   In mergesort — divide is trivial, combining results of recursive calls takes
+        θ(n)
+    ❖   In quicksort — divide takes work (partition), combining results of
+        recursive calls is trivial
+                sorting A pir
+
+
+
+
+Running Time?
+Running Time? Varies depending on how the pivots split the array
+          Suppose pivot always split array in half
+
+
+❖   If pivot always splits array exactly in half:
+
+           T(n) = 2T(n/2) + θ(n)
+❖   Running time?
+
+                        O    n
+                                 log n
+                  Suppose pivot is always max
+
+❖   If pivot is always the maximum (or minimum) elements in the subarray, then
+
+                    T(n) = T(n − 1) + T(0) + θ(n)
+❖                            equivalently                    partition
+❖                      T(n) = T(n − 1) + θ(n)                         X
+                                                               w
+                                                               lo
+❖   Solve this recurrence         right
+                                   left
+                                    T
+                                    n1
+                                    c
+                                            right
+                                             left
+                                              T
+                                              2
+                                              n
+                                              c
+                                              1
+                                              right
+                                               left
+                                                3
+                                                2
+                                                n
+                                                1c
+                                                    is
+vdots
+right
+  left
+    3
+    T
+    2
+    n
+    c
+    1
+vdots
+ ldots
+ right
+   left
+    T
+    n
+    c
+    1k
+theta
+ldots
+right
+ left
+  4
+  3
+  T
+  2
+  n
+  c
+  1
+                     Suppose pivot is always max
+❖   If pivot is always the maximum (or minimum) elements in the subarray, then
+
+                     T(n) = θ(n 2)
+❖   Is this actually the worst case??
+❖   Yes!
+
+    Fact: Worst-case runtime of QuickSort is O(n 2) (upper bound)
+
+                  Why?
+                              Suppose pivot is always max
+❖   Lemma: Once Quicksort compares two elements of the input array, it will never do that comparison again.
+     ❖   Pf: Suppose elements are zi and zj. Consider first time they are compared. It must be during a call to Partition, so one of
+         them is the pivot in that call. After that call, the pivot used in that call is never involved in any further comparisons. So
+         zi and zj never compared to each other again.
+❖   From this Lemma, it follows that
+
+      # comparisons of pairs of array elements performed by Quicksort ≤ total number of pairs A of array elements
+❖                                                                           = ????
+
+
+
+
+                                                                                   frac
+                                                                                   end
+                                                                                    left
+                                                                                     O
+                                                                                     2
+                                                                                     n
+                                                                                     1
+                                                                                   right
+                                                                                   begin
+                                                                                   matrix
+❖   Quicksort runtime (worst-case) is O(total number of pairs of array elements)
+
+
+
+
+❖
+              Quicksort on already sorted array
+
+
+❖   How many comparisons between array elements are performed by Quicksort
+    if input array A is already sorted?
+
+    (assuming pivot is chosen to be last element of subarray)
+
+                                       4
+                                       2      5
+                                              2     8
+                                                    0
+                                                    1
+                        2 6 9
+                                               1
+                             matrix
+                             begin
+                             ldots
+                             right
+                              frac
+                              end
+                              left
+                                3
+                                2
+                                n
+                                1
+                Quicksort on already sorted array
+❖   How many comparisons between array elements are performed by Quicksort
+    if input array A is already sorted?
+
+         (assuming pivot is chosen to be last element of subarray)
+
+              n(n-1)/2
+❖   Already sorted array is a worst-case input for Quicksort (assuming pivot
+    chosen to be last element of subarray)
+    ❖   contrast to e.g., Insertion sort
+                          Quicksort runtime
+
+
+
+❖   Runtime of Quicksort (worst case) is θ(n 2)
+                           Avoiding bad splits
+❖   Idea:
+    ❖   Choose a random element to be the pivot!
+❖   This results in a Randomized Algorithm
+    ❖   Algorithm uses randomness in its execution (in practice, random number
+        generator)
+    ❖   Execution of the algorithm on an input x is not always the same, depends
+        on the random choices made by the algorithm
+              Runtime of randomized algorithms?
+❖   Instead of asking:
+    ❖   What is the runtime of Algorithm Q on input x
+❖   Ask:
+    ❖   What is the expected runtime of Algorithm Q on input x
+
+    We talk about the “worst-case running time” of a deterministic (not randomized) algorithm A
+                                                                                                 Q
+❖
+
+
+    ❖   Means maximum running time of Algorithm Q on any input x
+
+    When Algorithm Q is randomized, we will talk about the “worst-case expected running time” of A
+                                                                                                       Q
+❖
+
+
+    ❖   Means maximum “expected running time” of Algorithm Q on any input x
+    ❖   “worst-case” still refers to worst-case of input x, doesn’t refer to being very unlucky with randomness
+Analogy
+                                                      Analogy
+                                                                                 BI          B2
+❖   Suppose I have 2 boxes, Box 1 and Box 2
+❖   I put $100 in one box, and $0 in the other (you can’t see which)
+                                                                                      0      100
+❖   You get to open one box and take what is inside
+❖   You use the following deterministic (non-randomized) algorithm D for choosing the box:
+     ❖   Choose Box 1
+❖   I can put the $100 in Box 2 (this is worst-case for you). You will get $0
+❖   What if you use the following randomized algorithm R for choosing the box:
+     ❖   Flip a fair coin to decide which box to choose.
+❖   No matter where I put the $100, the expected amount of money you get is
+
+
+                                          150
+Back to analyzing Randomized Quicksort
+                        Randomized Quicksort
+
+❖   (Deterministic) Quicksort always performs n(n-1)/2 comparisons if input
+    array was already sorted.
+    ❖   Quicksort is doomed to perform badly if input array is sorted
+❖   Randomized-Quicksort not doomed in this way
+    ❖   No matter what input array is given, expected number of comparisons
+        performed by Randomized Quicksort will be much less than n(n − 1)/2
+        (as long as n not very small).
+❖   What is expected runtime of Randomized Quicksort?
+                            Intuition
+                                                           1         9
+❖ What if pivot always divides n elements of subarray into    n and    n
+                                                           10       10
+  T(n) = T(n/10) + T(9n/10) + θ(n)
+                                     1      1
+  ❖ Runtime is θ(n log n), same as     n and n split every time
+                                     2      2
+    ❖   can show with recursion tree
+                  Analysis of runtime of quick sort
+❖   We will prove that expected runtime of Randomized Quicksort is θ(n log n)
+❖   Will do probabilistic analysis
+      ❖   Review your probability
+          ❖   Handout on EdStem
+          ❖   Appendix C
+          ❖   (Also, Chap. 5 on Randomized Algorithms)
+❖
+                Analysis of runtime of quick sort
+
+
+❖   To simplify the analysis, we assume all elements in the array are distinct
+    ❖   Analysis can be modified to deal with repeated elements, bound doesn’t
+        change
+ n
+    1
+∑i
+i=1
+❖   Harmonic series
+           ∞
+               1
+           ∑i
+           i=1
+                                 ldots
+                                  frac
+                                    4
+                                    3
+                                    5
+                                    2
+                                    1
+❖   Does this series converge?
+
+                       No
+❖   Harmonic series
+           ∞
+              1    1 1 1
+          ∑i
+                =1+ + + +…
+          i=1
+                   2 3 4
+❖   Does this series converge? No.
+     n
+      1      1 1 1       1
+❖ ∑
+        =1 +  + +  + … +             is called the n-th Harmonic number, denoted by Hn
+  i=1
+      i      2 3 4       n
+❖   Theta bound on nth Harmonic number?
+
+
+                n
+                   1
+               ∑i
+                     = θ(        )
+               i=1
+       Ann 1                                          1
+            ∑i
+❖
+    Fact:               = θ(log n)
+            i=1
+       ❖    Proof:
+                                                          Mm
+            ❖   Use integral approximations to show       7 2   45
+                   n     n
+                    1        1
+                ∑i      ∫x=1 x
+                      ≤        dx + 1 = ln n + 1
+                i=1
+
+                  n+1     n+1
+                    1         1
+                ∑i      ∫i=1 x
+                      ≥         dx = ln(n + 1)
+                i=1
+            ❖   (Appendix A, p. 1150 of textbook)
+

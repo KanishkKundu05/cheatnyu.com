@@ -1,0 +1,172 @@
+                               Week 2 Practice Problems
+
+
+                                        September 18, 2026
+
+
+Problem 1 : Little-o and the polynomial-degree fact
+Recall the formal definitions (assuming f (n) > 0, g(n) > 0 for n > 0):
+
+               O(g(n)) = {f (n) : ∃c > 0, ∃n0 > 0 s.t. ∀n ≥ n0 , 0 ≤ f (n) ≤ c g(n)}
+
+               o(g(n)) = {f (n) : ∀c > 0, ∃n0 > 0 s.t. ∀n ≥ n0 , 0 ≤ f (n) < c g(n)}
+
+ (a) In one or two sentences, explain the key difference between these two definitions. What
+     changes, and what does that change mean intuitively?
+
+ (b) Prove directly from the definitions above that little-o is “stronger than” Big-O: that is, if
+     f (n) = o(g(n)), then f (n) = O(g(n)). (Don’t just cite the fact. Instead show it using the ∃c
+     / ∀c structure.)
+
+ (c) Let f (n) = 3n25 + 2n9 + 4 (the example from lecture). Using the polynomial-degree-k fact a
+     degree-k polynomial with positive leading coefficient satisfies:
+
+      (a) f (n) = o(nb ) for b > k
+      (b) f (n) = ω(nb ) for b < k
+      (c) f (n) = Θ(nb ) for b = k
+
+     state which of these three cases applies for b = 30, b = 25, and b = 20.
+
+
+ Solution. (a) Big-O only requires some constant c to work (“∃c”), while little-o requires every
+ constant c, no matter how small, to work (“∀c”). Intuitively, f (n) = O(g(n)) means f is
+ bounded above by some multiple of g, whereas f (n) = o(g(n)) means f becomes negligible
+ compared to g no matter how tiny a multiple of g you compare it to.
+     (b) Suppose f (n) = o(g(n)). By definition, for every c > 0 there exists n0 > 0 such that
+ f (n) < c g(n) for all n ≥ n0 . In particular, this holds for the specific choice c = 1: there exists
+ some n0 > 0 such that f (n) < 1 · g(n) for all n ≥ n0 , hence also f (n) ≤ 1 · g(n). This is exactly
+ the statement that f (n) = O(g(n)) (using c = 1 and that same n0 ). So if a function is o(g(n)),
+ it must also be O(g(n)).
+     (c) Here f (n) is a degree-k = 25 polynomial (leading term 3n25 , positive coefficient). For
+ b = 30 > 25: f (n) = o(n30 ). For b = 25 = 25: f (n) = Θ(n25 ). For b = 20 < 25: f (n) = ω(n20 ).
+
+
+
+
+                                                  1
+Problem 2 : Logs, exponents, and the story problems
+ (a) Using the log/exponent identities from lecture
+
+                                          logb (ac) = logb a + logb c
+
+                                              logb an = n logb a
+     simplify log2 (16n3 ) − 3 log2 (n) to a single constant.
+
+ (b) Using the change-of-base formula (logb a = log   ca
+                                                   logc b ), express log8 (n) in terms of log2 (n). What
+     does this tell you about how the base of a logarithm affects its asymptotic (big-Theta) growth
+     rate?
+
+
+ Solution.
+    (a) log2 (16n3 ) − 3 log2 (n) = log2 16 + log2 (n3 ) − log2 (n3 ) = log2 16 = 4.
+                   log2 n      log2 n
+    (b) log8 n =           =          = 31 log2 n. Since this is just a constant 13 times log2 n, we
+                    log2 8       3
+ have log8 n = Θ(log2 n). This is why algorithm analysis usually just writes O(log n) without
+ specifying a base. Changing the base only changes the constant factor, which Θ and O notation
+ ignore.
+
+
+Problem 3 : Solving a simple recurrence
+Consider the recurrence from lecture:
+
+                           T (1) = 1,      T (n) = T (n − 1) + 3 for n > 1.
+
+ (a) Compute T (2), T (3), and T (4) directly from the recurrence.
+
+ (b) Find a closed-form (non-recursive) expression for T (n), and verify it against your answers to
+     part (a). (Hint: work out the recurrence for a few steps and look to see if you find a pattern).
+
+
+ Solution. (a) T (2) = T (1) + 3 = 1 + 3 = 4.          T (3) = T (2) + 3 = 4 + 3 = 7.           T (4) =
+ T (3) + 3 = 7 + 3 = 10.
+     (b) T (n) = T (n − 1) + 3 = T (n − 2) + 3 + 3 = T (n − 3) + 3 + 3 + 3 = · · · = T (1) + 3(n − 1) =
+ 1 + 3(n − 1) = 3n − 2.
+     Safety check: T (2) = 3(2) − 2 = 4. T (3) = 3(3) − 2 = 7. T (4) = 3(4) − 2 = 10. All
+ match part (a). So T (n) = 3n − 2.
+
+
+Problem 4 : The substitution (induction) method
+Consider the recurrence
+
+                          T (1) = 1,     T (n) = 2T (⌊n/2⌋) + n2 for n > 1,
+
+for n where n ≥ 0.
+
+
+                                                   2
+(a) Guess an asymptotic upper bound for T (n) of the form O(n2 ). Then, following the structure
+    from lecture, state precisely what claim you need to prove by induction (i.e., write down the
+    “there exist c > 0, n0 > 0 such that. . . ” statement).
+(b) Carry out the induction step: assuming T (k) ≤ ck 2 for all integers k satisfying n0 ≤ k < n,
+    show T (n) ≤ cn2 for an appropriate choice of c. What constraint on c do you need? (You’ll
+    need ⌊n/2⌋ ≤ n/2 at some point to get rid of the floor.)
+ (c) Carry out the base case for n0 = 1, and state the final values of c and n0 that make the whole
+     proof work.
+
+
+ Solution. (a) Guess: T (n) = O(n2 ). Precisely: we want to show there exist c > 0, n0 > 0 such
+ that T (n) ≤ cn2 for all integers n ≥ n0 .
+    (b) Inductive hypothesis: T (k) ≤ ck 2 for all integers k with n0 ≤ k < n. Induction step:
+                                                 (⋆)   (︂ n )︂2            c 2        (︂ c    )︂
+   T (n) = 2T (⌊n/2⌋) + n2 ≤ 2c⌊n/2⌋2 + n2 ≤ 2c                   + n2 =     n + n2 =      + 1 n2 ,
+                                                         2                 2             2
+ where (⋆) uses ⌊n/2⌋ ≤ n/2 (valid since both sides are non-negative, so squaring
+                                                                            (︁ c  )︁ preserves the
+                                                                                      2     2
+ inequality). This is precisely the step that gets rid of the floor. We need 2 + 1 n ≤ cn , i.e.,
+ c ≥ 2. So the induction step works for any c ≥ 2, for every integer n ≥ 2 (not just powers of
+ 2), since all we ever used was ⌊n/2⌋ ≥ n0 = 1, which holds for every n ≥ 2.
+     (c) Take n0 = 1. Base case: need T (1) ≤ c · 12 = c. Since T (1) = 1, this holds as long as
+ c ≥ 1. This already satisfied by c ≥ 2 from part (b). So c = 2, n0 = 1 completes the proof:
+ T (n) ≤ 2n2 for all integers n ≥ 1, i.e., T (n) = O(n2 ).
+
+
+Problem 5 : The asymptotic-notation warning, and comparing
+methods
+(a) Lecture warns against writing asymptotic notation inside an inductive hypothesis, and shows
+    this bad “proof” for T (n) = 2T (n/2) + n: Inductive hypothesis: T (n) = O(n). Induction
+    step: T (n) = 2 · O(n/2) + Θ(n) = O(n). This appears to show T (n) = O(n). However, we
+    know from the recursion-tree method (Lecture 3/4) that the true answer is T (n) = Θ(n log n),
+    which is not O(n). What exactly goes wrong with this argument? (Hint: “T (n/2) = O(n/2)”
+    just says some constant works for the smaller subproblem. Does the argument ever check
+    that it’s the same constant needed for T (n) itself? What happens if you try to verify that
+    directly, with one fixed constant used consistently on both sides?)
+(b) In a few sentences, compare the recursion-tree method and the substitution (induction)
+    method as tools for solving a recurrence: what does each one give you, and what’s an advan-
+    tage of each?
+
+
+ Solution. (a) First, observe the final step closely: 2 · O(n/2) + Θ(n) = O(n). To be clear about
+ what’s not the issue, the Θ(n) term (cost of the merge itself) it completely fine as it is genuinely
+ just n, every time, with nothing hidden in it. The issue is entirely in the O(n/2) piece. The
+ phrase T (n/2) = O(n/2) is shorthand for “there is some constant c with T (n/2) ≤ c · (n/2).”
+ To conclude T (n) = O(n), we’d need a constant with T (n) ≤ c · n. The argument never actually
+
+
+                                                  3
+checks whether the constant that works for the smaller subproblem also works for T (n) itself.
+    Let’s check directly whether a single fixed constant can actually work here. Suppose
+T (n/2) ≤ c · (n/2) for some constant c:
+                                                (︂ n )︂
+                        T (n) = 2T (n/2) + n ≤ 2 c ·    + n = cn + n.
+                                                     2
+For T (n) ≤ cn to follow from this, we’d need cn + n ≤ cn, i.e., n ≤ 0. That’s false for every
+n > 0, no matter which c we started with.
+    That is exactly the issue here. O(·)-notation asserts that some constant exists, but it
+doesn’t come with a built-in guarantee that the same constant survives the substitution step of
+the recurrence. The moment you fix one actual constant and track it through the algebra, as
+above, the induction step fails. This is exactly why T (n) = O(n) turns out to be false, despite
+what the argument seemed to show.
+    (b) The recursion-tree method computes a closed-form expression for T (n) directly, by
+summing the cost at each level of recursion. The substitution (induction) method instead starts
+from a guessed asymptotic bound and proves that bound by induction. One practical difference
+is that the recursion tree doesn’t require guessing the answer first, while the substitution method
+does.
+
+
+
+
+                                                4
+

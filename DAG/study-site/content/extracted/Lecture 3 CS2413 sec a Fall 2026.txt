@@ -1,0 +1,712 @@
+Fall 2025
+
+
+
+CS-UY 2413 (Sections A and B):      Prof. Lisa Hellerstein
+
+Design and Analysis of Algorithms   lisa.hellerstein@nyu.edu
+Lecture 3
+❖   Recommended Reading:
+    ❖   Chap. 3. A quick review will be done in class.
+    ❖   Next topic: Chap. 4
+❖   Syllabus reminder
+❖   Office Hours
+❖   Homework rules reminder
+❖   Last lecture, we were talking about big-Oh, big-Omega, little-oh, little-
+    Omega, theta
+❖   [Section A, skip to Polynomials of degree k slide]
+    Formal Definition of Big-Oh and Big-Omega
+
+
+    We assume that f(n) > 0 and g(n) > 0 for all n > 0
+
+
+❖   O(g(n)) = {f(n) : ∃c > 0, ∃n0 > 0 such that ∀n ≥ n0, 0 ≤ f(n) ≤ cg(n)}
+❖   Ω(g(n)) = {f(n) : ∃c > 0, ∃n0 > 0 such that ∀n ≥ n0, 0 ≤ cg(n) ≤ f(n)}
+                                      Formal Definition of little-oh
+    We assume f(n) > 0 and g(n) > 0 for all n > 0
+
+
+    Recall definition of big-Oh:          [intuitively, f(n) is less than or equal to g(n) (ignoring constants etc.)]
+❖   O(g(n)) = {f(n) : ∃c > 0, ∃n0 > 0 such that ∀n ≥ n0, 0 ≤ f(n) ≤ cg(n)}
+
+    Here is definition of little-Oh:
+❖   o(g(n)) = {f(n) : ∀c > 0, ∃n0 > 0 such that ∀n ≥ n0, 0 ≤ f(n) < cg(n)} [intuitively, f(n) is much less than g(n)]
+
+
+❖   Difference between definitions?
+                                      Formal Definition of little-oh
+    We assume f(n) > 0 and g(n) > 0 for all n > 0
+
+
+    Recall definition of big-Oh:          [intuitively, f(n) is less than or equal to g(n) (ignoring constants etc.)]
+❖   O(g(n)) = {f(n) : ∃c > 0, ∃n0 > 0 such that ∀n ≥ n0, 0 ≤ f(n) ≤ cg(n)}
+
+    Here is definition of little-Oh:
+❖   o(g(n)) = {f(n) : ∀c > 0, ∃n0 > 0 such that ∀n ≥ n0, 0 ≤ f(n) < cg(n)} [intuitively, f(n) is much less than g(n)]
+
+
+❖   Difference between definitions?
+
+
+
+          main difference is ∀c versus ∃c
+❖   Under assumption that f(n) > 0 and g(n) > 0 when n > 0
+    ❖   f(n) = o(g(n)) if
+                                   f(n)
+                            limn→∞      =0   [Limit test, limit needs to exist]
+                                   g(n)
+❖   e.g., f(n) = 3n 2 + 4n + 189 and g(n) = n 3
+
+
+
+
+           infty
+           lim_
+            frac
+              9
+              0
+              4
+              8
+              3
+              2
+              n
+              1
+        rightarrow                                              right
+                                                                 left
+                                                                  9
+                                                                  4
+                                                                  8
+                                                                  3
+                                                                  2
+                                                                  o
+                                                                  n
+                                                                  1
+❖   Could define ω analogously to how we defined o
+❖   Instead, just quote following fact:
+    ❖   Under assumption that f(n) > 0 and g(n) > 0 when n > 0
+        ❖   f(n) = o(g(n)) iff g(n) = ω( f(n))
+❖   Similar fact:
+    ❖   Under assumption that f(n) > 0 and g(n) > 0 when n > 0
+        ❖   f(n) = O(g(n)) iff g(n) = Ω( f(n))
+                         Polynomials of degree k
+
+❖   Example: f(n) = 3n 25 + 2n 9 + 4
+
+
+❖   then f(n) = o(n b)    for all b > 25
+
+                           for all b < 25
+
+
+          left
+           b
+           n
+          right
+          Theta for b = 25
+          omega
+                       Polynomials of degree k
+
+❖   Claim: Suppose f(n) is a polynomial of degree k
+    f(n) = akn k + ak−1n k−1 + … + a1n 1 + a0 where ak > 0
+    and f(n) > 0 for all n > 0
+    ❖   then f(n) = o(n b)   for all b > k
+
+                             for all b < k
+
+
+                w
+                b
+                n
+              left
+              right
+              theta          for b = k
+                              Properties of the relation
+❖   Big-Oh relation on functions
+    ❖   Reflexive
+        ❖   f(n) = O( f(n))
+    ❖   Transitive
+        ❖   if f(n) = O(g(n)) and g(n) = O(h(n)), then f(n) = O(h(n))
+    ❖   But is it symmetric?
+
+              If
+                      theta
+                      right
+                       left
+                        gf
+                        n             does that imply
+                                          sigma
+                                           right
+                                            left
+                                             g
+                                             nf
+                                                                NO
+             right
+              left
+               O
+               5
+               2
+               n               but       right
+                                          neq
+                                          left
+                                           O
+                                           5
+                                           2
+                                           n
+                                 Properties
+
+    f1(n) = O(g(n)) and f2(n) = O(g(n))   e.g          theta
+                                                       right
+                                                        left
+                                                         3f
+                                                         2
+                                                         n1
+                                                     sigma
+                                                      right
+                                                       left
+                                                        0
+                                                        3f
+                                                        5
+                                                        2
+                                                        n1
+❖
+
+     ⇒ f1(n) + f2(n) = O(g(n))
+❖   f1(n) = O(g(n)), f2(n) = O(g(n)), …, f254(n) = O(g(n))
+    ⇒
+                        sigma
+                        ldots
+                         right
+                          left
+                           4
+                           5
+                           2
+                           g
+                           n
+                           1f
+                                      Properties
+❖   f1(n) = O(g(n)) and f2(n) = O(g(n))
+     ⇒ f1(n) + f2(n) = O(g(n))
+❖   More generally, for any constant k > 0,
+    f1(n) = O(g(n)), f2(n) = O(g(n)), …, fk(n) = O(g(n))
+     ⇒
+                              ldots
+                              right
+                               left
+                                0
+                                2
+                                g
+                                n
+                                1k
+                                 f
+❖   But, doesn’t hold in general if k is not a constant!
+
+       e.g
+                          n
+                                 ldots
+                                   3
+                                   2
+                                   n
+                              copies
+                                                           left
+                                                             2
+                                                             Ff coples
+                                                             n
+                                                             1
+                                                           right
+                                                           vdots n
+Terminology Break
+                             “Is stronger than”
+
+
+❖   Which is a stronger statement?
+
+    1. This movie is extremely long.
+    2. This movie is long.
+                               “Is stronger than”
+
+
+❖   Which is a stronger statement?
+
+    1. This movie is extremely long.
+    2. This movie is long.
+
+              Say that Statement 1 is stronger than Statement 2 if
+                       Statement 1 implies Statement 2
+Returning to asymptotic notation…
+                            Other properties
+
+
+❖   Little-o “is stronger than” (implies) Big-Oh
+              f(n) = o(g(n)) ⇒ f(n) = O(g(n))
+❖   Little-omega “is stronger than” (implies) Big-Omega
+             f(n) = ω(g(n)) ⇒ f(n) = Ω(g(n))
+                                            Shortcut
+❖   Want to determine when f(n), g(n) positive valued whether
+       f(n) = θ(g(n)), f(n) = o(g(n)), or f(n) = ω(g(n))
+                  f(n)
+  Look at lim
+              n→∞ g(n)
+❖
+
+
+    ❖   if limit = 0 then
+
+
+
+                                                                       right
+                                                                        left
+                                                                         4
+                                                                         3
+                                                                         2
+                                                                         nf
+                              right
+                              theta
+    ❖   if limit = positive number then
+
+
+    ❖   if limit = ∞ then
+                              sigma
+                              omega       left
+                                           n
+                                           gf                   e.g
+                                                                      right
+                                                                       left
+                                                                        2
+                                                                        g
+                                                                        n1
+
+                                                                     infty
+                                                                     lim_
+                                                                      frac
+                                                                        4
+                                                                        3
+                                                                        2
+                                                                        n
+                                                                        1
+                                                                  rightarrow
+                     Use of asymptotic notation
+
+
+❖   Use of asymptotic notation when analyzing algorithms
+    ❖   f(n) = O(n 2) means f(n) is a member of the class O(n 2)
+    ❖   Doesn’t behave like standard =
+
+
+
+                                                               yxz
+                             E
+                       right
+                        left
+                         O
+                         6
+                         3
+                         2
+                         n
+                      pounds                            Rightarrow
+
+        Rightarrow
+      X
+
+❖   We may write, e.g.,
+                          O(n 2) + 43n + 2
+❖   What do we mean? O(n 2) is a class of functions!
+
+          Means
+                               right
+                                left
+                                 4
+                                 3
+                                 2
+                                 g
+                                 n
+                           for    some
+                                             theta
+                                             right
+                                              left
+                                               2
+                                               g
+                                               n       e.g
+                                                         right
+                                                          left
+                                                           4
+                                                           3
+                                                           2
+                                                           g
+                                                           7
+                                                           n
+Properties of some standard functions
+Logarithms
+                               Happy story
+
+
+❖   You start off with $1
+❖   Every day, you double your money.
+    ❖   Repeated doubling
+❖   After n days, how much money do you have?
+                    After 1 day         2
+                          2 days     4      n days   2
+                            3 days   8
+                            4days    16
+                            Another Happy Story
+
+
+❖   You start off with $1
+❖   Every day, you triple your money.
+    ❖   Repeated tripling
+❖   After n days, how much money do you have?
+
+                                        3
+                                   Sad story
+❖   You start off with n dollars
+❖   Every day, you have to pay a bill that leaves you with only half your
+    remaining money
+    ❖   (assume always have even number of dollars left)
+    ❖   Repeated halving
+❖   How many days until you are down to only $1?           log
+                                                            2
+                                                            n
+                                            Day 0
+                                               frac
+                                                 2
+                                                 n
+                                                 x
+                           Set equal to 1 solve for                  x
+           9
+
+
+
+
+Rightarrow
+    frac
+     log
+      1
+      2
+      n
+      x
+                                                     l
+                                      Sad story
+❖   You start off with n dollars
+❖   Every day, you have to pay a bill that leaves you with only half your
+    remaining money
+    ❖   (assume always have even number of dollars left)
+    ❖   Repeated halving
+❖   How many days until you are down to only $1?
+                  Relation to binary search?
+                              Another sad story
+
+❖   You start off with n dollars
+❖   Every day, you have to pay a bill that leaves you with only a third of your
+    remaining money
+    ❖   (assume always have whole
+                            even number of dollars left)
+    ❖   Repeated “thirding”
+❖   How many days until you are down to only $1?
+
+
+                                     log
+                                      3
+                                      n
+                  Properties of logs and exponents
+❖   For a, b, c > 0 and all n, assuming none of the logarithm bases are equal to 1
+
+        b logb a = a
+    ❖
+                                    log
+                                     3
+                                     7
+        ❖   Because    x = logb a ⟺ b x = a
+               logc a
+      logb a =                change of base formula
+               logc b  0
+    ❖
+
+
+    ❖   logb ac = logb a + logb c      log of a product
+    ❖   logb a n = n logb a          log of an exponential
+                          More re logs and exponents
+❖   (a b)c = a bc
+❖   a logb c = c logb a
+    ❖   Recall that b logb a = a
+
+        So a logb c = (b logba)logb c =
+
+                                                  right
+                                                   left
+                                                   log
+                                                    b
+                                                    a
+                                                    c
+    ❖
+
+
+❖   Precedence rules
+                                    c     c
+    ❖   for exponentiation: a b means a (b )
+    ❖   for logs: logb a + c means (logb a) + c
+Recurrence Relations
+❖   Consider a function T(n) defined on the positive integers, with the following
+    recursive definition:
+
+        T(1) = 1   right for n
+    ❖
+                    left
+                     T
+                     n
+                     1       1              This is an example of a Recurrence Relation
+
+    ❖   T(n) = T(n − 1) + 3 for all n > 1
+❖   Consider a function T(n) defined on the positive integers, with the following
+    recursive definition:
+    ❖   T(1) = 1
+    ❖   T(n) = T(n − 1) + 3 for all n > 1
+
+             What is T(2)?
+                                       right
+                                        left
+                                         4
+                                         3
+                                         T
+                                         1
+             What is T(3)?
+                                            right
+                                             left
+                                              4
+                                              3
+                                              2
+                                              7
+❖   Consider a function T(n) defined on the positive integers, with the following
+    recursive definition:
+    ❖   T(1) = 1
+    ❖   T(n) = T(n − 1) + 3 for all n > 1
+
+                      More generally, what is T(n)?
+        Solve the recurrence relation. Give an arithmetic expression for T(n).
+❖   We will be using recurrence relations to express the running time of recursive
+    algorithms
+Divide and Conquer
+                Divide and Conquer Approach
+
+
+❖   To solve problem, break it into smaller subproblems of same type
+❖   Recursively solve the subproblems
+❖   Combine solutions to subproblems to get solution to original problem
+                                      Mergesort
+
+
+❖   Mergesort high-level idea (review from CS1134):
+    ❖   Divide array in half
+    ❖   Recursively sort both sides
+    ❖   Merge the two sorted sides
+                                      Mergesort
+
+
+❖   Mergesort high-level idea (review from CS1134):
+    ❖   Divide array in half
+    ❖   Recursively sort both sides
+    ❖   Merge the two sorted sides
+
+                      Base case?
+                                      Mergesort
+
+
+❖   Mergesort high-level idea (review from CS1134):
+    ❖   Divide array in half
+    ❖   Recursively sort both sides
+    ❖   Merge the two sorted sides
+
+                  Base case?    array of length 0 or 1, do nothing
+      CLRS pseudocode for Mergesort
+        Sorts
+                right
+                 left
+                  Ar
+                  p
+
+
+
+                         is sorted
+      assumes
+                right
+                 left
+                  A
+                  p
+                  q       is sorted
+                 right
+                  left
+                   Ar
+                   q1
+Mergesthose 2 subarrays puts result in A p r
+                                                 right
+                                                  left
+                                                   Al
+                                                   n
+To sort the whole array A, we call
+                                     MergeSort
+     Assume A is an                          of length n
+                                     array
+                         Correctness of Mergesort
+❖   Could do formally by induction on the size of the (sub)array
+❖   But essentially, for divide and conquer algorithms, it’s usually enough to show
+    that:
+    ❖   Base of the recursion is correct
+    ❖   The work is divided correctly
+    ❖   Assuming the recursive calls are correct, their results are combined correctly
+        ❖   For merge sort, this means assuming the 2 recursive calls sort correctly, need
+            to show that the merge procedure correctly merges them
+                                  Time for Mergesort
+
+
+
+❖   Let T(n) be worst-case runtime of Mergesort on array of length n
+
+❖   What is the worst-case runtime of Mergesort on an array of length n? Express as recurrence relation.
+
+                                         if n > 1
+        T(n) =
+                               time
+                 right
+                 frac
+                  left
+                   T
+                   2
+                   n               therge
+                                  Time for Mergesort
+
+
+
+❖   Let T(n) be worst-case runtime of Mergesort on array of length n
+
+❖   What is the worst-case runtime of Mergesort on an array of length n? Express as recurrence relation.
+                                                                 Assume n a power of 2
+        T(n) = 2T(n/2) + θ(n)                         if n > 1   Otherwise T(n) = T(⌊n/2⌋) + T(⌈n/2⌉) + θ(n)
+         T(n) = θ(1)                                  if n = 1
+    Recurrence relation for runtime of Mergesort
+
+❖   T(n) = 2T(n/2) + c2n              if n > 1
+❖   T(n) = c1                            if n = 1
+
+       - Defines function in terms of itself
+       - Want to solve recurrence to get ``closed-form expression’’ for runtime
+
+
+            Section 2.3 of textbook shows solution to recurrence for Mergesort
+    Recurrence relation for runtime of Mergesort
+❖   T(n) = c1 1                   if n = 1
+❖   T(n) = 2T(n/2) + c2n        if n > 1
+                        B
+    ❖   For simplicity, set c1 = c2 = 1
+    ❖   What is T(8)?
+                              Top Down
+                      right
+                      frac
+                       left
+                        T
+                        2
+                        n           right
+                                     left
+                                      T
+                                      1
+❖   T(8) = 2T(4) + 8
+
+
+
+                              4
+                              8
+                              3
+                              2
+                              1
+❖   T(4) = 2T(2) + 4
+❖   T(2) = 2T(1) +2
+❖   T(1) = 1
+                            Top Down
+
+
+❖   T(8) = 2T(4) + 8 = 32
+❖   T(4) = 2T(2) + 4 = 12
+❖   T(2) = 2T(1) + 2 = 4
+❖   T(1) = 1
+                       Bottom Up (to begin with)
+
+
+❖   T(8) = 2T(4) + 8
+
+
+
+                        Y
+                        4
+                        8
+                        3
+                        2
+                        1y
+                       cdot
+❖   T(4) = 2T(2) + 4
+❖   T(2) = 2T(2) + 2
+❖   T(1) = 1
+                           Recursion Tree method
+                                                                        n
+❖   T(n) = 1                         if n = 1
+❖   T(n) = 2T(n/2) + n          if n > 1
+
+    Level #   Input size    #nodes     Time per node   Total Time
+      0          n             1          n               n
+      1          n/2           2           n/2            n
+      2          n/4           4           n/4            n
+     ⋮
+      i
+
+
+                                                                    1
+                                                                            1
+                               Recursion Tree method
+❖   T(n) = 1                   if n = 1
+❖   T(n) = 2T(n/2) + n    if n > 1
+    Level #    Input size     #nodes      Time per node   Time in level
+      0           n              1           n
+      1           n/2             2           n/2
+      2           n/4             4           n/4
+      ⋮
+      i           n/2i             2i         n/2i
+      ⋮
+                   2               n/2        2
+
+                   1
+
+
+                       T(n)=
+                            Recursion Tree method
+❖   T(n) = 1                   if n = 1
+❖   T(n) = 2T(n/2) + n    if n > 1
+    Level #    Input size     #nodes         Time per node   Time in level
+      0           n              1              n
+      1           n/2             2              n/2
+      2           n/4             4              n/4
+      ⋮
+      i           n/2i               2i           n/2i
+      ⋮
+                   2                n/2           2
+
+                   1
+
+
+                       T(n)= n log2 n + n   Check it?
+    Recurrence relation for runtime of Mergesort
+
+❖   T(n) = c1                     if n = 1
+❖   T(n) = 2T(n/2) + c2n        if n > 1
+    ❖   For simplicity, set c1 = c2 = 1
+    ❖   Re-do, with c1 and c2
+                                Recursion Tree method
+❖   T(n) = c1                    if n = 1
+❖   T(n) = 2T(n/2) + c2n        if n > 1
+    Level #        Input size     #nodes     Time per node   Time in level
+      0               n               1         n
+      1               n/2             2          n/2
+      2               n/4             4          n/4
+      ⋮
+      i                n/2i         2i           n/2i
+      ⋮
+      log2 n − 1        2            n/2          2
+
+      log2 n            1                n        1
+

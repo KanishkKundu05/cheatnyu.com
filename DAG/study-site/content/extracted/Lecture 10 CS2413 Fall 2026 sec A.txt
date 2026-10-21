@@ -1,0 +1,453 @@
+Fall 2026
+
+
+
+CS-UY 2413 (Sections A and B):                                                                                        Prof. Lisa Hellerstein
+
+Design and Analysis of Algorithms                                                                                     lisa.hellerstein@nyu.edu
+
+
+
+
+Slides include material from Introduction to Algorithms, 4th Edition, MIT Press by Cormen, Leiserson, Rivest, and Stein.
+❖   Recommended reading: Chap. 7 Quicksort
+                         Chap. 8 Sorting in Linear Time
+                         Chap. 5 Randomized Algorithms
+❖   Review of Probability
+                            Probability Handout on EdStem
+                            Appendix C (Counting and Probability)
+Lecture 10
+Counting pairs
+❖   Set S = {1,2,3,…, n}       e.g., n=3, S={1,2,3}
+❖   Number of unordered pairs of distinct elements of S
+
+             n(n − 1)
+                             1,2   1,3     2,3
+                2
+
+❖   Number of unordered pairs of elements of S, elements could be equal)
+
+              n(n + 1)
+                             1,1 1,2 1,3     2,2 2,3   3,3
+                 2
+                                                 ldots
+                                                 right
+                                                  frac
+                                                  left
+                                                    3
+                                                    2
+                                                    n
+                                                    1
+Analysis of Randomized Quicksort
+                                                      Idea
+❖   Compute expected number of comparisons (between array elements) performed by Randomized Quicksort
+❖   Use indicator random variables!
+❖   Initial array A = [z1, z2, z3, …, zn]
+
+❖   For each pair of elements in the array, zi and zj where i ≠ j, define indicator random variable Xij
+
+    ❖   Xij = 1 if zi is compared to zj
+           = 0 if not
+❖   Let X be a random variable that is the total number of comparisons performed by Randomized Quicksort
+                n−1     n
+
+                ∑∑
+          X=                Xij
+                i=1 j=i+1
+
+❖   E[X] = ????
+❖   Now have the problem:
+     What is E[Xij]?
+     Equivalently, what is the probability that zi is compared to zj?
+❖   Easy to answer this question if zi is the minimum element in the array, and zj
+    is the maximum element.
+
+
+                                                        0
+                                                        3
+❖   why?
+                                  Prob Pivot is not minor max
+                    right
+                     left
+                      X
+                      Eji
+                                                      left
+                                                        1
+                              Prob Pivot is min or maxcdot
+                                                      right
+                          frac
+                            2
+                            n
+❖   What about for general zi and zj?
+Randomized Quicksort: Expected Number of Comprisons
+❖   Call the elements in the input array z1, z2, …, zn and number them so that
+                            z1 < z2 < … < zn                                       Z z1              Zeta
+                                                                                    Y
+                                                                                    2
+❖   Let Zij = {zi, zi+1, …, zj}
+
+❖   Lemma: During the execution of Randomized-Quicksort, an element zi is compared to an element zj,
+    where i < j, iff the first time that Randomized-Quicksort chooses an element in Zij as a pivot, it chooses
+    either zi or zj .
+
+                             9ji5
+                                           right
+                                            left
+                                             9ji
+                                             6
+                                             8
+                                             5
+                                             7
+                                             z
+Randomized Quicksort: Expected Number of Comprisons
+❖   Call the elements in the input array z1, z2, …, zn and number them so that
+                            z1 < z2 < … < zn
+❖   Let Zij = {zi, zi+1, …, zj}
+
+❖   Lemma: During the execution of Randomized-Quicksort, an element zi is compared to an element zj, where i < j, iff
+    the first time that Randomized-Quicksort chooses an element in Zij as a pivot, it chooses either zi or zj .
+❖   Pf:
+     ❖    Consider execution of Randomized Quicksort
+     ❖    Consider set of elements being sorted in each recursive call
+     ❖    The elements of Zij stay together in the same set until some element in Zij is chosen as a pivot
+
+     ❖    If zi or zj is chosen as pivot, then comparison between zi and zj is performed. If another element in Zij is chosen,
+          then Partition puts zi and zj into different sets, and they are never compared.
+Randomized Quicksort: Expected Number of Comprisons
+❖   Call the elements in the input array z1, z2, …, zn and number them so that
+                            z1 < z2 < … < zn
+❖   Let Zij = {zi, zi+1, …, zj}
+
+❖   Lemma: During the execution of Randomized-Quicksort, if zi and zj are two elements with i < j, then the probability that a comparison is performed between zi
+                  2
+    and zj is
+                j−i+1
+❖   Pf:
+      ❖   Consider execution of Randomized-Quicksort
+      ❖   The elements of Zij stay together in the same set until some element in Zij is chosen as the pivot
+
+      ❖   Consider first time the chosen pivot is in Zij.
+
+      ❖   Given that some element in Zij was chosen, it was equally likely to be any of the elements in Zij.
+                                                                                                      2
+          Since there are j − i + 1 elements in Zij, the probability that zi or zj was chosen was         .
+      ❖
+                                                                                                    j−i+1
+      ❖   If zi or zj was chosen as pivot, then comparison between zi and zj was performed. If another element in Zij was chosen, then comparison between zi and zj
+          never performed.
+Randomized Quicksort: Expected Number of Comprisons
+❖   Lemma says: during the execution of Randomized-Quicksort, if zi and zj are two elements with i < j, then the probability
+                                                              2
+    that a comparison is performed between zi and zj is
+                                                            j−i+1
+❖   Theorem: Expected number of comparisons performed by Randomized Quicksort is O(n log n)
+❖   Proof: For all i < j, (1 ≤ i, j ≤ n) let Xij be a random variable whose value is 1 if a comparison is performed betwen zi and zj.
+
+     ❖   Let X be random variable, equal to the total number of comparisons performed by run of Randomized Quicksort. Then
+
+                                          n−1   n
+
+                                          ∑∑
+                                     X=               Xij
+                                          i=1 j=i+1
+
+     ❖   E[X] is expected number of comparisons performed by Randomized Quicksort
+     ❖   We will upper bound E[X]
+                                               n−1          n
+
+                                               ∑∑
+                                     X=                         Xij
+❖
+                                               i=1 j=i+1
+
+                    n−1   n              n−1       n
+
+                    ∑∑                   ∑∑
+                                                                      by linearityofexpectation
+    so E[X ] = E[               Xij] =                  E[Xij]
+                    i=1 j=i+1            i=1 j=i+1
+
+                                         n−1       n
+
+                                         ∑∑
+                                    =                   P[Xij = 1]
+                                         i=1 j=i+1
+
+                                         n−1       n
+                                                   2
+                                         ∑ ∑ j−i+1
+                                                                      by previous lemma
+                                     =
+                                         i=1 j=i+1
+
+                                             n−1 n−i
+                                                  2
+                                             ∑∑ k + 1
+                                         =                            change of vars, k = j − i
+                                             i=1 k=1
+
+
+
+
+                                                sum_
+                                                right
+                                                 frac
+                                                 left
+                                                  leq
+                                                   2
+                                                   b
+                                                   n
+                                                   1kic
+                                               n       n
+                                                  2
+                                               ∑∑ k
+                                         <
+                                               i=1 k=1
+
+                                                        n
+                                                           1
+                                                       ∑k
+                                             = 2n
+                                                       k=1
+                                      g
+
+
+
+❖   ⇒ Expected number of comparisons performed by Randomized Quicksort is
+    O(n log n)
+    ⇒ Expected runtime of Randomized Quicksort is O(n log n)
+❖   Can also show it is Ω(n log n) based on previous analysis
+    ⇒ Expected runtime of Randomized Quicksort is θ(n log n)
+❖   Always!
+    ❖   Best-case expected runtime
+    ❖   Worst-case expected runtime
+                                          nlogn
+                                           nlogn
+Two Facts
+❖   Fact 1: log2(n!) = θ(n log n)
+❖   Proof:
+    ❖   To show log2(n!) = O(n log n) we show
+         log2(n!) = log2(1 ⋅ 2 ⋅ 3 ⋅ … ⋅ n) ≤ log2(n n) = n log2 n
+    ❖   To show log2(n!) = Ω(n log n) we show
+                        n n
+        log2(n!) ≥ log2( ⋅ ( + 1) ⋅ … ⋅ n) ≥ log2((n/2)n/2)
+                        2 2
+                                                n       n n          1
+                                              = log2 = (log2 n − 1) = (n log2 n − n)
+                                                2       2 2          2
+❖   Fact 2: Any binary tree with n leaves (not necessarily complete) must have
+    height at least log2 n
+    ❖   Pf: Let h be height of a binary tree with n leaves
+            Since tree is binary, it has at most 2h leaves
+            n ≤ 2h ⇒ log2 n ≤ h
+Lower Bound on Comparison Sorting
+                              Comparison Sort Algorithm
+❖   A comparison sort algorithm works by repeatedly performing comparisons between array elements
+    ❖   e.g., if A[j] > A[i]
+    ❖   or       x=A[i]
+                 if x > A[j] then
+❖   A comparison sort algorithm doesn’t compare array elements to constants, or use array elements as
+    indices. So e.g., it can’t do
+        ❖    if A[j] > 10 then ….
+        ❖    C[ A[j] ] = ….    Where C is another array
+❖   All the sorting algorithms we’ve studied so far have been comparison sort algorithms
+                                       Warm-Up
+❖   Suppose Alg is a comparison sort algorithm
+    ❖   That’s all you know about it
+❖   Claim: The (worst-case) number of comparisons performed by Alg on an array of length n is
+    Ω(n)
+    Proof of Claim?
+                                                 involved in at least
+❖
+
+
+
+              Every elt must    be  compa
+                                                   comparison
+
+              Every  comparison  involves 2 elements
+                        frac comparisons
+                        geq
+                          2
+                          n
+                                                  right
+                                                   left
+                                                    n
+                                  comparisons is Omega
+❖   Just showed:
+    ❖   The worst-case number of comparisons performed by any comparison sort
+        algorithm is Ω(n)
+    ❖   Ω(n) is a lower bound on the running time of any comparison sort
+        algorithm
+❖   Better lower bound on number of comparisons?
+                                                 Recall Bubblesort
+ ❖   Which comparisons are performed on array [a,b,c]?
+     Depends on relative values of a,b,c.
+     Can show comparisons in decision tree:
+                                      [a,b,c]
+
+right
+ end
+ left
+  3
+  2
+  b
+  a
+  1c
+begin
+matrix                  F/
+                     [a,b,c]
+                                      c<b
+                                                      \T
+                                                     [a,c,b]
+ b
+ c
+ a              F/
+                      b<a
+                            \T                 F/
+                                                      c<a
+                                                             \T
+             [a,b,c]         [b,a,c]         [a,c,b]         [c,a,b]
+             c<b               c<a             b<c             b<a
+             / \              / \             / \              / \
+         [a,b,c] [a,c,b] [b,a,c] [b,c,a] [a,c,b] [a,b,c]      [c,a,b] [c,b,a]
+
+
+
+
+     Leaves show output array (each is a permutation of elements in the original array)
+❖   Could draw similar tree for MergeSort, HeapSort,…
+❖   Theorem: Worst-case number of comparisons performed by any comparison
+    sort algorithm is Ω(n log n)
+Proof of Ω(n log n) lower bound on comparison sorting
+ ❖   Let Alg be a comparison sort algorithm
+ ❖   Consider using Alg to sort an array A of length n
+ ❖   Consider associated decision tree showing comparisons performed by the algorithm
+       ❖   Binary tree
+       ❖   Each node has a comparison between two elements of the input array
+       ❖   Each leaf of the decision tree has a permutation of elements of A
+ ❖   Worst-case number of comparisons performed by Alg = height of tree
+ ❖   There must be one leaf for every possible permutation of elements of A
+       ❖   n! possible permutations
+       ❖   Tree has at least n! leaves
+       ❖   Height of tree is at least log2(n!)
+ ❖   Worst-case number of comparisons performed by Alg is at least log2(n!) = Ω(n log n)
+ ❖   Since Alg is an arbitrary comparison sort algorithm, this proves the theorem.
+❖   Implies that Mergesort and Heapsort are “asymptotically optimal”
+    comparison sorting algorithms
+                   We
+    ❖   They run in time O(n log n)
+    ❖   Must takeWC
+                  time at least Ω(n log n)
+Sorting in Linear Time
+                         Stable sorting algorithm
+❖   A sorting algorithm is stable if the elements with the same value (key) appear
+    in the sorted output array in the same order in which they appear in the
+    input array.
+             earlier                           later
+    e.g., [ (blue,4), (purple,3), (green,5), (yellow,4)]
+               sort on the number
+                          earlier      later
+                        b lue 4
+                       langle
+                                     yellow 4
+❖   Quicksort is not stable
+                                  Counting Sort
+❖   Counting sort is a stable sorting algorithm used to sort an array whose elements are
+    all integers in the range 0,1,2,…,k
+❖   Runs in time θ(n + k)
+❖   Not an in-place algorithm
+❖   Uses additional arrays B[1…n] and C[0…k]
+    ❖   C[0…k] is used to store the counts (number of occurrences of 0,..,k)
+    ❖   B[1…n] is the output array, the sorted version of A
+❖   pseudocode p. 209
+        001100110
+                                Count O's
+                                5 of
+                 G              them
+l   Z   3   45   6
+                          to   R through
+                     go
+                                array
+i
+❖   Example:
+    ❖   k=3
+    ❖   A=[3,1,2,2,0,2]
+❖   Step 1 of counting sort:
+    ❖   Initialize entries of C to 0
+        Go through A from left to right, incrementing C[i] for each occurence of i
+
+
+
+
+                                                  84 ⅓ E
+❖   Example:
+     ❖   k=3
+     ❖   A=[3,1,2,2,0,2]
+❖   Step 1 of counting sort:
+     ❖   Initialize entries of C to 0
+         Go through A from left to right, incrementing C[i] for each occurrence of i
+
+         for i=1 to k
+              C[i]=0
+         for j=1 to n
+              C[ A[j] ] = C[ A[j] ] + 1
+❖   Example:
+      ❖   k=3
+      ❖   A=[3,1,2,2,0,2]        C=[1,1,3,1]
+❖   Step 2 of Counting Sort: Update C so that C[i] stores number of occurrences in A of elements that are <= i
+
+             for i=2 to k                C=[1,2,5,6]
+                 C[i] = C[i] + C[i-1]
+
+
+❖   Step 3: Go through A from right to left. C[i] is the index in B where you put the next occurrence of i in A (keep C[i] updated)
+❖   Example:
+      ❖   k=3
+      ❖   A=[3,1,2,2,0,2]       C=[1,1,3,1]
+❖   Step 2 of Counting Sort: Update C so that C[i] stores number of occurrences in A of elements that are <= i
+
+             for i=2 to k
+                 C[i] = C[i] + C[i-1]
+❖   Step 3: Go through A from right to left. C[i] is the index in B where you should put the next occurrence of i in A.
+            for j = n downto 1
+              B[ C[ A[j] ] ] = A[j]
+              C[ A[j] ] = C[ A[j] ] - 1
+                                               Radix Sort
+❖   Suppose want to sort list of d-digit numbers, where each digit is between 0 and k
+❖   Example: d = 3,    k=9
+            523
+            427
+            613
+            245
+            517
+            618
+
+
+
+❖   Number columns so lowest order column is 1, highest order is d
+❖   for i=1 through d
+         use counting sort to sort numbers according to column i
+                                                             Radix Sort
+❖   Example: d = 3,    k=9
+            523
+            427
+            613
+            245
+            517
+            618
+
+    for i=1 through d
+         use counting sort to sort numbers according to column i
+❖   Why does this work? Loop invariant?
+❖   Runtime?
+❖   When computer were still very expensive, people used mechanical sorting machines to help
+    do sorting, using principle of radix sort
+    ❖   Each number to be sorted was on a separate “punch card”
+    ❖   Knob on the machine determined the column on which to perform sort
+❖   Today, sometimes used when sorting with multiple keys
+    ❖   e.g., want to sort by date, and date is represented by year, month, day
+❖   When sorting n numbers, each of b-bits, can choose r ≤ b and use radix sort with k = 2r − 1 by
+    breaking b bits into r-bit “digits”
+    ❖   Runtime is O((b / r)(n + 2r))
+
