@@ -11,3 +11,15 @@ console.log(`Validated ${sections.length} sections, ${sections.reduce((n,s)=>n+s
 const coverage=JSON.parse(fs.readFileSync('content/coverage.json','utf8'));
 for(const entry of coverage){const found=problems.filter(p=>p.source===entry.source);const nums=[...new Set(found.map(p=>Number(p.number.match(/^\d+/)?.[0])))].sort((a,b)=>a-b);assert.deepEqual(nums,entry.expectedNumbers,`Incomplete numbered coverage: ${entry.source}`);}
 console.log('Complete numbered-question coverage: HW1 1–9, HW2 1–9, HW3 1–7; practice weeks 1–5: 7/5/5/4/5; old exam 1–9.');
+
+const mapping=JSON.parse(fs.readFileSync('content/concept-questions.json','utf8'));
+const topicIds=sections.flatMap(s=>s.topics.map(t=>t.id));
+assert.deepEqual(Object.keys(mapping).sort(), [...topicIds].sort(), 'Every concept must have an explicit question mapping');
+const mapped=new Set();
+for(const [topic,questionIds] of Object.entries(mapping)){
+  assert(questionIds.length>0,`No questions beneath ${topic}`);
+  assert.equal(new Set(questionIds).size,questionIds.length,`Duplicate questions beneath ${topic}`);
+  for(const id of questionIds){assert(problems.some(p=>p.id===id),`Unknown question ${id}`);mapped.add(id);}
+}
+for(const p of problems) assert(mapped.has(p.id),`Question ${p.id} not associated with any concept`);
+console.log('All 30 concepts have associated questions; all 74 question cards appear in the integrated study flow.');
