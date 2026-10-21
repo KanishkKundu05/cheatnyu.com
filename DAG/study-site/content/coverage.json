@@ -1,0 +1,125 @@
+[
+  {
+    "source": "Hw_1_Solutions (1).pdf",
+    "kind": "Homework",
+    "numberedQuestions": 9,
+    "expectedNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  {
+    "source": "Hw2 (4).pdf",
+    "kind": "Homework",
+    "numberedQuestions": 9,
+    "expectedNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  {
+    "source": "Hw3_solutions.pdf",
+    "kind": "Homework",
+    "numberedQuestions": 7,
+    "expectedNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  {
+    "source": "Practice_problems__1_Algo_Fall_2027 (1).pdf",
+    "kind": "Practice",
+    "numberedQuestions": 7,
+    "expectedNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  {
+    "source": "Practice problems week 2 .pdf",
+    "kind": "Practice",
+    "numberedQuestions": 5,
+    "expectedNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "source": "practice_probs_week__3 (3).pdf",
+    "kind": "Practice",
+    "numberedQuestions": 5,
+    "expectedNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "source": "Practice_problems_week__4 (1).pdf",
+    "kind": "Practice",
+    "numberedQuestions": 4,
+    "expectedNumbers": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "source": "practice_problems_week_5.pdf",
+    "kind": "Practice",
+    "numberedQuestions": 5,
+    "expectedNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "kind": "Exam",
+    "numberedQuestions": 9,
+    "expectedNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  }
+]

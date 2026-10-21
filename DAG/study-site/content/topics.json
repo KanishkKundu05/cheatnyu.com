@@ -1,0 +1,593 @@
+[
+  {
+    "id": "sorting",
+    "title": "Sorting algorithms",
+    "description": "Seven ways to order a sequence: invariants, recurrences, and the cost of choosing a pivot.",
+    "eyebrow": "01 / ALGORITHMS",
+    "topics": [
+      {
+        "id": "bubble-sort",
+        "title": "Bubblesort",
+        "summary": "Repeated adjacent comparisons move the next smallest element into the sorted prefix.",
+        "points": [
+          "The lecture scans the inner loop from right to left. After outer iteration i, A[1:i] contains the i smallest elements in order.",
+          "With fixed loops, both sorted and reverse-sorted inputs take Θ(n²) time. Stable when equal elements are not swapped; in-place."
+        ],
+        "formula": "Comparisons = (n − 1) + … + 1 = n(n − 1)/2",
+        "example": "[7,16,5,25] → [5,7,16,25] after the first full right-to-left pass.",
+        "excerpt": {
+          "text": "A[1 : i − 1] contains i − 1 smallest elements of original A, in sorted order",
+          "source": "Lecture 1 CS2413 Fall 2026 sec a.pdf",
+          "page": 37
+        },
+        "pitfall": "Do not claim the fixed-loop lecture version has a linear best case; that requires an early-exit modification.",
+        "pseudocode": "for i = 1 to n − 1:\n  for j = n downto i + 1:\n    if A[j] < A[j−1]: swap(A[j], A[j−1])"
+      },
+      {
+        "id": "insertion-sort",
+        "title": "Insertion Sort",
+        "summary": "Insert each new element into an already sorted prefix. Study supplement: these slides refer to the textbook for insertion sort.",
+        "points": [
+          "Before iteration j, A[1:j−1] is sorted; save A[j], shift larger values one position right, then insert the saved key.",
+          "Best case Θ(n), worst case Θ(n²). Stable with strict > in the shift test; in-place."
+        ],
+        "formula": "Worst-case shifts = Σ(j − 1) = n(n − 1)/2",
+        "example": "[4,2,3] → [2,4,3] → [2,3,4]. In the second insertion, only 4 shifts.",
+        "excerpt": {
+          "text": "Detailed analysis of Bubble Sort [book does Insertion Sort]",
+          "source": "Lecture 2 CS2413 Sec A Fall 2026.pdf",
+          "page": 4
+        },
+        "pitfall": "Keep the key in a temporary variable before shifting, or its value is overwritten.",
+        "pseudocode": "for j = 2 to n:\n  key = A[j]; i = j − 1\n  while i ≥ 1 and A[i] > key:\n    A[i+1] = A[i]; i = i − 1\n  A[i+1] = key"
+      },
+      {
+        "id": "merge-sort",
+        "title": "Mergesort",
+        "summary": "Split in half, recursively sort each half, then merge two sorted lists.",
+        "points": [
+          "Merge repeatedly takes the smaller front element from the two sorted halves in Θ(n) total time.",
+          "Θ(n log n) runtime. Standard array implementation uses Θ(n) auxiliary space; stable when ties come from the left half first."
+        ],
+        "formula": "T(n) = 2T(n/2) + Θ(n) = Θ(n log n)",
+        "example": "[8,3,5,1] splits into [8,3] and [5,1]; sort to [3,8] and [1,5]; merge to [1,3,5,8].",
+        "excerpt": {
+          "text": "Divide array in half\nRecursively sort both sides\nMerge the two sorted sides",
+          "source": "Lecture 3 CS2413 sec a Fall 2026.pdf",
+          "page": 42
+        },
+        "pitfall": "Merging is linear, not constant time. Include the work done outside recursive calls."
+      },
+      {
+        "id": "heap-sort",
+        "title": "Heapsort",
+        "summary": "Build a max-heap, then place its maximum at the end of the remaining heap repeatedly.",
+        "points": [
+          "The array has two regions: an active max-heap prefix and a sorted suffix.",
+          "Build-Max-Heap costs Θ(n); n−1 removals and repairs cost O(n log n). Worst-case total Θ(n log n); in-place, generally unstable."
+        ],
+        "formula": "Θ(n) + O(n log n) = O(n log n); worst case Θ(n log n)",
+        "example": "[4,1,3,2] → heap [4,2,3,1] → [3,2,1 | 4] → [2,1 | 3,4] → [1,2,3,4].",
+        "excerpt": {
+          "text": "Uses Build-Heap instead of inserting elements into heap one by one",
+          "source": "Lecture 8 CS2413 Fall 2026 sec A.pdf",
+          "page": 39
+        },
+        "pitfall": "Decrease heap size before heapifying; otherwise the sorted suffix can be pulled back into the heap.",
+        "pseudocode": "Build-Max-Heap(A,n)\nfor j = n downto 2:\n  swap(A[1],A[j])\n  A.heapsize = A.heapsize − 1\n  Max-Heapify(A,1)"
+      },
+      {
+        "id": "pq-sort",
+        "title": "Generic Priority Queue sort",
+        "summary": "Insert all input elements into a separate max-priority queue, then extract maxima into the array from right to left.",
+        "points": [
+          "This is an algorithm template: its runtime depends on the priority queue implementation.",
+          "Unsorted linked-list PQ: Θ(n²) total. Binary-heap PQ: Θ(n log n) worst-case total."
+        ],
+        "formula": "Total = n insertions + n Extract-Max operations",
+        "example": "Input [2,9,4]: extract 9 into A[3], 4 into A[2], 2 into A[1], obtaining [2,4,9].",
+        "excerpt": {
+          "text": "Insert elements of A into a PQ // Don’t change array A",
+          "source": "Lecture 8 CS2413 Fall 2026 sec A.pdf",
+          "page": 36
+        },
+        "pitfall": "Writing extracted maxima left to right produces descending order, not ascending order."
+      },
+      {
+        "id": "quick-sort",
+        "title": "Quicksort",
+        "summary": "Partition around a pivot, then recursively sort the elements on its two sides.",
+        "points": [
+          "Partition runs in Θ(n) and puts the pivot in its final sorted position. The two sides need not themselves be sorted yet.",
+          "Balanced splits give Θ(n log n). Choosing the last element on sorted distinct input gives Θ(n²). Standard in-place partitioning is not stable."
+        ],
+        "formula": "Balanced: T(n)=2T(n/2)+Θ(n); extreme: T(n)=T(n−1)+Θ(n)",
+        "example": "[4,2,8,3,9,1,7,5], pivot 5: the low side contains {1,2,3,4}, then 5, then {7,8,9}. Recurse on the two sides.",
+        "excerpt": {
+          "text": "Pick an element x of the array. Call it the “pivot”",
+          "source": "Lecture 9 CS2413 Fall 2026 sec A.pdf",
+          "page": 14
+        },
+        "pitfall": "Exclude the pivot from both recursive calls. Partitioning alone does not sort either side."
+      },
+      {
+        "id": "randomized-quick-sort",
+        "title": "Randomized-Quicksort",
+        "summary": "Choose the pivot uniformly at random in every recursive subarray.",
+        "points": [
+          "For distinct sorted ranks z₁<…<zₙ, zᵢ and zⱼ are compared iff the first pivot from ranks i through j is one of the endpoints.",
+          "Expected Θ(n log n) time for every fixed distinct-key input. An unlucky execution can still take Θ(n²)."
+        ],
+        "formula": "P(zᵢ compared with zⱼ) = 2/(j−i+1); E[C] = Σᵢ<ⱼ 2/(j−i+1)",
+        "example": "Ranks 2 and 5 are compared with probability 2/4 = 1/2: whichever of ranks 2,3,4,5 becomes a pivot first decides.",
+        "excerpt": {
+          "text": "We will prove that expected runtime of Randomized Quicksort is θ(n log n)",
+          "source": "Lecture 9 CS2413 Fall 2026 sec A.pdf",
+          "page": 37
+        },
+        "pitfall": "The expectation is over pivot choices, not a random input distribution. Naive two-way partitioning needs care with many equal keys."
+      }
+    ]
+  },
+  {
+    "id": "lower-bounds",
+    "title": "Decision tree lower bounds",
+    "description": "Why every comparison sort needs Ω(n log n) comparisons in the worst case.",
+    "eyebrow": "02 / PROOFS",
+    "topics": [
+      {
+        "id": "comparison-lower-bound",
+        "title": "The Ω(n log n) sorting lower bound",
+        "summary": "A comparison sorting algorithm must distinguish all n! possible orders of distinct keys.",
+        "points": [
+          "Each internal decision-tree node is a comparison; its two branches are possible outcomes for distinct keys. Each leaf fixes an output ordering.",
+          "At least n! leaves are necessary. A binary tree of height h has at most 2ʰ leaves, hence h≥log₂(n!).",
+          "Because log₂(n!)=Θ(n log n), some input needs Ω(n log n) comparisons. Mergesort and heapsort match this asymptotically."
+        ],
+        "formula": "2ʰ ≥ n! ⇒ h ≥ ⌈log₂(n!)⌉ = Ω(n log n)",
+        "example": "For n=4, there are 24 orders. Height 4 permits only 16 leaves, so at least one input requires ≥5 comparisons.",
+        "excerpt": {
+          "text": "There must be one leaf for every possible permutation of elements of A",
+          "source": "Lecture 10 CS2413 Fall 2026 sec A.pdf",
+          "page": 27
+        },
+        "pitfall": "This is a worst-case lower bound in the comparison model. It does not rule out counting sort using key values directly."
+      }
+    ]
+  },
+  {
+    "id": "math",
+    "title": "Mathematical toolkit",
+    "description": "Growth rates, logarithmic depth, and the sums behind algorithm analysis.",
+    "eyebrow": "03 / FOUNDATIONS",
+    "topics": [
+      {
+        "id": "asymptotic-notation",
+        "title": "Asymptotic notation",
+        "summary": "Compare growth rates while ignoring fixed multiplicative constants and a finite initial range.",
+        "points": [
+          "O is an eventual upper bound; Ω is an eventual lower bound; Θ means both.",
+          "For eventually positive functions: f=o(g) if f/g→0, and f=ω(g) if f/g→∞.",
+          "An O bound need not be tight. Θ is the appropriate notation when both bounds have been proved."
+        ],
+        "formula": "f∈O(g) ⇔ ∃c>0, n₀: ∀n≥n₀, 0≤f(n)≤cg(n)",
+        "example": "3n²+7n+4 is Θ(n²), O(n³), and o(n³). It is not Θ(n³).",
+        "excerpt": {
+          "text": "Remove lower order terms and multiplicative constants",
+          "source": "Lecture 2 CS2413 Sec A Fall 2026.pdf",
+          "page": 34
+        },
+        "pitfall": "O is not synonymous with worst case: you can express best-, average-, or worst-case functions using O."
+      },
+      {
+        "id": "logarithms",
+        "title": "Logarithms",
+        "summary": "A logarithm answers how many times a base must multiply itself to reach a value.",
+        "points": [
+          "For fixed bases greater than 1, changing the base changes only a constant factor.",
+          "A logarithm turns products into sums and powers into multipliers. It does not turn sums into sums of logs."
+        ],
+        "formula": "log_b x = ln x / ln b; log_b(xy)=log_b x+log_b y; log_b(xᵏ)=k log_b x",
+        "example": "log₂ 32=5; log₂(n²)=2 log₂ n; log₂ n and log₁₀ n are Θ of one another.",
+        "excerpt": {
+          "text": "change of base formula",
+          "source": "Lecture 3 CS2413 sec a Fall 2026.pdf",
+          "page": 33
+        },
+        "pitfall": "log(a+b) is generally not log a + log b. Also, (log n)² and log(n²) grow differently."
+      },
+      {
+        "id": "halving-doubling",
+        "title": "Repeated halving and doubling",
+        "summary": "Multiplicative changes lead to a logarithmic number of steps.",
+        "points": [
+          "After k halvings, size is n/2ᵏ. Set this equal to 1 to find the depth.",
+          "After k doublings from 1, size is 2ᵏ. Reaching at least n requires ⌈log₂ n⌉ doublings."
+        ],
+        "formula": "n/2ᵏ=1 ⇒ k=log₂ n",
+        "example": "64 → 32 → 16 → 8 → 4 → 2 → 1 takes 6 halvings. A recursion tree has 7 levels if the root is level 0.",
+        "excerpt": {
+          "text": "How many days until you are down to only $1?",
+          "source": "Lecture 3 CS2413 sec a Fall 2026.pdf",
+          "page": 29
+        },
+        "pitfall": "Distinguish the number of edges/halvings from the number of levels, which includes the starting level."
+      },
+      {
+        "id": "geometric-series",
+        "title": "Geometric series",
+        "summary": "When each term is a fixed multiple of the previous one, the ratio tells you which levels dominate.",
+        "points": [
+          "For fixed r>1, a finite positive sum is Θ of its last term. For fixed 0≤r<1, it is Θ of its first term.",
+          "When r=1, multiply the common term by the number of terms. An infinite geometric series converges only when |r|<1."
+        ],
+        "formula": "Σᵢ₌₀ᵏ arⁱ = a(rᵏ⁺¹−1)/(r−1), r≠1; Σᵢ₌₀∞ arⁱ = a/(1−r), |r|<1",
+        "example": "1+2+4+8+16=31; n+n/2+n/4+…<2n.",
+        "excerpt": {
+          "text": "finite geometric series",
+          "source": "Lecture 5 morning.pdf",
+          "page": 6
+        },
+        "pitfall": "A finite geometric sum and an infinite one have different formulas. Include the i=0 term and count k+1 terms."
+      },
+      {
+        "id": "harmonic-series",
+        "title": "Harmonic series",
+        "summary": "The first n reciprocals grow logarithmically even though each new term becomes smaller.",
+        "points": [
+          "The infinite harmonic series diverges. Its finite partial sum Hₙ is Θ(log n).",
+          "Grouping terms into blocks [2ᵏ,2ᵏ⁺¹−1] gives Θ(1) per block and Θ(log n) blocks."
+        ],
+        "formula": "Hₙ=Σᵢ₌₁ⁿ 1/i; ln(n+1) ≤ Hₙ ≤ 1+ln n",
+        "example": "H₄=1+1/2+1/3+1/4=25/12. In randomized quicksort, sums of reciprocal rank distances produce log n.",
+        "excerpt": {
+          "text": "Does this series converge? No.",
+          "source": "Lecture 9 CS2413 Fall 2026 sec A.pdf",
+          "page": 41
+        },
+        "pitfall": "Terms approaching zero do not imply the infinite series converges."
+      },
+      {
+        "id": "sum-integers",
+        "title": "Sum of numbers from 1 to n",
+        "summary": "Pair the first and last terms to turn a growing sum into a closed formula.",
+        "points": [
+          "Each pair from opposite ends sums to n+1. There are n/2 pairs, allowing the middle term when n is odd.",
+          "Triangular loops often perform this many iterations."
+        ],
+        "formula": "Σᵢ₌₁ⁿ i = n(n+1)/2 = Θ(n²)",
+        "example": "1+2+3+4+5 = 5·6/2 = 15. Bubblesort comparisons stop at n−1, giving n(n−1)/2.",
+        "excerpt": {
+          "text": "Never forget, the sum of the numbers from 1 to n is",
+          "source": "Lecture 2 CS2413 Sec A Fall 2026.pdf",
+          "page": 10
+        },
+        "pitfall": "Check the endpoint: summing to n−1 changes the exact answer even though the Θ bound stays quadratic."
+      },
+      {
+        "id": "weighted-geometric",
+        "title": "The sum of i/2ⁱ",
+        "summary": "Exponential decay dominates the linear numerator, so the infinite sum is a constant.",
+        "points": [
+          "Differentiate Σxⁱ=1/(1−x) and multiply by x to obtain Σixⁱ=x/(1−x)².",
+          "Substitute x=1/2. This sum also bounds the aggregate cost of Build-Max-Heap."
+        ],
+        "formula": "Σᵢ₌₁∞ i/2ⁱ = 2; Σᵢ₌₁ᵏ i/2ⁱ = 2 − (k+2)/2ᵏ",
+        "example": "For k=3: 1/2+2/4+3/8=11/8; the formula gives 2−5/8=11/8.",
+        "excerpt": {
+          "text": "Differentiate both sides wrt x, get",
+          "source": "Lecture 6 CS2413 Fall 2026 sec A.pdf",
+          "page": 23
+        },
+        "pitfall": "The finite sum is less than 2, not exactly 2. The equality to 2 applies to the infinite sum."
+      }
+    ]
+  },
+  {
+    "id": "probability",
+    "title": "Probability",
+    "description": "Turn repeated trials and event counts into expectations.",
+    "eyebrow": "04 / RANDOMNESS",
+    "topics": [
+      {
+        "id": "coin-flips",
+        "title": "Expected flips until heads",
+        "summary": "For independent trials with success probability p, the expected waiting time for the first success is 1/p.",
+        "points": [
+          "For a fair coin, P(X=k)=(1/2)ᵏ: k−1 tails followed by one head. Therefore E[X]=Σk/2ᵏ=2.",
+          "A first-step equation gives E[X]=1+(1−p)E[X], so E[X]=1/p.",
+          "If flips are capped at m, use Σᵢ₌₁ᵐ (1−p)ⁱ⁻¹ instead."
+        ],
+        "formula": "E[X]=1/p; E[min(X,m)] = [1−(1−p)ᵐ]/p",
+        "example": "Stop on heads or after 4 flips: expected flips = 1+1/2+1/4+1/8 = 15/8.",
+        "excerpt": {
+          "text": "Expected number of trials to get first success is 1/p",
+          "source": "Lecture 7 CS2413 Fall 2026 sec a.pdf",
+          "page": 6
+        },
+        "pitfall": "Include the successful flip. For a cap of 4, P(X=4)=1/8 because both TTTH and TTTT stop after 4 flips."
+      },
+      {
+        "id": "indicator-variables",
+        "title": "Indicator random variables",
+        "summary": "Represent an event by 1 when it occurs and 0 otherwise, then sum indicators to count events.",
+        "points": [
+          "If I is an indicator for event E, E[I]=P(E).",
+          "Linearity says E[ΣIᵢ]=ΣE[Iᵢ], even when the indicators are dependent.",
+          "Pick the event carefully: the indicator that flip i occurs is different from the indicator that flip i is heads."
+        ],
+        "formula": "I_E∈{0,1}; E[I_E]=P(E); E[Σᵢ Iᵢ]=Σᵢ P(Eᵢ)",
+        "example": "With at most 4 flips until heads, I₃=1 exactly when the first two flips are tails, so E[I₃]=1/4.",
+        "excerpt": {
+          "text": "Y = 1 if event occurs\nY = 0 if event does not occur",
+          "source": "Lecture 8 CS2413 Fall 2026 sec A.pdf",
+          "page": 45
+        },
+        "pitfall": "Independence is not required for linearity of expectation. It is required for certain product probability calculations."
+      }
+    ]
+  },
+  {
+    "id": "recurrences",
+    "title": "Recurrence relations",
+    "description": "Translate recursive work into a bound, then justify the bound.",
+    "eyebrow": "05 / ANALYSIS",
+    "topics": [
+      {
+        "id": "master-theorem",
+        "title": "Master Theorem — the course version",
+        "summary": "The lecture theorem applies to equal-size subproblems and a polynomial nonrecursive term.",
+        "points": [
+          "Assume T(n)=aT(n/b)+Θ(nᵈ), constant-size base cost Θ(1), and constants a>0, b>1, d≥0.",
+          "Compare d with log_b a. Smaller d means leaves dominate; equality means every level contributes equally; larger d means root work dominates.",
+          "This version does not directly cover a toll n log n or unequal splits T(n/3)+T(2n/3). Use another method."
+        ],
+        "formula": "d<log_b a: Θ(n^(log_b a))\nd=log_b a: Θ(nᵈ log n)\nd>log_b a: Θ(nᵈ)",
+        "example": "3T(n/2)+n: d=1<log₂3 → Θ(n^(log₂3)). 2T(n/2)+n → Θ(n log n). 2T(n/2)+n² → Θ(n²).",
+        "excerpt": {
+          "text": "a, b, d, n0 are constants",
+          "source": "Lecture 5 morning.pdf",
+          "page": 15
+        },
+        "pitfall": "Do not use a more general textbook case to claim this course theorem directly handles n log n tolls. Floors/ceilings are accommodated as explained on lecture page 29."
+      },
+      {
+        "id": "recursion-tree",
+        "title": "Recursion tree analysis",
+        "summary": "Draw the recursive calls, label only the local work at each node, and sum across all levels.",
+        "points": [
+          "At depth i for aT(n/b)+cnᵈ, there are aⁱ nodes of size n/bⁱ. Local work for the whole level is cnᵈ(a/bᵈ)ⁱ.",
+          "Depth is log_b n for powers of b; there are a^(log_b n)=n^(log_b a) leaves. Include their base costs."
+        ],
+        "formula": "Level i work = cnᵈ(a/bᵈ)ⁱ; total = internal-level sum + leaf costs",
+        "example": "T(n)=2T(n/2)+n, T(1)=1: log₂ n internal levels each cost n, and n leaves cost n; T(n)=n log₂ n+n.",
+        "excerpt": {
+          "text": "Method 1: Using Recursion Tree to Solve Recurrence",
+          "source": "Lecture 4 CS2413 sec a Fall 2026.pdf",
+          "page": 7
+        },
+        "pitfall": "Do not label a node with both T(size) and its local cost when summing; that counts recursive work twice."
+      },
+      {
+        "id": "induction",
+        "title": "Solving recurrences by induction",
+        "summary": "Guess a concrete inequality, prove enough base cases, and substitute the inductive hypothesis.",
+        "points": [
+          "Use an explicit constant in the hypothesis, such as T(k)≤ck log₂k. Big-O notation hides the constant you need to preserve.",
+          "Check every recursive argument is covered by the hypothesis. Floors may require more than one base case.",
+          "For an exact solution on powers of 2, prove T(n)=n log₂n+n by substituting the half-size formula."
+        ],
+        "formula": "2[(n/2)log₂(n/2)+n/2]+n = n log₂n+n",
+        "example": "Base n=1: 1=1·0+1. For n>1, the displayed substitution establishes the formula for 2T(n/2)+n.",
+        "excerpt": {
+          "text": "Important not to use asymptotic notation in the inductive hypothesis!",
+          "source": "Lecture 4 CS2413 sec a Fall 2026.pdf",
+          "page": 37
+        },
+        "pitfall": "Proving 2·O(n/2)+O(n)=O(n) does not prove T(n)=O(n): the implicit constant can increase at every recursion level."
+      }
+    ]
+  },
+  {
+    "id": "other-algorithms",
+    "title": "Other algorithms",
+    "description": "Two divide-and-conquer examples with very different recurrences.",
+    "eyebrow": "06 / DIVIDE & CONQUER",
+    "topics": [
+      {
+        "id": "max-subarray",
+        "title": "Maximum-sum subarray",
+        "summary": "Find the largest sum of a contiguous segment. In this course, the empty subarray is allowed and has sum 0.",
+        "points": [
+          "An optimum lies wholly left, wholly right, or crosses the midpoint.",
+          "A crossing segment combines the maximum-sum suffix of the left half and maximum-sum prefix of the right half. Each can be scanned in linear time.",
+          "Brute-force recomputation takes Θ(n³); reusing running sums gives Θ(n²); the lecture divide-and-conquer algorithm gives Θ(n log n)."
+        ],
+        "formula": "T(n)=2T(n/2)+Θ(n)=Θ(n log n)",
+        "example": "[3,−6,2,3,−5,1,3,−7] has maximum sum 5, achieved by [2,3]. For [−4,−2], the course answer is 0 (empty subarray).",
+        "excerpt": {
+          "text": "The empty subarray is also considered to be a subarray. Sum of its elements is 0.",
+          "source": "Lecture 5 morning.pdf",
+          "page": 31
+        },
+        "pitfall": "A subarray must be contiguous. Ignoring crossing subarrays makes the divide-and-conquer algorithm incorrect."
+      },
+      {
+        "id": "karatsuba",
+        "title": "Karatsuba’s algorithm",
+        "summary": "Multiply two long integers using three recursive products instead of four.",
+        "points": [
+          "Write x=x_L·B+x_R and y=y_L·B+y_R, where B=2^(n/2).",
+          "Compute p=x_Ly_L, q=x_Ry_R, r=(x_L+x_R)(y_L+y_R). The cross term is r−p−q.",
+          "Additions, subtractions and shifts take Θ(n) bit operations; the lecture recurrence suppresses small carry/rounding details."
+        ],
+        "formula": "xy=pB²+(r−p−q)B+q; T(n)=3T(n/2)+Θ(n)=Θ(n^(log₂3))",
+        "example": "Decimal analogy: 12·34, B=10. p=1·3=3, q=2·4=8, r=3·7=21. Result =300+(21−3−8)·10+8=408.",
+        "excerpt": {
+          "text": "Recursively compute 3 products instead of 4",
+          "source": "Lecture 6 CS2413 Fall 2026 sec A.pdf",
+          "page": 17
+        },
+        "pitfall": "The speedup is in bit-operation complexity for long integers. Treating arbitrary-length multiplication as O(1) would erase the problem."
+      }
+    ]
+  },
+  {
+    "id": "heaps",
+    "title": "Heaps",
+    "description": "The array representation and the repair operations behind heapsort and priority queues.",
+    "eyebrow": "07 / DATA STRUCTURES",
+    "topics": [
+      {
+        "id": "max-heapify",
+        "title": "Max-Heapify",
+        "summary": "Repair a possible violation at one node when both child subtrees are already max-heaps.",
+        "points": [
+          "A max-heap is a complete binary tree with each parent key at least each child key. In a 1-indexed array, parent(i)=⌊i/2⌋ and children are 2i and 2i+1.",
+          "Compare the node with its valid children, swap with the largest if needed, then continue down that child.",
+          "Worst-case time is O(h) for subtree height h, and O(log n) for the full heap."
+        ],
+        "formula": "parent(i)=⌊i/2⌋; left(i)=2i; right(i)=2i+1",
+        "example": "[2,9,7,4,3] at root: swap 2 with 9 → [9,2,7,4,3]; swap 2 with 4 → [9,4,7,2,3].",
+        "excerpt": {
+          "text": "Assumes that the left and right subtrees of node i are max-heaps",
+          "source": "Lecture 6 CS2413 Fall 2026 sec A.pdf",
+          "page": 31
+        },
+        "pitfall": "Swapping with the smaller child can leave the parent smaller than its other child. Check bounds against heap size, not array length."
+      },
+      {
+        "id": "build-heap",
+        "title": "Build-Max-Heap",
+        "summary": "Turn an arbitrary array into a max-heap by heapifying internal nodes from bottom to top.",
+        "points": [
+          "Indices ⌊n/2⌋+1 through n are leaves and already satisfy the heap property.",
+          "Process i=⌊n/2⌋ down to 1, so both child subtrees are heaps before calling Max-Heapify.",
+          "Most nodes are near the leaves and cheap to repair: summing costs by height gives Θ(n)."
+        ],
+        "formula": "Σₕ O((n/2ʰ)·h) = O(n)·Σₕ h/2ʰ = O(n)",
+        "example": "[1,2,3,4]: heapify index 2 → [1,4,3,2]; heapify index 1 → [4,2,3,1].",
+        "excerpt": {
+          "text": "for i = ⌊n/2⌋ downto 1",
+          "source": "Lecture 6 CS2413 Fall 2026 sec A.pdf",
+          "page": 36
+        },
+        "pitfall": "Multiplying n calls by O(log n) gives a valid loose upper bound, but misses the tight Θ(n) analysis."
+      },
+      {
+        "id": "extract-max",
+        "title": "Extract-Max",
+        "summary": "Remove the root and restore the heap by moving the last active element to the root and bubbling down.",
+        "points": [
+          "Save the root, move the last heap element to position 1, decrease heap size, and call Max-Heapify at 1.",
+          "Worst-case Θ(log n), with heap underflow on an empty heap. Handles must be updated if the heap stores objects."
+        ],
+        "formula": "Extract-Max: O(log n) worst case",
+        "example": "[9,7,8,1,3] returns 9. Move 3 to root → [3,7,8,1]; heapify → [8,7,3,1].",
+        "excerpt": {
+          "text": "max = Max-Heap-Maximum(A)",
+          "source": "Lecture 7 CS2413 Fall 2026 sec a.pdf",
+          "page": 30
+        },
+        "pitfall": "Return the saved original maximum, not the new root after repair."
+      },
+      {
+        "id": "heap-max",
+        "title": "Maximum",
+        "summary": "Read the largest key at the root without removing it.",
+        "points": [
+          "The heap property implies every descendant has key at most the root key.",
+          "For a nonempty 1-indexed max-heap, simply return A[1]. Time Θ(1)."
+        ],
+        "formula": "Maximum(A)=A[1]",
+        "example": "In heap [20,12,18,3,7], Maximum returns 20 and leaves all five entries in place.",
+        "excerpt": {
+          "text": "return max element, don’t delete",
+          "source": "Lecture 7 CS2413 Fall 2026 sec a.pdf",
+          "page": 29
+        },
+        "pitfall": "Maximum and Extract-Max have different effects and different runtimes. Neither implies the heap array is fully sorted."
+      }
+    ]
+  },
+  {
+    "id": "priority-queues",
+    "title": "Priority queues",
+    "description": "An abstract interface, two implementations, and the bookkeeping needed to find an object.",
+    "eyebrow": "08 / INTERFACES",
+    "topics": [
+      {
+        "id": "pq-operations",
+        "title": "Priority queue operations",
+        "summary": "Maintain elements with priority keys and retrieve the element with greatest priority.",
+        "points": [
+          "Insert(S,x,k) adds x with key k. Maximum(S) returns the highest-priority element without deletion.",
+          "Extract-Max removes and returns that element. Increase-Key raises an existing element’s key and restores the data structure.",
+          "The abstract data type specifies behavior; its implementation determines cost."
+        ],
+        "formula": "Interface: Insert · Maximum · Extract-Max · Increase-Key",
+        "example": "Insert (job A,2), (job B,7). Maximum returns B. Increase A to 9, then Extract-Max removes A.",
+        "excerpt": {
+          "text": "Each element has a number, called a key, indicating its priority",
+          "source": "Lecture 7 CS2413 Fall 2026 sec a.pdf",
+          "page": 24
+        },
+        "pitfall": "An element’s identity and its key are different. Two distinct jobs can have the same priority."
+      },
+      {
+        "id": "pq-linked-list",
+        "title": "Doubly-linked list implementation",
+        "summary": "An unordered doubly-linked list makes insertion and known-element updates cheap, but maximum queries expensive.",
+        "points": [
+          "Insert at the front in Θ(1). Maximum scans all n keys in Θ(n).",
+          "Extract-Max scans in Θ(n), then unlinks the chosen node in Θ(1).",
+          "Increase-Key is Θ(1) when given the node or when mapping cost is excluded; finding an element by a linear scan would add Θ(n)."
+        ],
+        "formula": "Unordered DLL: Insert Θ(1), Max Θ(n), Extract-Max Θ(n), Increase-Key Θ(1) excluding lookup",
+        "example": "For priorities [2,9,4], finding 9 scans the list. Once its node is known, prev/next links remove it in constant time.",
+        "excerpt": {
+          "text": "Example: Implementation of PQ using unsorted doubly-linked list",
+          "source": "Lecture 7 CS2413 Fall 2026 sec a.pdf",
+          "page": 25
+        },
+        "pitfall": "Do not confuse the unordered list here with a sorted list; ordering the list changes which operations are cheap."
+      },
+      {
+        "id": "pq-heap",
+        "title": "Heap implementation",
+        "summary": "A binary max-heap balances efficient insertion, extraction, and priority increases.",
+        "points": [
+          "Maximum is Θ(1). Extract-Max, Insert, and Increase-Key have O(log n) worst-case costs, excluding mapping.",
+          "Increase-Key locates x, changes its key, then bubbles up while the parent is smaller.",
+          "Insert appends a new leaf (conceptually with key −∞), then increases it to its intended key."
+        ],
+        "formula": "Heap: Insert O(log n), Max Θ(1), Extract-Max O(log n), Increase-Key O(log n)",
+        "example": "In [9,7,8,1,3], raise the last key from 3 to 10: [9,10,8,1,7] → [10,9,8,1,7].",
+        "excerpt": {
+          "text": "Locate x in heap (using mapping operation)\nIncrease key of x to k\nNeed to repair heap!",
+          "source": "Lecture 8 CS2413 Fall 2026 sec A.pdf",
+          "page": 26
+        },
+        "pitfall": "An increase bubbles upward; replacing the root after extraction bubbles downward. Using the wrong direction does not repair the heap."
+      },
+      {
+        "id": "handles-mapping",
+        "title": "Handles and mapping operations",
+        "summary": "Keep a way to locate an object after heap swaps move it to a different array index.",
+        "points": [
+          "A handle may carry an index, or a separate dictionary may map object identity to its current index.",
+          "Every swap must update the positions of both affected objects; deletion must invalidate or remove the deleted object’s entry.",
+          "The lecture excludes mapping-operation costs from quoted PQ runtimes. State that assumption when comparing implementations."
+        ],
+        "formula": "Invariant: position[A[i].id] = i for every active heap index i",
+        "example": "Swap A[2]=job X and A[5]=job Y: update position[X]=5 and position[Y]=2 before the next Increase-Key lookup.",
+        "excerpt": {
+          "text": "Handle must be updated when elements move during operations on the heap",
+          "source": "Lecture 7 CS2413 Fall 2026 sec a.pdf",
+          "page": 34
+        },
+        "pitfall": "A stale index can update the wrong job even if the heap still satisfies the heap property."
+      }
+    ]
+  }
+]

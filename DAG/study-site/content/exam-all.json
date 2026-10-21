@@ -1,0 +1,319 @@
+[
+  {
+    "id": "exam-all-1-a",
+    "section": "sorting",
+    "topics": [
+      "Heapsort"
+    ],
+    "title": "Heapsort worst case",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 2,
+    "number": "1(a)",
+    "prompt": "Give the answer in Θ notation as a function of n. Simplify away lower-order terms, multiplicative constants, and constant logarithm bases.\nWhat is the worst-case running time of heapsort on an array of size n?",
+    "answer": [
+      "Θ(n log n). Build-heap takes Θ(n); the subsequent n − 1 removals and heap repairs take O(n log n). On worst-case inputs the sorting phase takes Ω(n log n), giving the tight bound."
+    ]
+  },
+  {
+    "id": "exam-all-1-b",
+    "section": "math",
+    "topics": [
+      "Sum of numbers from 1 to n"
+    ],
+    "title": "Sum through n²",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 2,
+    "number": "1(b)",
+    "prompt": "Give the answer in Θ notation as a function of n. Simplify away lower-order terms, multiplicative constants, and constant logarithm bases.\nWhat is the sum of the numbers from 1 to n²?",
+    "answer": [
+      "Let m = n². The sum is m(m+1)/2 = (n⁴+n²)/2 = Θ(n⁴)."
+    ]
+  },
+  {
+    "id": "exam-all-1-c",
+    "section": "math",
+    "topics": [
+      "Sum of numbers from 1 to n"
+    ],
+    "title": "Count the printed stars",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 3,
+    "number": "1(c)",
+    "prompt": "Give the answer in Θ notation as a function of n. Simplify away lower-order terms, multiplicative constants, and constant logarithm bases.\nHow many stars does this pseudocode print?\nfor i = 1 to n\n    for j = n downto i+1\n        print \"*\"",
+    "answer": [
+      "For fixed i, the inner loop runs n−i times. Total = Σᵢ₌₁ⁿ(n−i) = (n−1)+(n−2)+⋯+0 = n(n−1)/2 = Θ(n²)."
+    ]
+  },
+  {
+    "id": "exam-all-1-d",
+    "section": "heaps",
+    "topics": [
+      "Build-heap"
+    ],
+    "title": "Sum of heap-node heights",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 3,
+    "number": "1(d)",
+    "prompt": "Give the answer in Θ notation as a function of n. Simplify away lower-order terms, multiplicative constants, and constant logarithm bases.\nWhat is the sum of the heights of all nodes in a max-heap of size n? The height of a node is the maximum number of edges on a simple path from that node down to a leaf; a leaf has height 0.",
+    "answer": [
+      "Θ(n). Count each node once for every positive height threshold it reaches: the sum of heights is Σₕ≥₁(number of nodes with height at least h).",
+      "In a complete binary heap, the count is floor(n/2ʰ); therefore the sum is at most n Σₕ≥₁ 2⁻ʰ = n. There are floor(n/2) internal nodes of height at least 1, giving Ω(n)."
+    ]
+  },
+  {
+    "id": "exam-all-1-e",
+    "section": "probability",
+    "topics": [
+      "Expected number of coin flips until heads"
+    ],
+    "title": "Wait until two random choices match",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 3,
+    "number": "1(e)",
+    "prompt": "Give the answer in Θ notation as a function of n. Simplify away lower-order terms, multiplicative constants, and constant logarithm bases.\nWhat is the expected number of iterations of this while loop? Each random choice is independent.\ncontinue = true\nwhile continue == true\n    choose i uniformly at random from 1 through n\n    choose j uniformly at random from 1 through n\n    if i == j\n        continue = false",
+    "answer": [
+      "There are n matching pairs among n² equally likely pairs, so an iteration stops with probability p = 1/n.",
+      "The number of iterations including the successful iteration is geometric, with mean 1/p = n. The requested answer is Θ(n)."
+    ]
+  },
+  {
+    "id": "exam-all-2-a-d",
+    "section": "recurrences",
+    "topics": [
+      "Analysis of runtime using recursion tree"
+    ],
+    "title": "Read a five-branch recursion tree",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 4,
+    "number": "2(a–d)",
+    "prompt": "Consider T(n) = 5T(n/2) + 4n for n > 1, with T(1) = 3. Assume n is a power of 2, and number recursion-tree levels starting at 0. You do not have to solve the recurrence. Give exact expressions, not asymptotic notation.\n(a) As a function of i, how many nodes are at level i?\n(b) As a function of n and i, what is the input size for nodes at level i?\n(c) As a function of n, what is the level number at the leaves?\n(d) What is the total local work at all leaf nodes?",
+    "answer": [
+      "(a) 5ⁱ nodes: every node generates five children.",
+      "(b) n/2ⁱ: each level halves the subproblem size.",
+      "(c) log₂n: solve n/2ⁱ = 1.",
+      "(d) Each leaf costs T(1) = 3, so total leaf work is 3·5^(log₂n) = 3n^(log₂5). Do not substitute the internal-node formula 4n at a base case."
+    ]
+  },
+  {
+    "id": "exam-all-3-a",
+    "section": "math",
+    "topics": [
+      "Asymptotic notation"
+    ],
+    "title": "Compare a factorial logarithm",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 5,
+    "number": "3(a)",
+    "prompt": "Indicate whether f(n) = o(g(n)), f(n) = ω(g(n)), or f(n) = Θ(g(n)). No justification is required in the original exam.\nf(n) = 5 log₂(n!), g(n) = n log₂n.",
+    "answer": [
+      "f(n) = Θ(g(n)). Since (n/2)log₂(n/2) ≤ log₂(n!) ≤ n log₂n for large n (rounding n/2 if needed), log₂(n!) = Θ(n log n). The factor 5 does not change Θ."
+    ]
+  },
+  {
+    "id": "exam-all-3-b",
+    "section": "math",
+    "topics": [
+      "Asymptotic notation"
+    ],
+    "title": "Compare an exponential with a factorial",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 5,
+    "number": "3(b)",
+    "prompt": "Indicate whether f(n) = o(g(n)), f(n) = ω(g(n)), or f(n) = Θ(g(n)). No justification is required in the original exam.\nf(n) = 2ⁿ, g(n) = n!.",
+    "answer": [
+      "f(n) = o(g(n)). For rₙ = 2ⁿ/n!, rₙ₊₁/rₙ = 2/(n+1). This ratio is at most 1/2 once n ≥ 3, so rₙ → 0."
+    ]
+  },
+  {
+    "id": "exam-all-3-c",
+    "section": "math",
+    "topics": [
+      "Asymptotic notation",
+      "Harmonic series"
+    ],
+    "title": "Compare a harmonic sum with n",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 5,
+    "number": "3(c)",
+    "prompt": "Indicate whether f(n) = o(g(n)), f(n) = ω(g(n)), or f(n) = Θ(g(n)). No justification is required in the original exam.\nf(n) = Σᵢ₌₁ⁿ n/i, g(n) = n.",
+    "answer": [
+      "f(n) = ω(g(n)). We have f(n) = nHₙ and f(n)/g(n) = Hₙ → ∞. More specifically, f(n) = Θ(n log n)."
+    ]
+  },
+  {
+    "id": "exam-all-4-a-b",
+    "section": "lower-bounds",
+    "topics": [
+      "Decision tree lower bounds"
+    ],
+    "title": "Count outputs for index finding",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 6,
+    "number": "4(a–b)",
+    "prompt": "Index-Finding Problem: The input consists of unsorted integer arrays A[1…N] and B[1…2N]. Elements of A are distinct; elements of B need not be distinct. Compute D[1…2N], where D[i] = 0 if B[i] does not appear in A, and otherwise D[i] is its position in the ORIGINAL array A. Example: A = [3,5], B = [5,2,5,3] gives D = [2,0,2,1]. Comparisons may compare two A elements, two B elements, or an A element with a B element.\n(a) As a function of N, how many possible output arrays D are there? Give an exact expression.\n(b) Complete this proof, using exact expressions and specifying logarithm bases: A comparison algorithm is represented by a binary decision tree. (i) Its number of leaves is at least __. (ii) Since it is binary, its height must be at least __. (iii) Therefore its worst-case number of comparisons is at least __.",
+    "answer": [
+      "(a) (N+1)^(2N). Each of the 2N output positions independently has N+1 choices: 0,1,…,N. All choices can be realized by fixing distinct A values and choosing each B value either from A or outside A.",
+      "(b)(i) At least (N+1)^(2N) leaves, since distinct output arrays must lead to distinct output leaves.",
+      "(b)(ii) Height at least log₂((N+1)^(2N)) = 2N log₂(N+1); as an integer bound this is ceil(2N log₂(N+1)).",
+      "(b)(iii) At least ceil(2N log₂(N+1)) comparisons on some input. In asymptotic notation this is Ω(N log N)."
+    ],
+    "note": "The exam explicitly assumes a binary comparison decision tree. A single three-outcome comparison would instead give base 3 in the exact height bound; the asymptotic lower bound is unchanged."
+  },
+  {
+    "id": "exam-all-4-c",
+    "section": "sorting",
+    "topics": [
+      "Mergesort"
+    ],
+    "title": "An optimal comparison algorithm for index finding",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 7,
+    "number": "4(c)",
+    "prompt": "Index-Finding Problem: The input consists of unsorted integer arrays A[1…N] and B[1…2N]. Elements of A are distinct; elements of B need not be distinct. Compute D[1…2N], where D[i] = 0 if B[i] does not appear in A, and otherwise D[i] is its position in the ORIGINAL array A. Example: A = [3,5], B = [5,2,5,3] gives D = [2,0,2,1]. Comparisons may compare two A elements, two B elements, or an A element with a B element.\nBriefly but clearly describe a comparison-based algorithm that makes Θ(2N log N) comparisons in the worst case. You may use algorithms from class without explaining their internals. Remember that A and B are unsorted.",
+    "answer": [
+      "Pair every A value with its original position: (A[j], j). Sort these N records by value using mergesort, retaining the position field.",
+      "For each of the 2N entries B[i], binary-search the sorted records. If found, write the stored original position to D[i]; otherwise write 0.",
+      "Sorting costs O(N log N) comparisons and all searches cost O(2N log N). The decision-tree lower bound from part (b) is Ω(N log N), so this algorithm has worst-case Θ(N log N) = Θ(2N log N) comparisons."
+    ]
+  },
+  {
+    "id": "exam-all-5",
+    "section": "sorting",
+    "topics": [
+      "Sorting definitions"
+    ],
+    "title": "Stable sorts for first and last names",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 8,
+    "number": "5",
+    "prompt": "A file has two columns: first name and last name. Example rows are Isaac Newton, Taylor Swift, Donald Knuth, Anatoly Karatsuba, Jonathan Swift. Sort alphabetically by last name, breaking ties alphabetically by first name. You may (1) stably sort by First Name only, or (2) stably sort by Last Name only. Briefly describe how to use these operations to obtain the desired ordering.",
+    "answer": [
+      "First stably sort by first name. Then stably sort by last name.",
+      "The second sort orders the primary key (last name), while stability preserves the first-name order among equal last names. The example becomes Anatoly Karatsuba, Donald Knuth, Isaac Newton, Jonathan Swift, Taylor Swift."
+    ],
+    "note": "The source marks radix sort as outside Fall 2026 Exam 1 coverage; retained for complete old-exam coverage."
+  },
+  {
+    "id": "exam-all-6-a-c",
+    "section": "sorting",
+    "topics": [
+      "Insertion Sort",
+      "Sorting definitions"
+    ],
+    "title": "Insertion sort and equal prices",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 9,
+    "number": "6(a–c)",
+    "prompt": "Elements have the form (item, price), with price as the key.\nfor i = 2 to n\n    x = A[i]\n    j = i−1\n    while j > 0 and A[j].key > x.key\n        A[j+1] = A[j]\n        j = j−1\n    A[j+1] = x\n(a) Run this insertion sort on A = [(coat,76),(hat,34),(cup,15),(shirt,34)]. What is the resulting A?\n(b) Is this version stable? Answer yes or no.\n(c) Change the while condition to j > 0 and A[j].key >= x.key. Is the modified version stable? Answer yes or no.",
+    "answer": [
+      "(a) [(cup,15),(hat,34),(shirt,34),(coat,76)]. The hat remains ahead of the equally priced shirt.",
+      "(b) Yes. The strict > condition moves only larger keys, so equal keys keep their relative order.",
+      "(c) No. The ≥ condition shifts earlier equal keys right and inserts the new equal key before them. On this input, shirt ends up before hat."
+    ],
+    "note": "The source marks stability questions (b) and (c) as outside Fall 2026 Exam 1 coverage; retained for completeness."
+  },
+  {
+    "id": "exam-all-7",
+    "section": "recurrences",
+    "topics": [
+      "Use of inductive proofs in solving recurrence relations"
+    ],
+    "title": "Prove a quadratic upper bound by induction",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 10,
+    "number": "7",
+    "prompt": "For integer n ≥ 1, let T(1) = 7 and T(n) = 2T(floor(2n/3)) + n² for n ≥ 2. Use induction to prove T(n) = O(n²): prove T(n) ≤ cn² for all n ≥ 1 for a specific positive integer c. Do not use the Master Theorem or a recursion tree. Include the base case n = 1, an inductive assumption, and an inductive step.",
+    "answer": [
+      "Choose c = 9. Base: T(1) = 7 ≤ 9·1².",
+      "Strong inductive assumption: for a given n ≥ 2, suppose T(k) ≤ 9k² for all integers 1 ≤ k < n. Set m = floor(2n/3); then 1 ≤ m < n, so the hypothesis applies.",
+      "T(n) = 2T(m)+n² ≤ 18m²+n² ≤ 18(2n/3)²+n² = 8n²+n² = 9n².",
+      "Thus the bound holds for every integer n ≥ 1 by strong induction, establishing T(n) = O(n²)."
+    ]
+  },
+  {
+    "id": "exam-all-8-a",
+    "section": "recurrences",
+    "topics": [
+      "Master Theorem (our version)"
+    ],
+    "title": "Binary search recurrence (worked example)",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 12,
+    "number": "8(a)",
+    "prompt": "Give (i) a recurrence for worst-case running time (ignore floors and ceilings; no base case required), then (ii) the tight running time in Θ notation.\nAnalyze recursive binary search. This part was provided as an example in the exam.",
+    "answer": [
+      "(i) T(n) = T(n/2) + Θ(1).",
+      "(ii) Θ(log n). One subproblem survives per level, and halving reaches constant size after Θ(log n) levels. This is the equality case of the Master Theorem with a = 1, b = 2, d = 0."
+    ]
+  },
+  {
+    "id": "exam-all-8-b",
+    "section": "recurrences",
+    "topics": [
+      "Master Theorem (our version)",
+      "Mergesort"
+    ],
+    "title": "SlowMergesort",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 12,
+    "number": "8(b)",
+    "prompt": "Give (i) a recurrence for worst-case running time (ignore floors and ceilings; no base case required), then (ii) the tight running time in Θ notation.\nSlowMergesort still splits the array in half and recursively sorts both halves, but replaces the linear-time merge with a slow merge that runs in Θ(n^1.5) time.",
+    "answer": [
+      "(i) T(n) = 2T(n/2) + Θ(n^1.5).",
+      "(ii) Θ(n^1.5). Here a = 2, b = 2, d = 1.5 > log₂2 = 1, so the local-work-dominant case applies."
+    ]
+  },
+  {
+    "id": "exam-all-8-c",
+    "section": "recurrences",
+    "topics": [
+      "Master Theorem (our version)",
+      "Quicksort"
+    ],
+    "title": "Quicksort with a true median pivot",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 12,
+    "number": "8(c)",
+    "prompt": "Give (i) a recurrence for worst-case running time (ignore floors and ceilings; no base case required), then (ii) the tight running time in Θ notation.\nMMQuickSort uses the Median of Medians algorithm to find the kth order statistic for k = floor((n+1)/2), i.e. the median. It partitions around that pivot and recursively sorts Low and High. Give the recurrence and worst-case time.",
+    "answer": [
+      "(i) With the usual distinct-key (or suitable equal-key grouping) partition convention, T(n) = 2T(n/2) + Θ(n). Finding the median by Median of Medians and partitioning both take linear time; selecting a true median balances the recursion.",
+      "(ii) Θ(n log n), by a = 2, b = 2, d = 1 = log₂2."
+    ],
+    "note": "The source marks Median of Medians as outside Fall 2026 Exam 1 coverage; retained for complete old-exam coverage. Balanced splitting requires handling equal keys appropriately."
+  },
+  {
+    "id": "exam-all-9",
+    "section": "math",
+    "topics": [
+      "Geometric series",
+      "Logarithms"
+    ],
+    "title": "A geometric sum with a logarithmic upper limit",
+    "kind": "Exam",
+    "source": "Fall 2025 Exam 1  for practice.pdf",
+    "page": 13,
+    "number": "9",
+    "prompt": "Let T(n) = Σᵢ₌₀^(2 log₃ n) 3ⁱ. Which expression is correct: Θ(1), Θ(log n), Θ(√n), Θ(n), Θ(n log n), Θ(n²), or Θ(n⁴)? Explain and justify; no credit without justification.",
+    "answer": [
+      "Choose Θ(n²). When k = 2 log₃n is an integer, the geometric-series formula gives T(n) = (3^(k+1)−1)/2 = (3n²−1)/2.",
+      "Equivalently, the largest term is 3^(2 log₃n) = n², and the preceding terms sum to only a constant multiple of it. If an integer upper bound is needed for arbitrary n, taking floor(2 log₃n) changes the sum by at most a constant factor."
+    ]
+  }
+]

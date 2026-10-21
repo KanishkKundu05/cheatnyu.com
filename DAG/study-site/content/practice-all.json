@@ -1,0 +1,495 @@
+[
+  {
+    "id": "practice-week-1-q1",
+    "section": "sorting",
+    "topics": [
+      "Bubblesort",
+      "loop invariant"
+    ],
+    "title": "Trace Bubblesort and read its invariant",
+    "kind": "Practice",
+    "source": "Practice_problems__1_Algo_Fall_2027 (1).pdf",
+    "page": 1,
+    "number": "1",
+    "prompt": "BUBBLESORT(A,n), with 1-indexed arrays:\n1 for i = 1 to n−1\n2   for j = n downto i+1\n3     if A[j] < A[j−1]\n4       exchange A[j] with A[j−1]\nAt the start of an outer iteration, A[1:i−1] contains the i−1 smallest elements of the original A, in sorted order; A[i:n] contains the rest.\n(a) Let A=[9,2,6,4,1], n=5. Show A at the start of each outer iteration i=1,2,3,4 and the final sorted array.\n(b) For n=8, the iteration i=5 is about to begin. What do you know about A[1:4] and A[5:8]? Be precise. Does the invariant give exact values or something weaker?",
+    "answer": [
+      "(a) Starts: i=1: [9,2,6,4,1]; i=2: [1,9,2,6,4]; i=3: [1,2,9,4,6]; i=4: [1,2,4,9,6]. Final: [1,2,4,6,9].",
+      "The first pass moves 1 left past 4,6,2,9. The second pass swaps 4 with 6, then 2 with 9. The third swaps 4 with 9; the fourth swaps 6 with 9.",
+      "(b) A[1:4] contains the four smallest original elements in sorted order. A[5:8] contains exactly the other four, with no guaranteed internal order. Without the original values the invariant gives a structural property, not numeric entries."
+    ]
+  },
+  {
+    "id": "practice-week-1-q2",
+    "section": "sorting",
+    "topics": [
+      "Bubblesort",
+      "sum of integers"
+    ],
+    "title": "Count comparisons and swaps",
+    "kind": "Practice",
+    "source": "Practice_problems__1_Algo_Fall_2027 (1).pdf",
+    "page": 2,
+    "number": "2",
+    "prompt": "BUBBLESORT(A,n), with 1-indexed arrays:\n1 for i = 1 to n−1\n2   for j = n downto i+1\n3     if A[j] < A[j−1]\n4       exchange A[j] with A[j−1]\n(a) As an exact function of n, how often does line 3 execute, regardless of input?\n(b) Give an input with zero swaps.\n(c) Give an input with the maximum possible swaps, and state that number.",
+    "answer": [
+      "(a) Outer iteration i makes n−i comparisons. The total is Σᵢ₌₁ⁿ⁻¹(n−i)=(n−1)+…+1=n(n−1)/2.",
+      "(b) [1,2,…,n] is already sorted, so no strict less-than comparison succeeds and there are zero swaps.",
+      "(c) [n,n−1,…,1] makes every comparison swap, for n(n−1)/2 swaps. No input can have more swaps than comparisons."
+    ]
+  },
+  {
+    "id": "practice-week-1-q3",
+    "section": "sorting",
+    "topics": [
+      "Bubblesort",
+      "stability"
+    ],
+    "title": "Duplicates and stability",
+    "kind": "Practice",
+    "source": "Practice_problems__1_Algo_Fall_2027 (1).pdf",
+    "page": 2,
+    "number": "3",
+    "prompt": "BUBBLESORT(A,n), with 1-indexed arrays:\n1 for i = 1 to n−1\n2   for j = n downto i+1\n3     if A[j] < A[j−1]\n4       exchange A[j] with A[j−1]\n(a) The lecture assumes distinct elements. Does Bubblesort still correctly sort A=[3,1,3,2]?\n(b) A sort is stable if equal elements keep their original relative order: if 4a precedes 4b in the input, it must still precede 4b in the output. Is this Bubblesort stable? Justify using line 3.",
+    "answer": [
+      "(a) Yes. Outer-iteration starts are [3,1,3,2], [1,3,2,3], [1,2,3,3]; final [1,2,3,3].",
+      "(b) Yes. Line 3 swaps only strictly out-of-order adjacent keys. Equal keys are never exchanged directly; adjacent-swap algorithms can reverse their relative order only by exchanging them with each other. Therefore equal keys retain their input order."
+    ],
+    "note": "The supplied solution table’s first row is a typo; the trace here starts with the actual input [3,1,3,2]."
+  },
+  {
+    "id": "practice-week-1-q4",
+    "section": "sorting",
+    "topics": [
+      "Bubblesort",
+      "best case"
+    ],
+    "title": "Modify Bubblesort",
+    "kind": "Practice",
+    "source": "Practice_problems__1_Algo_Fall_2027 (1).pdf",
+    "page": 3,
+    "number": "4",
+    "prompt": "BUBBLESORT(A,n), with 1-indexed arrays:\n1 for i = 1 to n−1\n2   for j = n downto i+1\n3     if A[j] < A[j−1]\n4       exchange A[j] with A[j−1]\n(a) Modify Bubblesort to stop when a full inner pass makes no swaps. Give pseudocode, its best-case time and an input achieving it, and compare with the unoptimized best case.\n(b) Change one line of the original to sort in non-increasing order. Explain via the invariant.",
+    "answer": [
+      "(a) for i=1 to n−1:\n  swapped=false\n  for j=n downto i+1:\n    if A[j]<A[j−1]:\n      exchange A[j],A[j−1]\n      swapped=true\n  if not swapped: return",
+      "Already sorted input makes n−1 comparisons on the first pass and then exits: Θ(n) best case. The original makes n(n−1)/2 comparisons even when sorted, so its best case is Θ(n²).",
+      "(b) Replace < with >. Each downward pass now moves the largest remaining element to position i. The invariant becomes: the prefix holds the i−1 largest original elements in non-increasing order."
+    ]
+  },
+  {
+    "id": "practice-week-1-q5",
+    "section": "sorting",
+    "topics": [
+      "Bubblesort",
+      "loop invariant"
+    ],
+    "title": "Debug a reversed scan",
+    "kind": "Practice",
+    "source": "Practice_problems__1_Algo_Fall_2027 (1).pdf",
+    "page": 3,
+    "number": "5",
+    "prompt": "A student proposes this change:\nBUBBLESORT-BAD(A,n)\nfor i=1 to n−1:\n  for j=i+1 to n:\n    if A[j]<A[j−1]: exchange A[j],A[j−1]\n(a) Find an input that it does not sort, and trace it.\n(b) Explain why the upward j scan breaks the original invariant. What does the downward scan accomplish that it fails to do?",
+    "answer": [
+      "(a) Take [2,3,1]. At i=1,j=2, no swap. At j=3, swap 1 with 3, obtaining [2,1,3]. At i=2,j=3, no swap. Final [2,1,3] is unsorted.",
+      "(b) The upward pass touches position i only in its first comparison; it cannot move a smaller value from farther right all the way to i. The downward pass carries the suffix minimum leftward through successive comparisons until it reaches i, establishing the sorted-smallest-prefix invariant."
+    ]
+  },
+  {
+    "id": "practice-week-1-q6",
+    "section": "math",
+    "topics": [
+      "summations",
+      "nested loops"
+    ],
+    "title": "Exact operation counting",
+    "kind": "Practice",
+    "source": "Practice_problems__1_Algo_Fall_2027 (1).pdf",
+    "page": 4,
+    "number": "6",
+    "prompt": "(a) Exactly how many asterisks are printed as a function of n? Then give Θ notation.\nfor i=1 to n:\n  for j=1 to n−i:\n    print \"*\"",
+    "answer": [
+      "For each i the print runs n−i times, including zero at i=n. Total Σᵢ₌₁ⁿ(n−i)=Σₖ₌₀ⁿ⁻¹k=n(n−1)/2=Θ(n²)."
+    ]
+  },
+  {
+    "id": "practice-week-1-q7",
+    "section": "math",
+    "topics": [
+      "asymptotic notation"
+    ],
+    "title": "Prove and classify asymptotic bounds",
+    "kind": "Practice",
+    "source": "Practice_problems__1_Algo_Fall_2027 (1).pdf",
+    "page": 5,
+    "number": "7",
+    "prompt": "(a) Recall O(g(n))={f(n): ∃c>0, ∃n₀>0 such that ∀n≥n₀, 0≤f(n)≤cg(n)}. For f(n)=5n+3 and g(n)=n², prove f=O(g) by giving specific c,n₀.\n(b) True or false: (i) 5n²+2n=O(n²); (ii) n³=O(n²); (iii) 2ⁿ=O(n¹⁰); (iv) n log n=o(n²); (v) n!=Ω(2ⁿ).",
+    "answer": [
+      "(a) Choose c=8,n₀=1. For n≥1, n≤n² and 1≤n², hence 5n+3≤8n². Nonnegativity is immediate.",
+      "(b)(i) True: 5n²+2n≤7n² for n≥1. (ii) False: n³/n²=n→∞. (iii) False: 2ⁿ/n¹⁰→∞. (iv) True: (n log n)/n²=(log n)/n→0. (v) True: n!=1·2·3·…·n≥2ⁿ⁻¹ for n≥2, so c=1/2 works."
+    ],
+    "note": "The supplied solution’s inequality 5n²+2n≤6n² for n≥1 is false at n=1. The corrected constant 7 works for all n≥1."
+  },
+  {
+    "id": "practice-week-2-q1",
+    "section": "math",
+    "topics": [
+      "asymptotic notation"
+    ],
+    "title": "Little-o and polynomial degree",
+    "kind": "Practice",
+    "source": "Practice problems week 2 .pdf",
+    "page": 1,
+    "number": "1",
+    "prompt": "Assume f(n),g(n)>0 for n>0. O(g) requires ∃c>0, ∃n₀>0: ∀n≥n₀, 0≤f(n)≤cg(n). Little-o requires ∀c>0, ∃n₀>0: ∀n≥n₀, 0≤f(n)<cg(n).\n(a) Explain the key difference and its intuitive meaning.\n(b) Prove directly from these quantifiers that f=o(g) implies f=O(g).\n(c) For f(n)=3n²⁵+2n⁹+4, use the degree-k polynomial rule: f=o(nᵇ) when b>k, f=ω(nᵇ) when b<k, f=Θ(nᵇ) when b=k. Classify b=30,25,20.",
+    "answer": [
+      "(a) O asks for one positive constant multiplier. Little-o asks for every positive multiplier, however small, allowing a different threshold n₀ for each. Thus f becomes negligible relative to g.",
+      "(b) If the little-o statement holds for every c, use c=1. Some n₀ then satisfies f(n)<g(n), hence f(n)≤g(n), for all n≥n₀. These same c=1 and n₀ witness O(g).",
+      "(c) Degree k=25. b=30: o(n³⁰); b=25: Θ(n²⁵); b=20: ω(n²⁰)."
+    ]
+  },
+  {
+    "id": "practice-week-2-q2",
+    "section": "math",
+    "topics": [
+      "logarithms"
+    ],
+    "title": "Log identities and changing base",
+    "kind": "Practice",
+    "source": "Practice problems week 2 .pdf",
+    "page": 2,
+    "number": "2",
+    "prompt": "(a) Using log_b(ac)=log_b a+log_b c and log_b(aⁿ)=n log_b a, simplify log₂(16n³)−3 log₂ n to one constant.\n(b) Using log_b a=(log_c a)/(log_c b), express log₈ n in terms of log₂ n. What does this say about logarithm bases and Θ growth?",
+    "answer": [
+      "(a) log₂16+3 log₂n−3 log₂n=4, for n>0.",
+      "(b) log₈n=(log₂n)/(log₂8)=(1/3)log₂n. Fixed bases greater than one change only a positive constant factor, so log₈n=Θ(log₂n)."
+    ]
+  },
+  {
+    "id": "practice-week-2-q3",
+    "section": "recurrences",
+    "topics": [
+      "recurrences"
+    ],
+    "title": "Unroll a simple recurrence",
+    "kind": "Practice",
+    "source": "Practice problems week 2 .pdf",
+    "page": 2,
+    "number": "3",
+    "prompt": "Let T(1)=1 and T(n)=T(n−1)+3 for n>1.\n(a) Compute T(2),T(3),T(4) directly.\n(b) Find a nonrecursive closed form and verify it against (a).",
+    "answer": [
+      "(a) T(2)=1+3=4; T(3)=4+3=7; T(4)=7+3=10.",
+      "(b) Unroll n−1 times: T(n)=T(1)+3(n−1)=3n−2. Substituting 2,3,4 gives 4,7,10, as required. Thus T(n)=Θ(n)."
+    ]
+  },
+  {
+    "id": "practice-week-2-q4",
+    "section": "recurrences",
+    "topics": [
+      "inductive proofs"
+    ],
+    "title": "Induct with floors",
+    "kind": "Practice",
+    "source": "Practice problems week 2 .pdf",
+    "page": 2,
+    "number": "4",
+    "prompt": "Consider T(1)=1 and T(n)=2T(⌊n/2⌋)+n² for n>1. The sheet says n≥0.\n(a) Guess an O(n²) upper bound and state precisely the existential c,n₀ claim to prove.\n(b) Assuming T(k)≤ck² for all integers n₀≤k<n, show T(n)≤cn². What constraint on c is needed?\n(c) Check the base case for n₀=1 and give final c,n₀.",
+    "answer": [
+      "(a) Claim: ∃c>0,n₀>0 such that ∀integers n≥n₀, T(n)≤cn².",
+      "(b) For n≥2, 1≤⌊n/2⌋<n. By strong induction, T(n)≤2c⌊n/2⌋²+n²≤2c(n/2)²+n²=(c/2+1)n². This is ≤cn² when c≥2.",
+      "(c) Choose c=2,n₀=1. Base: T(1)=1≤2. The induction gives T(n)≤2n² for every positive integer n, hence O(n²)."
+    ],
+    "note": "T(0) is not defined by the stated recurrence. The proof concerns n≥1, which is all that is needed for the asymptotic claim."
+  },
+  {
+    "id": "practice-week-2-q5",
+    "section": "recurrences",
+    "topics": [
+      "inductive proofs",
+      "recursion tree"
+    ],
+    "title": "Why the fake linear-time induction fails",
+    "kind": "Practice",
+    "source": "Practice problems week 2 .pdf",
+    "page": 3,
+    "number": "5",
+    "prompt": "(a) For T(n)=2T(n/2)+n, lecture warns against this proof: hypothesis T(n)=O(n); step T(n)=2·O(n/2)+Θ(n)=O(n). The true answer is Θ(n log n). What exactly goes wrong? Consider whether the same fixed constant works for both subproblems and the parent.\n(b) Compare recursion trees and substitution/induction: what does each give, and what is an advantage of each?",
+    "answer": [
+      "(a) Writing O(n) hides a changing constant. If the actual inductive claim is T(k)≤ck with fixed c, substitution gives T(n)≤2c(n/2)+n=(c+1)n, which does not establish T(n)≤cn. Absorbing the extra n into a new constant at each level is not a valid induction.",
+      "(b) A recursion tree exposes per-level work, depth, and leaves, making it useful for discovering a bound and understanding which work dominates. Substitution starts from a guessed bound and rigorously checks constants, base cases, and floors/ceilings. Trees suggest the answer; induction can certify it."
+    ]
+  },
+  {
+    "id": "practice-week-3-q1",
+    "section": "recurrences",
+    "topics": [
+      "Master Theorem"
+    ],
+    "title": "Five Master Theorem cases",
+    "kind": "Practice",
+    "source": "practice_probs_week__3 (3).pdf",
+    "page": 1,
+    "number": "1",
+    "prompt": "Use the course theorem for T(n)=aT(n/b)+Θ(nᵈ), with constant-size Θ(1) base cases, a>0,b>1,d≥0. For each recurrence identify a,b,d, compute log_b a, compare d, state the applicable case and tight bound.\n(a) T(n)=4T(n/2)+Θ(n²).\n(b) T(n)=3T(n/3)+Θ(1).\n(c) T(n)=7T(n/2)+Θ(n²).\n(d) T(n)=2T(n/4)+Θ(n).\n(e) T(n)=2T(n/2)+Θ(n log n).",
+    "answer": [
+      "(a) a=4,b=2,d=2; log₂4=2=d. Equal-level case: Θ(n² log n).",
+      "(b) a=3,b=3,d=0; log₃3=1>0. Leaf-dominated case: Θ(n).",
+      "(c) a=7,b=2,d=2; log₂7≈2.807>2. Leaf-dominated: Θ(n^(log₂7)). Keep the exponent exact; rounding it changes the asymptotic function.",
+      "(d) a=2,b=4,d=1; log₄2=1/2<1. Root-dominated: Θ(n).",
+      "(e) The course theorem does not apply: n log n is not Θ(nᵈ) for a constant d. As a supplemental solution, at level i the work is Θ(n(log₂n−i)); summing over Θ(log n) levels gives Θ(n(log n)²), plus Θ(n) leaves."
+    ]
+  },
+  {
+    "id": "practice-week-3-q2",
+    "section": "other-algorithms",
+    "topics": [
+      "Karatsuba",
+      "Master Theorem"
+    ],
+    "title": "Analyze Karatsuba pseudocode",
+    "kind": "Practice",
+    "source": "practice_probs_week__3 (3).pdf",
+    "page": 2,
+    "number": "2",
+    "prompt": "Consider Karatsuba multiplying two n-digit integers:\ndef karatsuba(x,y,n):\n  if n == 1: return x*y  # constant-time single-digit multiplication\n  m = n // 2\n  x_high,x_low = split_digits(x,m)  # O(n) work\n  y_high,y_low = split_digits(y,m)  # O(n) work\n  p1 = karatsuba(x_high,y_high,m)\n  p2 = karatsuba(x_low,y_low,m)\n  p3 = karatsuba(x_high+x_low,y_high+y_low,m)\n  return p1*10**(2*m)+(p3-p1-p2)*10**m+p2\n(a) Formulate T(n), identifying recursive-call count a, size-reduction factor b, and nonrecursive exponent d.\n(b) Apply the Master Theorem to find a tight Θ bound.",
+    "answer": [
+      "(a) Three recursive products of approximately half size, with Θ(n) splitting, addition, subtraction, and digit shifts: T(n)=3T(n/2)+Θ(n), T(1)=Θ(1). Thus a=3,b=2,d=1.",
+      "(b) log₂3≈1.585>1=d, so the course leaf-dominated case yields Θ(n^(log₂3))."
+    ],
+    "note": "This is the sheet’s simplified pseudocode for recurrence analysis. A production implementation must handle odd digit lengths and carry digits in the sums; the simplified recurrence suppresses those details."
+  },
+  {
+    "id": "practice-week-3-q3",
+    "section": "other-algorithms",
+    "topics": [
+      "Max-sum subarray"
+    ],
+    "title": "Do not forget the crossing case",
+    "kind": "Practice",
+    "source": "practice_probs_week__3 (3).pdf",
+    "page": 3,
+    "number": "3",
+    "prompt": "Recall in lecture we discussed an initial approach to the Maximum Sum Subarray problem where the divide and conquer approach was flawed. Before the fix we had: recursively find the max subarray sum of the left half, recursively find the max subarray sum of the right half, and return the larger of the two (never considering subarrays that span the middle). Let A = [−2, 1, −3, 4, −1, 2, 1, −5], split into left half [−2, 1, −3, 4] and right half [−1, 2, 1, −5].\n(a) Find the maximum subarray sum within the left half alone, and within the right half alone. What does this initial approach return for A?\n(b) Using the corrected algorithm from lecture (which additionally computes maxPrefix and maxSuffix), state which suffix of the left half and what prefix of the right half combine to give the actual maximum subarray sum of A.\n(c) Now identify the actual maximum subarray sum of A, and state the subarray that gives this result.",
+    "answer": [
+      "Left best is [4], sum 4; right best is [2,1], sum 3. The incomplete algorithm returns 4.",
+      "Best left suffix is [4], sum 4. Best right prefix is [−1,2,1], sum 2.",
+      "Their crossing concatenation [4,−1,2,1] has sum 6, the true answer. Every subarray lies wholly left, wholly right, or crosses the split."
+    ]
+  },
+  {
+    "id": "practice-week-3-q4",
+    "section": "other-algorithms",
+    "topics": [
+      "Karatsuba"
+    ],
+    "title": "Trace a binary Karatsuba product",
+    "kind": "Practice",
+    "source": "practice_probs_week__3 (3).pdf",
+    "page": 3,
+    "number": "4",
+    "prompt": "Use Karatsuba to multiply x=1101₂ (=13) and y=0110₂ (=6).\n(a) Split into x_L,x_R,y_L,y_R as bit strings and decimal values.\n(b) Compute P₁=x_Ly_L, P₂=x_Ry_R, P₃=(x_L+x_R)(y_L+y_R).\n(c) Find the cross term using P₃−P₁−P₂ and check against x_Ly_R+x_Ry_L.\n(d) Combine 2ⁿP₁+2^(n/2)(P₃−P₁−P₂)+P₂, with n=4, and verify against x·y.",
+    "answer": [
+      "(a) x_L=11₂=3, x_R=01₂=1; y_L=01₂=1, y_R=10₂=2.",
+      "(b) P₁=3·1=3, P₂=1·2=2, P₃=(3+1)(1+2)=4·3=12.",
+      "(c) P₃−P₁−P₂=12−3−2=7. Directly: 3·2+1·1=7.",
+      "(d) 16·3+4·7+2=48+28+2=78=13·6. In binary the product is 1001110₂."
+    ]
+  },
+  {
+    "id": "practice-week-3-q5",
+    "section": "heaps",
+    "topics": [
+      "heap structure"
+    ],
+    "title": "Read a heap array as a tree",
+    "kind": "Practice",
+    "source": "practice_probs_week__3 (3).pdf",
+    "page": 4,
+    "number": "5",
+    "prompt": "Let A=[78,61,70,57,39,32,66,26,23,29] be a 1-indexed heap array. Index i has children 2i and 2i+1 when those indices are ≤10. The reference diagram shows the index tree: root 1; children 2,3; next level 4,5,6,7; next level 8,…,15 (only indices ≤10 exist).\n(a) For nodes 1 through 5, give its value and the values of its existing children. Which of all ten nodes have no children?\n(b) Verify the max-heap property at every node.\n(c) Give the height in edges on the longest root-to-leaf path.",
+    "answer": [
+      "(a) Node 1:78, children 2:61 and 3:70. Node 2:61, children 4:57 and 5:39. Node 3:70, children 6:32 and 7:66. Node 4:57, children 8:26 and 9:23. Node 5:39, only child 10:29. Leaves are indices 6,7,8,9,10.",
+      "(b) 78≥61,70; 61≥57,39; 70≥32,66; 57≥26,23; 39≥29. Leaves satisfy the property vacuously, so the array is a max-heap.",
+      "(c) Height 3; for example the path 1→2→4→8 has three edges."
+    ]
+  },
+  {
+    "id": "practice-week-4-q1",
+    "section": "probability",
+    "topics": [
+      "Expected number of coin flips until heads"
+    ],
+    "title": "Waiting for success",
+    "kind": "Practice",
+    "source": "Practice_problems_week__4 (1).pdf",
+    "page": 1,
+    "number": "1",
+    "prompt": "As discussed in lecture, for repeated independent trials where each trial succeeds with probability p, the expected number of trials up to and including the first success is 1/p.\n(a) You roll a fair six-sided die repeatedly until you roll either a 5 or a 6. What is the expected number of rolls?\n(b) You draw a card from a standard 52 card deck, with replacement (the card is put back in the deck each time, and reshuffled), repeatedly until you draw a heart. What is the expected number of draws?\n(c) You flip a biased coin, with P(heads) = 0.2, repeatedly until it you get heads. What is the expected number of flips?",
+    "answer": [
+      "(a) p = 2/6 = 1/3, so E = 3 rolls.",
+      "(b) p = 13/52 = 1/4, so E = 4 draws. Replacement preserves the success probability.",
+      "(c) p = 0.2, so E = 5 flips. For a fair coin the same formula gives 2 flips.",
+      "The first-step equation E = 1 + (1−p)E gives pE = 1. The successful trial is included."
+    ]
+  },
+  {
+    "id": "practice-week-4-q2",
+    "section": "priority-queues",
+    "topics": [
+      "doubly-linked list implementation",
+      "priority queue operations"
+    ],
+    "title": "Compare a list with a sorted array",
+    "kind": "Practice",
+    "source": "Practice_problems_week__4 (1).pdf",
+    "page": 1,
+    "number": "2",
+    "prompt": "In lecture, you analyzed a priority queue that was implemented with an unsorted doubly-linked list. For that setup, you had that (excluding the runtime of mapping operations): Insert is Θ(1), Maximum is Θ(n), Extract-Max is Θ(n), Increase-Key is Θ(1).\nNow consider implementing a priority queue with a sorted array instead. As with a heap, we can assume that the array is not necessarily always full. The elements of the priority queue are stored in increasing sorted order in positions 1 through A.pqsize, so the maximum element is always at position A.pqsize, and A.pqsize must be kept updated.\n(a) Insert(S,x,k): what is the worst case runtime?\n(b) Maximum(S): what is the worst case runtime?\n(c) Extract-Max(S): what is the worst case runtime?\n(d) Increase-Key(S,x,k): what is the worst case runtime, including the time to locate x via a linear search? What is the worst case runtime if, as above, we exclude the time for mapping operations (i.e. assume x’s position is already known)?",
+    "answer": [
+      "Sorted-array Insert: Θ(n), because insertion can shift every existing element even if binary search locates the position quickly.",
+      "Maximum: Θ(1), read A[pqsize]. Extract-Max: Θ(1), return that entry and decrement pqsize.",
+      "Increase-Key: Θ(n) including a linear search; still Θ(n) without the search, since the key can move across Θ(n) positions.",
+      "The unsorted doubly-linked list needs no rearrangement after a key change, so Increase-Key is Θ(1) given a node handle. Its Maximum and Extract-Max must scan Θ(n) elements."
+    ]
+  },
+  {
+    "id": "practice-week-4-q3",
+    "section": "sorting",
+    "topics": [
+      "Heapsort",
+      "lower bounds"
+    ],
+    "title": "Revisit the Heapsort lower bound",
+    "kind": "Practice",
+    "source": "Practice_problems_week__4 (1).pdf",
+    "page": 2,
+    "number": "3",
+    "prompt": "In lecture, you argued that Heapsort has worst-case time Ω(n log n).\n(a) Redo the argument using the first n/4 Max-Heapify calls rather than n/2. At least how many elements remain in each heap, and what lower bound follows for its height?\n(b) Using (a), show those first n/4 calls still give a total Ω(n log n) lower bound.\n(c) Why use n/2 rather than n/4 or another fraction?",
+    "answer": [
+      "(a) Take ⌊n/4⌋ early extraction repairs. Every remaining heap has at least n−⌊n/4⌋≥3n/4 elements. A complete heap of m elements has height ⌊log₂m⌋, hence height at least log₂(3n/4)−1=log₂n−O(1).",
+      "(b) The intended lecture calculation is: on a worst-case execution where a constant fraction of these repairs traverse Θ(log n) levels, there are Θ(n) such calls, so their total is Ω(n log n). A tall heap alone does not prove its particular Max-Heapify call traverses that height; summing individual worst-case costs without a common input is insufficient. Independently, the established comparison-sorting lower bound rigorously gives Heapsort’s overall Ω(n log n) worst-case bound.",
+      "(c) Any fixed fraction α with 0<α<1 leaves at least (1−α)n elements and logarithmic height for Θ(n) calls. One-half simply makes the arithmetic cleaner."
+    ],
+    "note": "Source correction: heap heights need floors, and part (b)’s per-call worst-case argument needs justification that expensive calls occur together. This answer distinguishes the intended calculation from the missing premise rather than claiming every tall heap requires a long repair."
+  },
+  {
+    "id": "practice-week-4-q4",
+    "section": "sorting",
+    "topics": [
+      "Bubblesort",
+      "Mergesort",
+      "Heapsort",
+      "Quicksort"
+    ],
+    "title": "Which sorts are in-place?",
+    "kind": "Practice",
+    "source": "Practice_problems_week__4 (1).pdf",
+    "page": 3,
+    "number": "4",
+    "prompt": "Recall from lecture that a sorting algorithm is in-place if at most a constant number of elements of the input array are stored outside the input array at any time. For each algorithm below, say whether it is in-place, and briefly justify your answer. For all algorithms below, use the version discussed in lecture.\n(a) Bubblesort.\n(b) Mergesort, whose Merge step copies the two halves being merged into temporary arrays before merging them back.\n(c) Heapsort.\n(d) Quicksort.",
+    "answer": [
+      "Bubblesort: yes; exchanges use a constant number of temporary elements.",
+      "Mergesort: no; its top-level merge uses Θ(n) copied elements.",
+      "Heapsort: yes; it rearranges the input array as a heap.",
+      "Quicksort: yes under the course definition counting stored input elements. Partition uses only a constant number of temporary elements. Its recursive call stack is a separate space cost: typically O(log n), O(n) in the worst case."
+    ]
+  },
+  {
+    "id": "practice-week-5-q1",
+    "section": "sorting",
+    "topics": [
+      "Quicksort"
+    ],
+    "title": "Trace in-place partition",
+    "kind": "Practice",
+    "source": "practice_problems_week_5.pdf",
+    "page": 1,
+    "number": "1",
+    "prompt": "Recall the in-place partitioning process from lecture. Work through this process on A = [6, 3, 8, 2, 9, 5, 7, 4] (pivot = A[8] = 4). For each value of j from 1 to 7, show whether A[j] ≤ x, what happens to i, and the resulting array. Then show the final swap that places the pivot, and confirm the array is correctly partitioned around 4.",
+    "answer": [
+      "Start i = 0 and x = 4. j = 1: 6 > 4, unchanged.",
+      "j = 2: 3 ≤ 4, i = 1; swap positions 1 and 2 → [3, 6, 8, 2, 9, 5, 7, 4].",
+      "j = 3: 8 > 4, unchanged. j = 4: 2 ≤ 4, i = 2; swap positions 2 and 4 → [3, 2, 8, 6, 9, 5, 7, 4].",
+      "j = 5, 6, 7: 9, 5, 7 all exceed 4; i stays 2 and the array stays unchanged.",
+      "Swap positions i+1 = 3 and 8 → [3, 2, 4, 6, 9, 5, 7, 8]. The pivot is at index 3; every element to its left is ≤ 4 and every element to its right is > 4. Neither side needs to be sorted yet."
+    ]
+  },
+  {
+    "id": "practice-week-5-q2",
+    "section": "probability",
+    "topics": [
+      "indicator random variables"
+    ],
+    "title": "Fixed points in a random permutation",
+    "kind": "Practice",
+    "source": "practice_problems_week_5.pdf",
+    "page": 1,
+    "number": "2",
+    "prompt": "Let π be a uniformly random permutation of {1,…,n}, where π(i) is the value at position i. Position i is a fixed point if π(i)=i; let X count fixed points.\n(a) For i=1,…,n, define Xᵢ as the indicator that i is fixed. What is P(Xᵢ=1)?\n(b) Express X using the indicators, then use linearity to find E[X].\n(c) The indicators are dependent: knowing π(1)=1 changes the probability of π(2)=2. Does that affect (b)? Why?",
+    "answer": [
+      "(a) Every value is equally likely at position i, so P(Xᵢ=1)=1/n. Equivalently, (n−1)! of the n! permutations fix i.",
+      "(b) X=Σᵢ₌₁ⁿXᵢ, hence E[X]=ΣE[Xᵢ]=n·(1/n)=1 for every n≥1.",
+      "(c) No. Linearity holds for dependent variables as well. Independence would matter when multiplying probabilities of joint events, but it is not a condition for adding expectations."
+    ]
+  },
+  {
+    "id": "practice-week-5-q3",
+    "section": "recurrences",
+    "topics": [
+      "Quicksort",
+      "recursion tree"
+    ],
+    "title": "Analyze permanently unbalanced Quicksort",
+    "kind": "Practice",
+    "source": "practice_problems_week_5.pdf",
+    "page": 2,
+    "number": "3",
+    "prompt": "Suppose every Quicksort split has ratio 1/10:9/10, giving T(n)=T(n/10)+T(9n/10)+Θ(n). Verify T(n)=Θ(n log n).\n(a) Follow the smaller branch: how many levels until size is roughly 1? Give Θ notation.\n(b) Repeat for the larger branch.\n(c) Why are both Θ(log n), and why does the entire tree have Θ(log n) levels?\n(d) Each level costs O(n). Prove an O(n log n) upper bound and a matching Ω(n log n) lower bound.",
+    "answer": [
+      "(a) Size after d steps is n/10ᵈ. Reaching 1 gives d=log₁₀n=Θ(log n).",
+      "(b) Size is n(9/10)ᵈ. Reaching 1 gives d=log_(10/9)n=ln n/ln(10/9)=Θ(log n).",
+      "(c) Both bases are fixed and greater than 1, so change of base contributes only a constant factor. The longest (larger-child) path controls tree height, Θ(log n).",
+      "(d) Summing O(n) over O(log n) levels gives O(n log n), including O(n) leaf costs. During the first roughly log₁₀n levels no branch has terminated; sizes at every complete level sum to n, so local work is Θ(n) per level. There are Θ(log n) such levels, giving Ω(n log n). The two bounds imply Θ(n log n)."
+    ]
+  },
+  {
+    "id": "practice-week-5-q4",
+    "section": "probability",
+    "topics": [
+      "randomized algorithms",
+      "Randomized-Quicksort"
+    ],
+    "title": "Randomized choice among k boxes",
+    "kind": "Practice",
+    "source": "practice_problems_week_5.pdf",
+    "page": 3,
+    "number": "4",
+    "prompt": "Lecture’s two-box example places $100 in one box and $0 in the other before you choose. Always picking Box 1 can get $0; choosing uniformly guarantees expected $50. Generalize to k boxes, with $100 in exactly one and $0 in the others, placed before you choose.\n(a) What is the worst-case gain of always choosing Box 1?\n(b) What is the expected gain of choosing uniformly, and why is it independent of which box contains the money?\n(c) As k grows, what happens to the deterministic worst case and randomized guaranteed expectation?\n(d) Connect this to choosing pivots in Randomized-Quicksort and avoiding the guaranteed Θ(n²) behavior of last-pivot Quicksort on sorted input.",
+    "answer": [
+      "(a) For k≥2 the adversary can put the money outside Box 1, so worst-case gain is $0. For the special case k=1 it is $100.",
+      "(b) The winning box is selected with probability 1/k for every fixed placement. E[gain]=100/k dollars.",
+      "(c) For k≥2 the deterministic worst case remains 0. The randomized guarantee is positive for every finite k and tends to 0 as k→∞.",
+      "(d) A fixed pivot position can be defeated by a fixed input order; randomizing the position makes the pivot rank uniform on distinct-key inputs. Randomized-Quicksort has expected Θ(n log n) for every such fixed input. The average is over the algorithm’s randomness; unlucky Θ(n²) runs remain possible."
+    ],
+    "note": "Extended topic: the k-box game develops the randomized-algorithm interpretation used in Quicksort analysis."
+  },
+  {
+    "id": "practice-week-5-q5",
+    "section": "lower-bounds",
+    "topics": [
+      "decision trees",
+      "comparison sorting lower bound"
+    ],
+    "title": "Four elements and five comparisons",
+    "kind": "Practice",
+    "source": "practice_problems_week_5.pdf",
+    "page": 4,
+    "number": "5",
+    "prompt": "In lecture, you proved that any comparison sort algorithm requires Ω(n log n) comparisons in the worst case, using the fact that its decision tree must have at least n! leaves, and a binary tree with n! leaves has height at least log₂(n!).\n(a) For n = 4, compute 4! and log₂(4!).\n(b) A decision tree of height h has at most 2ʰ leaves. Using your answer to (a), find the smallest integer h such that 2ʰ ≥ 4!. What does this tell you about the minimum possible worst case number of comparisons needed to sort 4 elements?\n(c) Insertion Sort’s worst case occurs on a reverse sorted input where the i-th element (for i = 2, …, n) must be compared against all i−1 elements already placed before it stops (or reaches the front). Using this, compute the exact worst case number of comparisons Insertion Sort performs on 4 elements. Is it equal to your lower bound from (b)?\n(d) Given (b) and (c), do you think the Ω(n log n) bound is always possible with some comparison sort algorithm, for every n? What would it mean if an algorithm’s worst case matched the bound exactly?",
+    "answer": [
+      "4! = 24 and log₂24 ≈ 4.585.",
+      "2⁴ = 16 < 24 ≤ 32 = 2⁵, so h ≥ 5. Some input requires at least five comparisons.",
+      "Insertion sort makes 1 + 2 + 3 = 6 key comparisons on reverse-sorted input. Six exceeds the lower bound of five; a universal lower bound need not be attained by every algorithm.",
+      "(d) Asymptotically, yes: mergesort and heapsort give O(n log n), matching the Ω(n log n) growth rate. Exact equality to ⌈log₂(n!)⌉ is a different, stronger question and is not guaranteed by the information bound alone. For n=4, mergesort uses at most 1+1+3=5 comparisons, so the exact lower bound is attained. An algorithm attaining that integer bound for a given n is worst-case comparison-optimal at that n; no comparison sort can improve it."
+    ],
+    "note": "Includes all four subparts. Distinguish asymptotic optimality from attaining the exact information-theoretic integer lower bound; the latter is not established for every n by this argument."
+  }
+]

@@ -40,3 +40,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Nested apps (including DAG study site)
+**/node_modules/
+**/.next/
+**/out/
+**/coverage/
+**/playwright-report/
+**/test-results/
+DAG/study-site/content/extracted/
