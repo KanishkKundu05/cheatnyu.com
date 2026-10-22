@@ -1184,42 +1184,21 @@
     ]
   },
   {
-    "id": "exam-all-5",
+    "id": "exam-all-6-a",
     "section": "sorting",
     "topics": [
-      "Sorting definitions"
+      "Insertion Sort"
     ],
-    "title": "Stable sorts for first and last names",
-    "kind": "Exam",
-    "source": "Fall 2025 Exam 1  for practice.pdf",
-    "page": 8,
-    "number": "5",
-    "prompt": "A file has two columns: first name and last name. Example rows are Isaac Newton, Taylor Swift, Donald Knuth, Anatoly Karatsuba, Jonathan Swift. Sort alphabetically by last name, breaking ties alphabetically by first name. You may (1) stably sort by First Name only, or (2) stably sort by Last Name only. Briefly describe how to use these operations to obtain the desired ordering.",
-    "answer": [
-      "First stably sort by first name. Then stably sort by last name.",
-      "The second sort orders the primary key (last name), while stability preserves the first-name order among equal last names. The example becomes Anatoly Karatsuba, Donald Knuth, Isaac Newton, Jonathan Swift, Taylor Swift."
-    ],
-    "note": "The source marks radix sort as outside Fall 2026 Exam 1 coverage; retained for complete old-exam coverage."
-  },
-  {
-    "id": "exam-all-6-a-c",
-    "section": "sorting",
-    "topics": [
-      "Insertion Sort",
-      "Sorting definitions"
-    ],
-    "title": "Insertion sort and equal prices",
+    "title": "Trace insertion sort on item prices",
     "kind": "Exam",
     "source": "Fall 2025 Exam 1  for practice.pdf",
     "page": 9,
-    "number": "6(a–c)",
-    "prompt": "Elements have the form (item, price), with price as the key.\nfor i = 2 to n\n    x = A[i]\n    j = i−1\n    while j > 0 and A[j].key > x.key\n        A[j+1] = A[j]\n        j = j−1\n    A[j+1] = x\n(a) Run this insertion sort on A = [(coat,76),(hat,34),(cup,15),(shirt,34)]. What is the resulting A?\n(b) Is this version stable? Answer yes or no.\n(c) Change the while condition to j > 0 and A[j].key >= x.key. Is the modified version stable? Answer yes or no.",
+    "number": "6(a)",
+    "prompt": "Elements have the form (item, price), with price as the key.\nfor i = 2 to n\n    x = A[i]\n    j = i−1\n    while j > 0 and A[j].key > x.key\n        A[j+1] = A[j]\n        j = j−1\n    A[j+1] = x\n(a) Run this insertion sort on A = [(coat,76),(hat,34),(cup,15),(shirt,34)]. What is the resulting A?",
     "answer": [
-      "(a) [(cup,15),(hat,34),(shirt,34),(coat,76)]. The hat remains ahead of the equally priced shirt.",
-      "(b) Yes. The strict > condition moves only larger keys, so equal keys keep their relative order.",
-      "(c) No. The ≥ condition shifts earlier equal keys right and inserts the new equal key before them. On this input, shirt ends up before hat."
+      "(a) [(cup,15),(hat,34),(shirt,34),(coat,76)]. The hat remains ahead of the equally priced shirt."
     ],
-    "note": "The source marks stability questions (b) and (c) as outside Fall 2026 Exam 1 coverage; retained for completeness."
+    "note": "Only part (a) is assigned. Parts (b) and (c) are crossed out in the source PDF."
   },
   {
     "id": "exam-all-7",
@@ -1274,25 +1253,6 @@
       "(i) T(n) = 2T(n/2) + Θ(n^1.5).",
       "(ii) Θ(n^1.5). Here a = 2, b = 2, d = 1.5 > log₂2 = 1, so the local-work-dominant case applies."
     ]
-  },
-  {
-    "id": "exam-all-8-c",
-    "section": "recurrences",
-    "topics": [
-      "Master Theorem (our version)",
-      "Quicksort"
-    ],
-    "title": "Quicksort with a true median pivot",
-    "kind": "Exam",
-    "source": "Fall 2025 Exam 1  for practice.pdf",
-    "page": 12,
-    "number": "8(c)",
-    "prompt": "Give (i) a recurrence for worst-case running time (ignore floors and ceilings; no base case required), then (ii) the tight running time in Θ notation.\nMMQuickSort uses the Median of Medians algorithm to find the kth order statistic for k = floor((n+1)/2), i.e. the median. It partitions around that pivot and recursively sorts Low and High. Give the recurrence and worst-case time.",
-    "answer": [
-      "(i) With the usual distinct-key (or suitable equal-key grouping) partition convention, T(n) = 2T(n/2) + Θ(n). Finding the median by Median of Medians and partitioning both take linear time; selecting a true median balances the recursion.",
-      "(ii) Θ(n log n), by a = 2, b = 2, d = 1 = log₂2."
-    ],
-    "note": "The source marks Median of Medians as outside Fall 2026 Exam 1 coverage; retained for complete old-exam coverage. Balanced splitting requires handling equal keys appropriately."
   },
   {
     "id": "exam-all-9",
@@ -1408,6 +1368,149 @@
       "Extract-Max saves 16, replaces the root with the last key 1, and reduces heap-size to 9.",
       "Heapify: swap 1 with 14, then with 8, then with 4. The array becomes [14,8,10,4,7,9,3,2,1].",
       "Return 16. Worst-case extraction is Θ(log n), following one downward path and choosing the larger child at each step."
+    ]
+  },
+  {
+    "id": "hw4-q1",
+    "section": "probability",
+    "topics": [
+      "indicator random variables"
+    ],
+    "title": "Count adjacent pairs with the same parity",
+    "kind": "Homework",
+    "source": "cs2413_Fall_2026_hw4a.pdf",
+    "page": 1,
+    "number": "1",
+    "prompt": "Let A be an integer array of length n with distinct elements, where n is divisible by 2. Exactly half the integers are even and at least half are odd. Randomly permute the elements, with every permutation equally likely, then run:\n\ncount = 0\nfor i = 1 to n−1\n    if A[i] == A[i+1] mod 2    // if they are both even or both odd\n        count++\nreturn count\n\nWhat is the expected returned count as an exact function of n? Do not use asymptotic notation. Hint: use indicator variables and linearity of expectation.",
+    "answer": [
+      "The comment specifies a same-parity test: A[i] mod 2 = A[i+1] mod 2. There are exactly n/2 even and n/2 odd values. Assume n ≥ 2.",
+      "For each adjacent pair i, define Iᵢ = 1 if positions i and i+1 have the same parity, and 0 otherwise. Then count = Σᵢ₌₁ⁿ⁻¹ Iᵢ.",
+      "After the first value of a pair is chosen, n−1 values remain. Exactly n/2−1 of them have its parity. Thus E[Iᵢ] = P(same parity) = (n/2−1)/(n−1) = (n−2)/(2(n−1)).",
+      "By linearity, E[count] = (n−1) × (n−2)/(2(n−1)) = (n−2)/2 = n/2−1. The indicators need not be independent.",
+      "Check: for n=2 the only two values have opposite parity, so count is always 0, agreeing with the formula."
+    ],
+    "note": "The printed condition omits “mod 2” on the left side. The solution follows the source comment: compare the parity of both values, not a value with the other value’s remainder. Worked answers are prepared study solutions, not an instructor answer key."
+  },
+  {
+    "id": "hw4-q2",
+    "section": "sorting",
+    "topics": [
+      "Quicksort"
+    ],
+    "title": "Quicksort when every value equals the pivot",
+    "kind": "Homework",
+    "source": "cs2413_Fall_2026_hw4a.pdf",
+    "page": 1,
+    "number": "2",
+    "prompt": "Partition(A,p,r) chooses x = A[r], rearranges the subarray so values ≤ x lie to the left of x and values > x lie to the right, and returns the pivot’s index q.\n\nQUICKSORT(A, p, r)\n    if p < r\n        q = PARTITION(A, p, r)\n        QUICKSORT(A, p, q−1)\n        QUICKSORT(A, q+1, r)\n\nWhat is the worst-case running time of this textbook version when all elements of A are equal? Give a Θ bound in terms of the array length n.",
+    "answer": [
+      "Every non-pivot element is ≤ the pivot, so all n−1 other elements go into Low. High is empty, and the pivot finishes at q = r.",
+      "Partition still scans the subarray in Θ(n) time. The recursive sizes are n−1 and 0: T(n) = T(n−1) + Θ(n), with constant-size base cases.",
+      "Unrolling gives Θ(n + (n−1) + … + 2) = Θ(n²). Equal values cause the same unbalanced split at every level.",
+      "Randomly choosing a pivot does not help on this all-equal input with the stated two-way partition. A three-way partition grouping equal keys would be a different algorithm."
+    ]
+  },
+  {
+    "id": "hw4-q3-a",
+    "section": "lower-bounds",
+    "topics": [
+      "Mergesort",
+      "Decision tree lower bounds"
+    ],
+    "title": "Draw the decision tree for merging two pairs",
+    "kind": "Homework",
+    "source": "cs2413_Fall_2026_hw4a.pdf",
+    "page": 2,
+    "number": "3(a)",
+    "prompt": "Consider merging two sorted lists, one of length n and the other of length 2, into an array C of length n+2. The source gives this standard merge procedure:\n\nStandard-Merge(A,B,C,n)\n    i = 1; j = 1; k = 1\n    while i <= n and j <= 2\n        if A[i] <= B[j]\n            C[k] = A[i]\n            i = i+1\n        else\n            C[k] = B[j]\n            j = j+1\n        k = k+1\n    while j <= 2\n        C[k] = B[j]\n        j = j+1\n        k = k+1\n    while i <= n\n        C[k] = A[i]\n        i = i+1\n        k = k+1\n\nFor A=[a₁,a₂], B=[b₁,b₂], and n=2, show the decision tree of comparisons. Label each non-leaf node with a comparison and each leaf with the final ordering of the four elements.",
+    "answer": [
+      "Each comparison chooses which current front element to copy next. When either list is exhausted, copy the remainder without any further element comparisons.",
+      "The tree below uses ≤ to match the pseudocode and sends ties to A. For distinct elements, replacing ≤ by < gives the comparison labels requested in the question’s example.",
+      "There are six leaves, one for each interleaving that preserves a₁ before a₂ and b₁ before b₂. Some paths need two comparisons; the longest paths need three."
+    ],
+    "note": "The prose calls A the length-2 array and B the length-n array, but the printed loop bounds use A of length n and B of length 2. The solutions use the intended merge of lengths n and 2. Part (a) sets n=2, so this label mismatch does not affect its tree.",
+    "answerDiagram": "a₁ ≤ b₁?\n├─ Yes: a₂ ≤ b₁?\n│  ├─ Yes → [a₁, a₂, b₁, b₂]\n│  └─ No: a₂ ≤ b₂?\n│     ├─ Yes → [a₁, b₁, a₂, b₂]\n│     └─ No  → [a₁, b₁, b₂, a₂]\n└─ No: a₁ ≤ b₂?\n   ├─ Yes: a₂ ≤ b₂?\n   │  ├─ Yes → [b₁, a₁, a₂, b₂]\n   │  └─ No  → [b₁, a₁, b₂, a₂]\n   └─ No → [b₁, b₂, a₁, a₂]"
+  },
+  {
+    "id": "hw4-q3-b",
+    "section": "sorting",
+    "topics": [
+      "Mergesort"
+    ],
+    "title": "Exact worst-case comparisons in standard merge",
+    "kind": "Homework",
+    "source": "cs2413_Fall_2026_hw4a.pdf",
+    "page": 2,
+    "number": "3(b)",
+    "prompt": "Standard-Merge merges two sorted arrays of lengths n and 2 by repeatedly comparing their first remaining elements, copying the smaller, and then copying the remainder when either array is exhausted. Assume all values are distinct. How many comparisons between array elements does it make in the worst case? Give an exact expression in n, not asymptotic notation.",
+    "answer": [
+      "Each comparison outputs one value. Once n+1 of the n+2 values have been output, only one value remains, so one list is exhausted. At most n+1 element comparisons are possible (for n ≥ 1).",
+      "This bound is attainable. Choose the long list [1,2,…,n] and the short list [n−1/2,n+1]. The first n−1 long-list values are output, then n−1/2, then n. Each needs a comparison, totaling n+1. The final n+1 is copied without comparing.",
+      "Therefore the exact worst-case number is n+1. Loop-bound comparisons and copying operations are excluded by the question."
+    ],
+    "note": "The prose calls A the length-2 array and B the length-n array, but the printed loop bounds use A of length n and B of length 2. The solutions use the intended merge of lengths n and 2. Part (a) sets n=2, so this label mismatch does not affect its tree."
+  },
+  {
+    "id": "hw4-q3-c",
+    "section": "lower-bounds",
+    "topics": [
+      "Decision tree lower bounds",
+      "Logarithms"
+    ],
+    "title": "A comparison lower bound for merging lengths n and 2",
+    "kind": "Homework",
+    "source": "cs2413_Fall_2026_hw4a.pdf",
+    "page": 2,
+    "number": "3(c)(i–ii)",
+    "prompt": "Assume all elements are distinct. Use a decision-tree argument to lower-bound comparisons needed by any comparison-based algorithm merging sorted lists of lengths n and 2.\n(i) How many leaves must its decision tree have?\n(ii) Given that leaf count, what minimum height is required? Call the lower bound X. Give an exact expression.",
+    "answer": [
+      "The order inside each input list is already fixed. Only their interleaving is unknown. Choose the two positions occupied by the short list among the n+2 output positions; its smaller value must take the earlier position.",
+      "Thus there are L = binomial(n+2,2) = (n+2)(n+1)/2 possible output orders. Every interleaving is realizable by some distinct-key input, so a correct comparison tree needs at least L leaves.",
+      "A binary decision tree of height h has at most 2ʰ leaves. Hence 2ʰ ≥ L and h ≥ ⌈log₂ L⌉. The requested lower bound is X = ⌈log₂((n+2)(n+1)/2)⌉.",
+      "This is a necessary height bound from the leaf count, not by itself a proof that a valid merge algorithm attains exactly X comparisons. Asymptotically, X = Θ(log n)."
+    ]
+  },
+  {
+    "id": "hw4-q3-d",
+    "section": "sorting",
+    "topics": [
+      "Mergesort",
+      "Logarithms",
+      "Asymptotic notation"
+    ],
+    "title": "Merge with sublinear element comparisons",
+    "kind": "Homework",
+    "source": "cs2413_Fall_2026_hw4a.pdf",
+    "page": 2,
+    "number": "3(d)",
+    "prompt": "Design an algorithm to merge sorted lists of lengths n and 2 whose worst-case number of comparisons between array elements is o(n) (little-oh of n). Count only element comparisons, not copying or index operations. Assume all elements are distinct.",
+    "answer": [
+      "Let the long sorted list be B and the short list be [x,y], where x<y is already known. Binary-search B for the insertion rank rₓ of x: the number of elements in B smaller than x. Independently binary-search the original B for rᵧ.",
+      "For either value v, maintain lo=0 and hi=n. While lo<hi, let mid=⌊(lo+hi)/2⌋; if B[mid+1]<v, set lo=mid+1, otherwise set hi=mid. Return lo. This uses the lecture’s one-based array positions and zero-based gap ranks.",
+      "Because x<y, rₓ≤rᵧ. Output B[1:rₓ], then x, then B[rₓ+1:rᵧ], then y, then B[rᵧ+1:n]. Empty slices contribute nothing. If the ranks coincide, output x and y consecutively in that gap.",
+      "Each binary search takes at most ⌈log₂(n+1)⌉ element comparisons, for at most 2⌈log₂(n+1)⌉ total. The known ranks determine all copying boundaries; no further element comparisons are needed.",
+      "The comparison count is O(log n)=o(n), since log n/n→0. Writing the merged array still takes Θ(n) time; the question asks only about element comparisons."
+    ],
+    "note": "The prose calls A the length-2 array and B the length-n array, but the printed loop bounds use A of length n and B of length 2. The solutions use the intended merge of lengths n and 2. Part (a) sets n=2, so this label mismatch does not affect its tree."
+  },
+  {
+    "id": "hw4-q3-e",
+    "section": "lower-bounds",
+    "topics": [
+      "Decision tree lower bounds",
+      "Asymptotic notation"
+    ],
+    "title": "Does binary-search merging match the lower bound?",
+    "kind": "Homework",
+    "source": "cs2413_Fall_2026_hw4a.pdf",
+    "page": 3,
+    "number": "3(e)",
+    "prompt": "For merging sorted lists of lengths n and 2, part (c) gives a comparison lower bound X, and part (d) asks for an algorithm using o(n) element comparisons. Is the worst-case comparison count of your part (d) algorithm O(X)? Does it asymptotically match the lower bound?",
+    "answer": [
+      "From part (c), X = ⌈log₂((n+2)(n+1)/2)⌉ = Θ(log n), because the expression inside the logarithm is Θ(n²).",
+      "The two-binary-search algorithm from part (d) uses at most 2⌈log₂(n+1)⌉ = O(log n) comparisons. Therefore its worst-case count is O(X).",
+      "The decision-tree argument also forces Ω(log n) comparisons on some input for every correct comparison-based algorithm. Thus this algorithm uses Θ(log n) comparisons in the worst case and is asymptotically optimal.",
+      "This does not claim an exact match of X comparisons, nor sublinear total runtime: outputting n+2 values still costs Θ(n)."
     ]
   }
 ]

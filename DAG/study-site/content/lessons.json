@@ -1,0 +1,482 @@
+{
+  "bubble-sort": {
+    "intro": [
+      "Sorting means rearranging the same values into increasing order. Bubble sort does this using only adjacent comparisons: compare two neighbors and swap them when they are out of order.",
+      "In this lecture’s version, a pass travels from right to left. The smallest remaining value keeps moving left until it reaches the first unsorted position. A prefix is the beginning of the array; the sorted prefix grows by one element per pass."
+    ],
+    "checks": [
+      {
+        "question": "After one right-to-left pass on [7, 3, 5], what is the array?",
+        "answer": "[3, 7, 5]. Compare 3 and 5 first, then swap 7 and 3. Only the first position is guaranteed to be final."
+      },
+      {
+        "question": "Why do fixed loops still take quadratic time on sorted input?",
+        "answer": "They perform the same comparisons even when no swaps are needed. The work is (n−1)+(n−2)+…+1 = Θ(n²)."
+      }
+    ]
+  },
+  "insertion-sort": {
+    "intro": [
+      "Imagine sorting cards in your hand. Keep the cards you have already seen in order, then place the next card where it belongs. Insertion sort applies this idea to an array.",
+      "The key is the next value to insert. Save it, shift larger values right, and place it in the gap. Only the prefix before the key is assumed sorted. This explanation is a study supplement: the lecture refers to the textbook for insertion sort."
+    ],
+    "checks": [
+      {
+        "question": "Insert the final 3 into the sorted prefix of [2, 5, 3]. What moves?",
+        "answer": "Save 3, shift 5 right, and write 3 into the gap: [2, 3, 5]. The 2 stays put."
+      },
+      {
+        "question": "Why can sorted input take Θ(n) but reverse-sorted input take Θ(n²)?",
+        "answer": "Sorted input needs only a failed comparison per insertion. Reverse-sorted input shifts every preceding element, totaling 1+2+…+(n−1)."
+      }
+    ]
+  },
+  "merge-sort": {
+    "intro": [
+      "Divide-and-conquer means solving smaller versions of the same problem and combining their answers. For sorting, an array of zero or one element is already sorted: this is the base case that ends recursion.",
+      "Mergesort splits the array into two halves and sorts each recursively. To merge, compare the first unused value in each sorted half, take the smaller, and advance on that side. Once one half is empty, copy the rest of the other."
+    ],
+    "checks": [
+      {
+        "question": "Merge [2, 6] and [1, 5]. Which values are taken in order?",
+        "answer": "Take 1 from the right, 2 from the left, 5 from the right, then the remaining 6: [1, 2, 5, 6]."
+      },
+      {
+        "question": "Why is there a +Θ(n) term in the recurrence?",
+        "answer": "Merging the two sorted halves processes n values. Each level does Θ(n) total work, and there are Θ(log n) levels."
+      }
+    ]
+  },
+  "heap-sort": {
+    "intro": [
+      "A max-heap stores values as a complete binary tree: levels fill from left to right, and each parent is at least as large as either child. The largest value is therefore at the root. The tree is stored level by level in an array.",
+      "Heapsort first turns the input into a max-heap. Then it swaps the root with the last active element. That maximum is now in its final sorted position. Shrink the active heap and repair the root; repeat until the whole array is sorted."
+    ],
+    "checks": [
+      {
+        "question": "After moving the maximum to the end, why must the heap size shrink?",
+        "answer": "The last value now belongs to the sorted suffix. Excluding it from the active heap prevents heap repair from moving it back."
+      },
+      {
+        "question": "Why does linear-time heap construction not make the entire sort linear?",
+        "answer": "After construction, repeated removals may each need logarithmic repair. Across the removals the worst-case sorting time is Θ(n log n)."
+      }
+    ]
+  },
+  "pq-sort": {
+    "intro": [
+      "A max-priority queue is a collection that can return and remove its largest key. It specifies what operations do, without deciding how values are stored.",
+      "To sort, insert all input values into the queue. The first extracted value is the largest, so put it at the right end of the array. Fill positions from right to left as you extract the remaining values. The result is increasing order."
+    ],
+    "checks": [
+      {
+        "question": "If the queue contains 4, 8, and 2, which array positions receive them?",
+        "answer": "Extract 8 into position 3, then 4 into position 2, then 2 into position 1: [2, 4, 8]."
+      },
+      {
+        "question": "Why can the same template have different runtimes?",
+        "answer": "The data structure determines operation costs. An unsorted list needs linear searches for maxima; a heap supports logarithmic extraction."
+      }
+    ]
+  },
+  "quick-sort": {
+    "intro": [
+      "Quicksort sorts around a chosen value called the pivot. Partitioning rearranges the array so values at most the pivot are on its left and larger values are on its right, with the pivot between them.",
+      "The pivot is now in a valid final sorted position, but the two sides may still be unsorted. Recursively sort each side, stopping at arrays of size zero or one. Unlike mergesort, no merging step is needed afterward."
+    ],
+    "checks": [
+      {
+        "question": "After partitioning around 5, must the values on its left already be sorted?",
+        "answer": "No. They only have to be at most 5. Recursive calls sort the left and right regions."
+      },
+      {
+        "question": "What goes wrong if each pivot is the largest remaining value?",
+        "answer": "The split is 0 and n−1 each time. Partition work adds to n+(n−1)+…+1, giving Θ(n²)."
+      }
+    ]
+  },
+  "randomized-quick-sort": {
+    "intro": [
+      "Randomized quicksort uses the same partition operation as quicksort, but chooses a pivot uniformly at random from the active subarray. Randomness prevents a fixed input order from consistently forcing a particular bad pivot choice.",
+      "Expected runtime is an average over the algorithm’s random choices for one fixed input. It is not a promise that every run is fast. The lecture analysis considers distinct keys and counts how often pairs of sorted ranks are compared."
+    ],
+    "checks": [
+      {
+        "question": "Does randomizing the pivot rule out a quadratic execution?",
+        "answer": "No. Repeated unlucky choices can still make extremely unbalanced splits. The guarantee is an expected Θ(n log n) runtime for distinct keys."
+      },
+      {
+        "question": "For sorted ranks i through j, which first pivots make the endpoints get compared?",
+        "answer": "Either endpoint i or j. An interior pivot separates them first. The probability is 2/(j−i+1)."
+      }
+    ]
+  },
+  "comparison-lower-bound": {
+    "intro": [
+      "A lower bound asks how much work any algorithm in a specified model must sometimes do. Here the model is comparison sorting: information about order comes from comparing pairs of keys.",
+      "Draw a decision tree of an algorithm’s possible comparisons. A path records answers to comparisons; a leaf identifies the resulting order. With n distinct elements, there are n! possible input orders that must be distinguished."
+    ],
+    "checks": [
+      {
+        "question": "Why are two leaves not enough to sort three distinct elements?",
+        "answer": "Three distinct elements have 3! = 6 possible orders. The comparison tree must distinguish all six."
+      },
+      {
+        "question": "What does 2ʰ ≥ n! tell us about comparisons?",
+        "answer": "A binary tree of height h has at most 2ʰ leaves. Thus some path needs h ≥ log₂(n!) = Ω(n log n) comparisons."
+      }
+    ]
+  },
+  "asymptotic-notation": {
+    "intro": [
+      "Running time is a function of input size n. Asymptotic notation describes how this function grows for sufficiently large n, ignoring fixed multipliers and smaller terms.",
+      "O(g(n)) is an upper bound up to a constant factor; Ω(g(n)) is a lower bound; Θ(g(n)) says both hold. These symbols describe bounds, not automatically best case or worst case: say which runtime function you are bounding."
+    ],
+    "checks": [
+      {
+        "question": "What is a tight bound for 3n² + 20n + 7?",
+        "answer": "Θ(n²). For large n the quadratic term dominates, and fixed positive multipliers do not change its growth class."
+      },
+      {
+        "question": "Can a Θ(n) function also be O(n²)?",
+        "answer": "Yes. Big-O need not be tight. But it is not Θ(n²), because a linear function does not also have a quadratic lower bound."
+      }
+    ]
+  },
+  "logarithms": {
+    "intro": [
+      "A logarithm answers an exponent question: log_b n is the exponent you put on b to get n. For example, log₂ 8 = 3 because 2³ = 8.",
+      "This is why logarithms appear in algorithms that repeatedly halve a problem. Products turn into sums of logarithms, and an exponent becomes a multiplier. The base must be positive and different from 1; in runtime analysis it is usually a fixed number greater than 1."
+    ],
+    "checks": [
+      {
+        "question": "What is log₂ 32, and what does it count?",
+        "answer": "It is 5: five doublings take 1 to 32, or five exact halvings take 32 to 1."
+      },
+      {
+        "question": "Why are log₂ n and log₁₀ n in the same Θ class?",
+        "answer": "Change of base gives log₂ n = log₁₀ n / log₁₀ 2. The denominator is a positive constant."
+      }
+    ]
+  },
+  "halving-doubling": {
+    "intro": [
+      "Track the size after k steps before trying to count the steps. Halving a starting size n gives n/2ᵏ. Doubling a starting size 1 gives 2ᵏ.",
+      "Then write the stopping condition. To halve to 1, solve n/2ᵏ = 1. To double until reaching at least n, solve 2ᵏ ≥ n and round the number of steps up to an integer."
+    ],
+    "checks": [
+      {
+        "question": "Starting from 1, how many doublings reach at least 10?",
+        "answer": "Four: 1 → 2 → 4 → 8 → 16. This is ⌈log₂ 10⌉."
+      },
+      {
+        "question": "If each halving step costs a constant, what is the total time?",
+        "answer": "Θ(log n). If the cost instead depends on the current size, you must sum those costs; the step count alone is not the total runtime."
+      }
+    ]
+  },
+  "geometric-series": {
+    "intro": [
+      "A geometric series adds terms that change by the same multiplier each time: a + ar + ar² + … + arᵏ. Here a is the first term, r the common ratio, and k+1 the number of terms.",
+      "These sums describe work across recursion-tree levels. If a fixed ratio is above 1, later levels dominate. If it is between 0 and 1, earlier levels dominate. If it equals 1, every level contributes the same amount."
+    ],
+    "checks": [
+      {
+        "question": "In 3 + 6 + 12 + 24, what are a, r, and the number of terms?",
+        "answer": "a = 3, r = 2, and there are four terms (k = 3). Their sum is 45."
+      },
+      {
+        "question": "Why must r = 1 be handled separately?",
+        "answer": "The usual formula divides by r−1, which would be zero. Instead add k+1 identical terms to get a(k+1)."
+      }
+    ]
+  },
+  "harmonic-series": {
+    "intro": [
+      "The nth harmonic number is Hₙ = 1 + 1/2 + … + 1/n. The terms shrink, but the total does not approach a finite limit as n grows.",
+      "Group denominators into blocks: 1; 2–3; 4–7; 8–15; and so on. Each block has about twice as many terms, each about half as large. Every full block contributes between fixed positive constants, and there are about log₂ n blocks."
+    ],
+    "checks": [
+      {
+        "question": "Do terms approaching zero guarantee that their infinite sum is finite?",
+        "answer": "No. Harmonic terms approach zero, yet their sum diverges."
+      },
+      {
+        "question": "Why is Hₙ logarithmic rather than linear?",
+        "answer": "Each doubling-sized block contributes Θ(1), and there are Θ(log n) blocks. Therefore Hₙ = Θ(log n)."
+      }
+    ]
+  },
+  "sum-integers": {
+    "intro": [
+      "When a loop performs 1 unit of work, then 2, then 3, up to n, total work is 1+2+…+n. This appears in triangular nested loops where the inner loop depends on the outer index.",
+      "Pair the first and last terms: 1+n, 2+(n−1), and so on. Each pair totals n+1. Equivalently, write the sum forwards and backwards and add them: twice the sum is n(n+1)."
+    ],
+    "checks": [
+      {
+        "question": "How many iterations are there if the inner loop runs i times for i = 1 through 4?",
+        "answer": "1+2+3+4 = 10, also 4×5/2."
+      },
+      {
+        "question": "How does summing 1 through n−1 change the formula?",
+        "answer": "Replace n by n−1: the sum is n(n−1)/2. Both expressions are Θ(n²)."
+      }
+    ]
+  },
+  "weighted-geometric": {
+    "intro": [
+      "The series 1/2 + 2/4 + 3/8 + … has term i/2ⁱ. The numerator grows linearly while the denominator grows exponentially, so the infinite sum is finite.",
+      "The lecture derives its value from the geometric series: differentiate Σxⁱ = 1/(1−x), multiply by x, and then set x = 1/2. The result is 2. In heap analysis, this models many cheap nodes and progressively fewer expensive nodes."
+    ],
+    "checks": [
+      {
+        "question": "Does the first three terms already sum to 2?",
+        "answer": "No. They sum to 1/2 + 2/4 + 3/8 = 11/8. The infinite sum is 2; finite partial sums stay below it."
+      },
+      {
+        "question": "Why does n times a partial sum of i/2ⁱ give O(n)?",
+        "answer": "The partial sum is bounded above by 2 independently of n, so multiplying it by n gives at most 2n."
+      }
+    ]
+  },
+  "coin-flips": {
+    "intro": [
+      "A random variable assigns a number to a random outcome. Here X counts trials up to and including the first success. Each trial is independent and has the same success probability p > 0.",
+      "Expected value is a probability-weighted average, not a guaranteed result on one run. The first success on trial k requires k−1 failures followed by a success, with probability (1−p)ᵏ⁻¹p."
+    ],
+    "checks": [
+      {
+        "question": "If the outcomes are tails, tails, heads, what is X?",
+        "answer": "X = 3. Count the successful flip as well as the failures."
+      },
+      {
+        "question": "Why does E[X] = 1 + (1−p)E[X]?",
+        "answer": "You always spend one trial. With probability 1−p it fails, and independence leaves you with the original waiting problem again. Solving gives E[X] = 1/p."
+      }
+    ]
+  },
+  "indicator-variables": {
+    "intro": [
+      "An indicator is a random variable that answers one yes/no question: it is 1 when a chosen event happens and 0 otherwise. Its expectation equals the probability of that event.",
+      "To count complicated random behavior, break the count into indicators for small events and add them. Linearity of expectation lets you add the expectations even when the events are dependent. Define exactly what each indicator counts before doing algebra."
+    ],
+    "checks": [
+      {
+        "question": "If an event has probability 0.3, what is the expectation of its indicator?",
+        "answer": "1×0.3 + 0×0.7 = 0.3."
+      },
+      {
+        "question": "For a process stopping at the first head, what event means flip i occurs?",
+        "answer": "The first i−1 flips were all tails. For a fair coin this has probability (1/2)ⁱ⁻¹. This is different from asking whether flip i is heads."
+      }
+    ]
+  },
+  "master-theorem": {
+    "intro": [
+      "A recurrence describes runtime using runtimes on smaller inputs. In T(n) = aT(n/b) + Θ(nᵈ), a counts recursive subproblems, n/b is their size, and Θ(nᵈ) is the work outside recursive calls.",
+      "The course’s Master Theorem compares the exponent d with log_b a, the exponent describing leaf growth. Equal exponents mean all levels matter; otherwise either the root or the leaves dominate. First check that the recurrence has the required form."
+    ],
+    "checks": [
+      {
+        "question": "For T(n) = 2T(n/2) + Θ(n), what are a, b, and d?",
+        "answer": "a = 2, b = 2, d = 1. Since log₂ 2 = 1 equals d, the result is Θ(n log n)."
+      },
+      {
+        "question": "Can this course version be applied directly to T(n/3)+T(2n/3)+n?",
+        "answer": "No. The recursive calls have unequal sizes. Use a recursion tree or another applicable argument."
+      }
+    ]
+  },
+  "recursion-tree": {
+    "intro": [
+      "A recursion tree draws one node per recursive call. Label a node with only its local work, excluding its children’s work, so you do not count the same work twice.",
+      "At depth i, count how many nodes exist and how large each subproblem is. Multiply to find total work at that level. Sum across levels and include the base-case work at the leaves."
+    ],
+    "checks": [
+      {
+        "question": "For 2T(n/2)+n, how much work is at depth 2?",
+        "answer": "There are four nodes, each doing n/4 local work, so the level total is n."
+      },
+      {
+        "question": "Why must leaf costs be included?",
+        "answer": "Base cases still do work. When there are many leaves, their combined constant costs can dominate the total."
+      }
+    ]
+  },
+  "induction": {
+    "intro": [
+      "Induction proves that a claim holds for every input size in a domain. Establish base cases, assume the claim for smaller sizes, and use that assumption to prove it at the current size.",
+      "For runtime bounds, guess an explicit inequality such as T(n) ≤ cn log₂ n. Substitute the same constant c into the smaller recursive terms, then show the resulting expression is at most the target bound. Choose c large enough for both the base cases and the inductive step."
+    ],
+    "checks": [
+      {
+        "question": "Why is “assume T(k) = O(k log k)” too vague for the substitution step?",
+        "answer": "It hides the constant. The proof must preserve one fixed bound across sizes rather than silently choosing new constants."
+      },
+      {
+        "question": "For T(n)=2T(n/2)+n, what does substituting T(n/2) ≤ c(n/2)log₂(n/2) yield?",
+        "answer": "T(n) ≤ cn log₂ n − cn + n. For c ≥ 1, the last two terms are nonpositive. Suitable base cases still need checking."
+      }
+    ]
+  },
+  "max-subarray": {
+    "intro": [
+      "A subarray is a contiguous segment: you may choose where it begins and ends, but cannot skip values inside it. The goal is the largest possible sum, not the longest segment or a sorted sequence.",
+      "This course allows the empty subarray, whose sum is zero. Divide-and-conquer splits at a midpoint. Every candidate lies entirely left, entirely right, or crosses the split, so solving those three cases covers every possibility."
+    ],
+    "checks": [
+      {
+        "question": "What is the best sum for [−4, −2] under the lecture convention?",
+        "answer": "0, from the empty subarray. Choosing −2 would be correct only if a nonempty subarray were required."
+      },
+      {
+        "question": "What two pieces make a crossing subarray?",
+        "answer": "A suffix ending at the left boundary of the split and a prefix starting on the right. Find the best sum of each by scanning outward, then add them."
+      }
+    ]
+  },
+  "karatsuba": {
+    "intro": [
+      "We measure multiplication by the number n of bits in each integer. Split each integer into a high half and a low half: x = x_L B + x_R, where B = 2^(n/2), and similarly for y.",
+      "Expanding xy appears to require four half-size products. Karatsuba reuses three products to recover the middle term by subtraction. The saving repeats at every recursive level, outweighing the extra additions and subtractions."
+    ],
+    "checks": [
+      {
+        "question": "If p=x_Ly_L, q=x_Ry_R, and r=(x_L+x_R)(y_L+y_R), what is r−p−q?",
+        "answer": "Expanding r and canceling gives x_Ly_R + x_Ry_L, exactly the cross term."
+      },
+      {
+        "question": "Why does the recurrence use three recursive calls?",
+        "answer": "Only p, q, and r need recursive multiplications. Combining them uses linear bit work, giving the lecture recurrence 3T(n/2)+Θ(n)."
+      }
+    ]
+  },
+  "max-heapify": {
+    "intro": [
+      "Max-Heapify repairs one possible break in max-heap order. Its starting promise matters: both child subtrees already obey the heap property, but their parent may be too small.",
+      "Compare the parent with its existing children. If a child is larger, swap with the larger child. Only the subtree receiving the old parent can now be broken, so continue downward along that one path. Stop when the parent is large enough or has no children."
+    ],
+    "checks": [
+      {
+        "question": "In [2, 9, 7, 4, 3], which child should replace the root first?",
+        "answer": "9, the larger child. Swapping with 7 would leave 9 larger than its new parent and fail to fix the root."
+      },
+      {
+        "question": "Why does repair take O(log n) rather than scanning every node?",
+        "answer": "Each step does constant work and moves down just one level. A complete binary tree has logarithmic height. A heap already in order can stop immediately."
+      }
+    ]
+  },
+  "build-heap": {
+    "intro": [
+      "Build-Max-Heap converts an arbitrary array into a max-heap without changing its elements. Calling Max-Heapify at the root alone is insufficient: that operation requires both child subtrees to already be heaps.",
+      "A leaf has no children, so it is automatically a valid heap. Begin at the last non-leaf, index ⌊n/2⌋, and process indices downward to 1. A node’s children have larger indices, so their subtrees are ready before their parent is repaired."
+    ],
+    "checks": [
+      {
+        "question": "For an array of length 7, in which order do we call Max-Heapify?",
+        "answer": "At indices 3, 2, then 1. Indices 4 through 7 are leaves and need no repair."
+      },
+      {
+        "question": "Why is n calls times log n an overestimate of the tight bound?",
+        "answer": "Most nodes have very small height. Summing work by height bounds it by a constant times nΣh/2ʰ = O(n); the loop also gives Ω(n), so total time is Θ(n)."
+      }
+    ]
+  },
+  "extract-max": {
+    "intro": [
+      "Extract-Max returns the largest value and removes it from a max-heap. Removing the root directly would leave a hole, so move the last active element into the root position and decrease the heap size.",
+      "This preserves the complete-tree shape. Only the new root may be too small; the child subtrees remain heaps. Run Max-Heapify at the root and return the maximum you saved before overwriting it."
+    ],
+    "checks": [
+      {
+        "question": "Extract the maximum from [9, 7, 5, 1, 4, 2]. What happens first?",
+        "answer": "Save 9, move 2 to the root, and shrink to five elements: [2, 7, 5, 1, 4]. Repair produces [7, 4, 5, 1, 2]. Return 9."
+      },
+      {
+        "question": "Why shrink before repairing?",
+        "answer": "The former last slot is no longer part of the heap. Child-index checks must use the new heap size so that stale data is ignored."
+      }
+    ]
+  },
+  "heap-max": {
+    "intro": [
+      "Maximum is a peek operation: it reads the largest value without removing anything. In a max-heap, every parent is at least its children, so following any path from the root can never lead to a larger value.",
+      "Therefore the maximum is already at the root, A[1] in the lecture’s one-based notation. Check for an empty heap before reading it. No swapping, shrinking, or heap repair is needed."
+    ],
+    "checks": [
+      {
+        "question": "For [9, 7, 5, 1], what does Maximum return, and what array remains?",
+        "answer": "It returns 9. The array stays [9, 7, 5, 1] and the heap size stays 4."
+      },
+      {
+        "question": "Why is Maximum Θ(1) while Extract-Max may take Θ(log n)?",
+        "answer": "Maximum reads one known position. Extract-Max changes the heap and may need to repair an entire root-to-leaf path."
+      }
+    ]
+  },
+  "pq-operations": {
+    "intro": [
+      "A priority queue stores items with numerical priorities called keys. A max-priority queue serves an item with the largest key first, even if that item arrived later. This differs from a first-in, first-out queue.",
+      "It is an abstract data type: Insert adds an item, Maximum peeks at the largest, Extract-Max removes the largest, and Increase-Key raises an existing item’s priority. The interface describes behavior; a list or heap supplies the implementation."
+    ],
+    "checks": [
+      {
+        "question": "Jobs A, B, C have priorities 2, 8, 5. Which does a max-priority queue serve first?",
+        "answer": "B, because 8 is largest. Arrival order does not decide which priority is greatest."
+      },
+      {
+        "question": "Which operation should inspect the next job without removing it?",
+        "answer": "Maximum. Extract-Max would remove it, changing the queue."
+      }
+    ]
+  },
+  "pq-linked-list": {
+    "intro": [
+      "A doubly-linked list stores each item in a node with links to its previous and next neighbors. In the lecture’s unsorted implementation, nodes are not arranged by priority.",
+      "Inserting at the front is cheap because no search for a sorted position is needed. The tradeoff is that finding the largest key requires scanning the list. Once a node is known, its two links let you unlink it in constant time."
+    ],
+    "checks": [
+      {
+        "question": "Why is inserting a low-priority job still Θ(1)?",
+        "answer": "The list is unsorted, so the job can go at the front regardless of its key."
+      },
+      {
+        "question": "Does constant-time unlinking make Extract-Max constant time?",
+        "answer": "No. Finding the maximum still takes Θ(n). Similarly, changing a key is constant time only after locating the node; a linear lookup adds Θ(n)."
+      }
+    ]
+  },
+  "pq-heap": {
+    "intro": [
+      "A heap implements a priority queue by storing each item according to its key in a complete binary tree. In a max-heap, the root is always an item with the largest key.",
+      "When a key increases, it may become larger than its parent, but it remains at least as large as its children. Repair upward by swapping with smaller parents. Inserting appends a leaf and uses the same upward repair, preserving the complete-tree shape."
+    ],
+    "checks": [
+      {
+        "question": "In [9, 7, 5, 1], increase the last key from 1 to 10. Which direction does it move?",
+        "answer": "Up: swap with 7, then with 9, giving [10, 9, 5, 7]."
+      },
+      {
+        "question": "Why does Increase-Key not need to repair below the changed node?",
+        "answer": "Raising a parent’s key cannot make it smaller than its children. The only new violation is toward its own parent; locating the item is a separate cost assumption."
+      }
+    ]
+  },
+  "handles-mapping": {
+    "intro": [
+      "A heap index is a location, not an item’s permanent identity. Swaps move items, so an operation such as Increase-Key needs a way to find an item’s current index.",
+      "A handle can store an index with the item, or a dictionary can map item identities to indices. Whenever two items swap, update both positions. On deletion, invalidate or remove the deleted item’s entry."
+    ],
+    "checks": [
+      {
+        "question": "Items A and B swap indices 2 and 5. Which mapping entries change?",
+        "answer": "Both: A must map to its new index and B to its new index. Updating only one leaves an incorrect handle."
+      },
+      {
+        "question": "Why does a stale handle cause more than a slow lookup?",
+        "answer": "It may identify a different item, so Increase-Key could modify the wrong object. Mapping updates are part of correctness."
+      }
+    ]
+  }
+}

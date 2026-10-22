@@ -1,6 +1,6 @@
 # CS2413 Study Studio
 
-A Next.js / TypeScript study site built from the 19 course PDFs in `public/sources`.
+A Next.js / TypeScript study site built from the 20 course PDFs in `public/sources`.
 
 ## Run locally
 
@@ -10,7 +10,7 @@ npm ci
 npm run dev
 ```
 
-Open http://localhost:3000. The app contains eight distinct sections with 30 concepts and 74 question cards. Each concept is followed immediately by its associated questions, each with its own Your attempt / Answer tabs. The separate question bank remains available for review. Includes all 25 numbered homework questions, all 26 practice-sheet questions, and all 9 old-exam questions (exam subparts are split into 18 cards), plus 5 supplemental questions. Search, source PDF links, a source-by-source index, and device-local progress are included.
+Open http://localhost:3000. The app contains eight distinct sections with 30 concepts and 79 question cards. Each concept is followed immediately by its associated questions, each with its own Your attempt / Answer tabs. The separate question bank remains available for review. Includes all 28 numbered homework questions (Homework 4 is split into 7 cards), all 26 practice-sheet questions, and the 8 non-crossed-out old-exam questions (subparts are split into 16 cards; Q5, Q6(b–c), and Q8(c) are excluded), plus 5 supplemental questions. Search, source PDF links, a source-by-source index, and device-local progress are included.
 
 ## Verify and build
 
@@ -26,7 +26,7 @@ The build exports a static site to `out/`. Serve that folder with any static HTT
 
 - `content/topics.json`: lecture excerpts, PDF page references, explanations, examples, and pitfalls.
 - `content/concept-questions.json`: explicit concept-to-question assignments, including connections across sections.
-- `content/coverage.json`: expected numbered questions for all nine problem sources; validated by the content check.
+- `content/coverage.json`: expected numbered questions for all ten problem sources; validated by the content check.
 - `content/problems.json`: full question prompts, question numbers, source pages, worked answers, and explicit notes for related homework or supplemental material.
 - PDF links use physical file page numbers, which may differ from printed exam numbering.
 - Explanations and worked solutions are prepared study material; source wording and supplemental material are distinguished.

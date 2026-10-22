@@ -188,42 +188,21 @@
     ]
   },
   {
-    "id": "exam-all-5",
+    "id": "exam-all-6-a",
     "section": "sorting",
     "topics": [
-      "Sorting definitions"
+      "Insertion Sort"
     ],
-    "title": "Stable sorts for first and last names",
-    "kind": "Exam",
-    "source": "Fall 2025 Exam 1  for practice.pdf",
-    "page": 8,
-    "number": "5",
-    "prompt": "A file has two columns: first name and last name. Example rows are Isaac Newton, Taylor Swift, Donald Knuth, Anatoly Karatsuba, Jonathan Swift. Sort alphabetically by last name, breaking ties alphabetically by first name. You may (1) stably sort by First Name only, or (2) stably sort by Last Name only. Briefly describe how to use these operations to obtain the desired ordering.",
-    "answer": [
-      "First stably sort by first name. Then stably sort by last name.",
-      "The second sort orders the primary key (last name), while stability preserves the first-name order among equal last names. The example becomes Anatoly Karatsuba, Donald Knuth, Isaac Newton, Jonathan Swift, Taylor Swift."
-    ],
-    "note": "The source marks radix sort as outside Fall 2026 Exam 1 coverage; retained for complete old-exam coverage."
-  },
-  {
-    "id": "exam-all-6-a-c",
-    "section": "sorting",
-    "topics": [
-      "Insertion Sort",
-      "Sorting definitions"
-    ],
-    "title": "Insertion sort and equal prices",
+    "title": "Trace insertion sort on item prices",
     "kind": "Exam",
     "source": "Fall 2025 Exam 1  for practice.pdf",
     "page": 9,
-    "number": "6(a–c)",
-    "prompt": "Elements have the form (item, price), with price as the key.\nfor i = 2 to n\n    x = A[i]\n    j = i−1\n    while j > 0 and A[j].key > x.key\n        A[j+1] = A[j]\n        j = j−1\n    A[j+1] = x\n(a) Run this insertion sort on A = [(coat,76),(hat,34),(cup,15),(shirt,34)]. What is the resulting A?\n(b) Is this version stable? Answer yes or no.\n(c) Change the while condition to j > 0 and A[j].key >= x.key. Is the modified version stable? Answer yes or no.",
+    "number": "6(a)",
+    "prompt": "Elements have the form (item, price), with price as the key.\nfor i = 2 to n\n    x = A[i]\n    j = i−1\n    while j > 0 and A[j].key > x.key\n        A[j+1] = A[j]\n        j = j−1\n    A[j+1] = x\n(a) Run this insertion sort on A = [(coat,76),(hat,34),(cup,15),(shirt,34)]. What is the resulting A?",
     "answer": [
-      "(a) [(cup,15),(hat,34),(shirt,34),(coat,76)]. The hat remains ahead of the equally priced shirt.",
-      "(b) Yes. The strict > condition moves only larger keys, so equal keys keep their relative order.",
-      "(c) No. The ≥ condition shifts earlier equal keys right and inserts the new equal key before them. On this input, shirt ends up before hat."
+      "(a) [(cup,15),(hat,34),(shirt,34),(coat,76)]. The hat remains ahead of the equally priced shirt."
     ],
-    "note": "The source marks stability questions (b) and (c) as outside Fall 2026 Exam 1 coverage; retained for completeness."
+    "note": "Only part (a) is assigned. Parts (b) and (c) are crossed out in the source PDF."
   },
   {
     "id": "exam-all-7",
@@ -278,25 +257,6 @@
       "(i) T(n) = 2T(n/2) + Θ(n^1.5).",
       "(ii) Θ(n^1.5). Here a = 2, b = 2, d = 1.5 > log₂2 = 1, so the local-work-dominant case applies."
     ]
-  },
-  {
-    "id": "exam-all-8-c",
-    "section": "recurrences",
-    "topics": [
-      "Master Theorem (our version)",
-      "Quicksort"
-    ],
-    "title": "Quicksort with a true median pivot",
-    "kind": "Exam",
-    "source": "Fall 2025 Exam 1  for practice.pdf",
-    "page": 12,
-    "number": "8(c)",
-    "prompt": "Give (i) a recurrence for worst-case running time (ignore floors and ceilings; no base case required), then (ii) the tight running time in Θ notation.\nMMQuickSort uses the Median of Medians algorithm to find the kth order statistic for k = floor((n+1)/2), i.e. the median. It partitions around that pivot and recursively sorts Low and High. Give the recurrence and worst-case time.",
-    "answer": [
-      "(i) With the usual distinct-key (or suitable equal-key grouping) partition convention, T(n) = 2T(n/2) + Θ(n). Finding the median by Median of Medians and partitioning both take linear time; selecting a true median balances the recursion.",
-      "(ii) Θ(n log n), by a = 2, b = 2, d = 1 = log₂2."
-    ],
-    "note": "The source marks Median of Medians as outside Fall 2026 Exam 1 coverage; retained for complete old-exam coverage. Balanced splitting requires handling equal keys appropriately."
   },
   {
     "id": "exam-all-9",
