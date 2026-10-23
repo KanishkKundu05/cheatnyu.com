@@ -2,17 +2,17 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 const sections=JSON.parse(fs.readFileSync('content/topics.json','utf8'));
 const problems=JSON.parse(fs.readFileSync('content/problems.json','utf8'));
-assert.equal(sections.length,8);
+const mapping=JSON.parse(fs.readFileSync('content/concept-questions.json','utf8'));
+assert.equal(sections.length,9);
 const ids=new Set();
 function checkSource(source,page){assert(source&&fs.existsSync(`public/sources/${source}`),`Missing PDF: ${source}`);assert(Number.isInteger(page)&&page>0,`Invalid page: ${source} ${page}`);}
-for(const section of sections){assert(!ids.has(section.id));ids.add(section.id);assert(section.topics.length>0);assert(problems.some(p=>p.section===section.id&&p.kind==='Homework'),`No homework assigned to ${section.id}`);for(const t of section.topics){assert(!ids.has(t.id),`Duplicate topic id ${t.id}`);ids.add(t.id);assert(t.summary&&t.points.length&&t.pitfall&&t.excerpt.text);checkSource(t.excerpt.source,t.excerpt.page);}}
+for(const section of sections){assert(!ids.has(section.id));ids.add(section.id);assert(section.topics.length>0);const linked=new Set(section.topics.flatMap(t=>mapping[t.id]||[]));assert(problems.some(p=>(p.section===section.id||linked.has(p.id))&&p.kind==='Homework'),`No homework assigned to ${section.id}`);for(const t of section.topics){assert(!ids.has(t.id),`Duplicate topic id ${t.id}`);ids.add(t.id);assert(t.summary&&t.points.length&&t.pitfall&&t.excerpt.text);checkSource(t.excerpt.source,t.excerpt.page);}}
 for(const p of problems){assert(!ids.has(p.id),`Duplicate problem id ${p.id}`);ids.add(p.id);assert(sections.some(s=>s.id===p.section));assert(p.prompt.length>30&&p.answer.length>0,`Incomplete problem ${p.id}`);assert(p.topics.length>0);if(p.kind!=='Supplemental')checkSource(p.source,p.page);}
 console.log(`Validated ${sections.length} sections, ${sections.reduce((n,s)=>n+s.topics.length,0)} concepts, ${problems.length} problems, source links, and homework coverage for every section.`);
 const coverage=JSON.parse(fs.readFileSync('content/coverage.json','utf8'));
 for(const entry of coverage){const found=problems.filter(p=>p.source===entry.source);const nums=[...new Set(found.map(p=>Number(p.number.match(/^\d+/)?.[0])))].sort((a,b)=>a-b);assert.deepEqual(nums,entry.expectedNumbers,`Incomplete numbered coverage: ${entry.source}`);}
 console.log('Complete numbered-question coverage: HW1 1–9, HW2 1–9, HW3 1–7, HW4 1–3 with all subparts; practice weeks 1–5: 7/5/5/4/5; old exam 1–4 and 6–9, excluding crossed-out subparts.');
 
-const mapping=JSON.parse(fs.readFileSync('content/concept-questions.json','utf8'));
 const topicIds=sections.flatMap(s=>s.topics.map(t=>t.id));
 assert.deepEqual(Object.keys(mapping).sort(), [...topicIds].sort(), 'Every concept must have an explicit question mapping');
 const mapped=new Set();
@@ -31,7 +31,7 @@ for(const [id,lesson] of Object.entries(lessons)){
   assert.equal(lesson.checks.length,2,`Missing learning checkpoint: ${id}`);
   for(const check of lesson.checks) assert(check.question.trim().length>0 && check.answer.trim().length>0,`Incomplete checkpoint: ${id}`);
 }
-console.log('All 30 guided lessons include foundations and two answered checkpoints (60 total).');
+console.log(`All ${topicIds.length} guided lessons include foundations and two answered checkpoints (${topicIds.length*2} total).`);
 
 // Respect the instructor’s visible exclusions, including parts of a question.
 const examCoverage=coverage.find(entry=>entry.kind==='Exam');
@@ -50,3 +50,16 @@ const homeworkSource=JSON.parse(fs.readFileSync('content/homework-all.json','utf
 assert.deepEqual(hw4Cards,homeworkSource.filter(p=>p.source===hw4Coverage.source),'Homework 4 source and question bank differ');
 assert(hw4Cards.find(p=>p.number==='3(a)').answerDiagram,'Missing merge decision tree');
 console.log('Verified all 7 Homework 4 cards, including the merge decision tree and parts 3(a–e).');
+
+const foundations=sections.find(s=>s.id==='foundations');
+assert.equal(sections[0].id,'foundations','Foundations must be the first study section');
+assert.equal(foundations.topics.length,12);
+for(const t of foundations.topics){
+  for(const block of lessons[t.id].blocks||[]){assert(block.title&&block.text&&block.excerpt.text);checkSource(block.excerpt.source,block.excerpt.page);}
+}
+for(const id of ['proof-bubble','proof-insertion','proof-merge','proof-build-heap','proof-heapsort','proof-partition','foundation-induction','proof-radix']){
+  assert(foundations.topics.some(t=>t.id===id),`Missing proof lesson: ${id}`);
+}
+const foundationQuestions=new Set(foundations.topics.flatMap(t=>mapping[t.id]));
+for(const id of ['hw1-q4','hw1-q5','hw1-q6','hw1-q7','hw1-q8','hw1-q9']) assert(foundationQuestions.has(id),`Missing foundational HW1 practice: ${id}`);
+console.log('Verified foundations: 12 lessons, lecture proof coverage, and HW1 Q4–9 practice.');
