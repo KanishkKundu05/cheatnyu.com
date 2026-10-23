@@ -4,7 +4,7 @@ import lessonData from "../content/lessons.json";
 type Excerpt = { text: string; source: string; page: number };
 type Topic = { id: string; title: string; points: string[]; formula?: string; pseudocode?: string; example?: string; excerpt: Excerpt; pitfall: string };
 type Check = { question: string; answer: string };
-const lessons: Record<string, { intro: string[]; checks: Check[] }> = lessonData;
+const lessons: Record<string, { intro: string[]; checks: Check[]; blocks?: { title: string; text: string; excerpt: Excerpt }[] }> = lessonData;
 const heapTopics = new Set(["max-heapify", "build-heap", "extract-max", "heap-max", "heap-sort", "pq-heap"]);
 
 function ExcerptBlock({ excerpt }: { excerpt: Excerpt }) {
@@ -62,6 +62,7 @@ export function ConceptLesson({ topic: t }: { topic: Topic }) {
     <section className="lesson-part" id={`${t.id}-reason`}>
       <div className="lesson-heading"><span>02 / WORK THROUGH IT</span><h3>How it works, and why</h3></div>
       <ol className="lesson-reasoning">{t.points.map((p, i) => <li key={i}>{p}</li>)}</ol>
+      {lesson.blocks?.map((block, i) => <section className="lesson-source-detail" key={i}><h4>{block.title}</h4><p>{block.text}</p><ExcerptBlock excerpt={block.excerpt}/></section>)}
       {t.pseudocode && <div className="code-block"><span>FOLLOW THE STEPS</span><pre>{t.pseudocode}</pre></div>}
       {t.example && <div className="worked-example"><span>A WORKED EXAMPLE</span><p>{t.example}</p></div>}
       {t.formula && <><h4>The result to remember</h4><div className="formula">{t.formula}</div></>}
