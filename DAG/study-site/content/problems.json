@@ -1512,5 +1512,125 @@
       "The decision-tree argument also forces Ω(log n) comparisons on some input for every correct comparison-based algorithm. Thus this algorithm uses Θ(log n) comparisons in the worst case and is asymptotically optimal.",
       "This does not claim an exact match of X comparisons, nor sublinear total runtime: outputting n+2 values still costs Θ(n)."
     ]
+  },
+  {
+    "id": "proof-practice-bubble",
+    "section": "foundations",
+    "topics": [
+      "Correctness",
+      "Loop invariants"
+    ],
+    "title": "Prove the right-to-left bubble-sort invariant",
+    "kind": "Supplemental",
+    "source": "",
+    "page": 1,
+    "number": "Proof bubble",
+    "prompt": "State and prove the outer invariant for bubble sort with i=1…n−1 and j=n down to i+1. Explain initialization, maintenance, termination, and why the exit checkpoint implies sortedness.",
+    "answer": [
+      "Invariant: before iteration i, A[1:i−1] contains the i−1 smallest original values in sorted order; the suffix contains the rest. Initially the prefix is empty.",
+      "The right-to-left pass carries the smallest suffix value into A[i], while leaving earlier positions unchanged. Thus the prefix grows correctly for i+1. Swaps preserve all values.",
+      "Both counters traverse finite ranges. At exit i=n, the sorted prefix contains the n−1 smallest values, and the final remaining value is largest, so the entire array is sorted."
+    ],
+    "note": "Prepared proof exercise based on the lecture discussion; not an original homework or exam question."
+  },
+  {
+    "id": "proof-practice-merge",
+    "section": "foundations",
+    "topics": [
+      "Correctness",
+      "Loop invariants"
+    ],
+    "title": "Complete the merge correctness proof",
+    "kind": "Supplemental",
+    "source": "",
+    "page": 1,
+    "number": "Proof merge",
+    "prompt": "Two sorted lists are merged by repeatedly copying their smaller front element. Give an invariant that proves the output is sorted and preserves all values. Explain why appending a remaining tail is safe.",
+    "answer": [
+      "The output prefix consists of exactly the consumed values, sorted, and every output value is at most every unconsumed value. Indices identify the two unconsumed fronts. This holds for the empty output.",
+      "A minimum remaining value is at one of those fronts because both lists are sorted. Copying the smaller front preserves order and consumes exactly one value.",
+      "After one list is exhausted, the other tail is sorted and all its values are at least the output prefix. Copying it completes a sorted permutation. Each step consumes an element, so the process terminates."
+    ],
+    "note": "Prepared proof exercise based on the lecture discussion; not an original homework or exam question."
+  },
+  {
+    "id": "proof-practice-build",
+    "section": "foundations",
+    "topics": [
+      "Correctness",
+      "Loop invariants"
+    ],
+    "title": "Why must Build-Max-Heap run bottom-up?",
+    "kind": "Supplemental",
+    "source": "",
+    "page": 1,
+    "number": "Proof build",
+    "prompt": "State Build-Max-Heap’s invariant for the loop i=⌊n/2⌋ down to 1. Prove it and explain why running Max-Heapify once at the root of an arbitrary array is insufficient.",
+    "answer": [
+      "Before iteration i, every node indexed greater than i roots a max-heap. Initially those nodes are leaves.",
+      "Children have larger indices, so their subtrees are heaps and Max-Heapify’s precondition holds. Repair produces a heap at i, leaves all its descendants as heaps, and does not change outside subtrees. This establishes the next checkpoint i−1.",
+      "The loop exits at i=0, when node 1 roots a heap. On an arbitrary array the child subtrees may be broken; calling Max-Heapify at the root alone does not satisfy its precondition."
+    ],
+    "note": "Prepared proof exercise based on the lecture discussion; not an original homework or exam question."
+  },
+  {
+    "id": "proof-practice-heapsort",
+    "section": "foundations",
+    "topics": [
+      "Correctness",
+      "Loop invariants"
+    ],
+    "title": "Prove the heapsort boundary remains ordered",
+    "kind": "Supplemental",
+    "source": "",
+    "page": 1,
+    "number": "Proof heapsort",
+    "prompt": "For heapsort, state a loop invariant describing the active prefix, sorted suffix, and their ordering relationship. Explain why swapping the root to the boundary and then repairing preserves it.",
+    "answer": [
+      "At active size i, A[1:i] is a max-heap, A[i+1:n] is sorted, every prefix value is at most every suffix value, and the full array preserves the original values. Initially Build-Max-Heap establishes this with an empty suffix.",
+      "The root is the maximum of the prefix. Placing it at A[i] extends the sorted suffix leftward because it is no larger than any old suffix value and no smaller than any remaining prefix value.",
+      "Shrink to i−1 and repair only the active heap. The invariant holds again. The size decreases to 1, when the prefix, suffix, and boundary ordering together imply the whole array is sorted."
+    ],
+    "note": "Prepared proof exercise based on the lecture discussion; not an original homework or exam question."
+  },
+  {
+    "id": "proof-practice-partition",
+    "section": "foundations",
+    "topics": [
+      "Correctness",
+      "Loop invariants"
+    ],
+    "title": "Trace and prove the partition invariant",
+    "kind": "Supplemental",
+    "source": "",
+    "page": 1,
+    "number": "Proof partition",
+    "prompt": "For A=[4,2,3,8,9,1,7,5] with pivot x=5, the scan reaches j=6 and i=3. Identify the low, high, unprocessed, and pivot regions. Process A[j], then explain the invariant at exit.",
+    "answer": [
+      "Low A[1:3]=[4,2,3]; high A[4:5]=[8,9]; unprocessed A[6:7]=[1,7]; pivot A[8]=5.",
+      "Since 1≤5, increment i to 4 and swap A[4] with A[6], obtaining [4,2,3,1,9,8,7,5]. At next j=7, low is [4,2,3,1], high is [9,8], and [7] remains unprocessed.",
+      "After j=7 is processed, i=4 and j=8. Swap A[5] with A[8] to get [4,2,3,1,5,8,7,9]. All values left of the pivot are ≤5 and all right values are >5. Neither side must yet be internally sorted."
+    ],
+    "note": "Prepared proof exercise based on the lecture discussion; not an original homework or exam question."
+  },
+  {
+    "id": "proof-practice-radix",
+    "section": "foundations",
+    "topics": [
+      "Correctness",
+      "Loop invariants"
+    ],
+    "title": "Optional: explain the role of stability in radix sort",
+    "kind": "Supplemental",
+    "source": "",
+    "page": 1,
+    "number": "Proof radix",
+    "prompt": "Lecture extension, outside the annotated Exam 1 scope: prove that stable least-significant-digit passes sort d-digit numbers. State the invariant before pass i and explain why an unstable digit sort can invalidate it.",
+    "answer": [
+      "Before pass i, items are ordered by their lowest i−1 digits. At i=1 the empty digit key makes the claim vacuous.",
+      "Pass i groups items in order of digit i. Stability preserves the previous lower-digit order inside each group, so the list is now sorted by the lowest i digits.",
+      "After d passes, all digits are sorted. Without stability, an equal-current-digit group may be scrambled, breaking the inductive step. This is new lecture-based practice, not a reinstated crossed-out exam question."
+    ],
+    "note": "Prepared proof exercise based on the lecture discussion; not an original homework or exam question."
   }
 ]

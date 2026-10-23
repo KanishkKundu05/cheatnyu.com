@@ -478,5 +478,303 @@
         "answer": "It may identify a different item, so Increase-Key could modify the wrong object. Mapping updates are part of correctness."
       }
     ]
+  },
+  "foundation-notation": {
+    "intro": [
+      "Before comparing algorithms, identify the input size n and the function f(n): it might count comparisons, printed stars, or runtime. Asymptotic notation describes growth for sufficiently large n, allowing fixed constant factors. It does not describe an exact running time in seconds.",
+      "The quantifiers are the foundation. “There exists” means you may choose a constant once. “For every” means the claim must survive any allowed choice. A threshold n₀ allows finitely many small inputs to be ignored, but the inequality must hold for every n ≥ n₀. Constants may not depend on n."
+    ],
+    "checks": [
+      {
+        "question": "Is n²=O(n³) true even though the powers differ?",
+        "answer": "Yes. For n≥1, n²≤n³, so c=1 and n₀=1 work. It is a valid loose upper bound."
+      },
+      {
+        "question": "What changes when “some c>0” becomes “every c>0” in the upper-bound definition?",
+        "answer": "You get little-o. For n=o(n²), any chosen c>0 works once n>1/c. For 2n versus n, a choice such as c=1 fails forever."
+      }
+    ],
+    "blocks": [
+      {
+        "title": "Read the lower-bound direction carefully",
+        "text": "Omega reverses the inequality: the comparison function, scaled by a positive constant, must lie below f eventually.",
+        "excerpt": {
+          "text": "Ω(g(n)) = {f(n) : ∃c > 0, ∃n0 > 0 such that ∀n ≥ n0, 0 ≤ cg(n) ≤ f(n)}",
+          "source": "Lecture 2 CS2413 Sec A Fall 2026.pdf",
+          "page": 40
+        }
+      },
+      {
+        "title": "The important word is “every”",
+        "text": "For little-o you cannot pick only a generous multiplier. Even arbitrarily small positive multipliers must eventually work.",
+        "excerpt": {
+          "text": "o(g(n)) = {f(n) : ∀c > 0, ∃n0 > 0 such that ∀n ≥ n0, 0 ≤ f(n) < cg(n)}",
+          "source": "Lecture 2 CS2413 Sec A Fall 2026.pdf",
+          "page": 41
+        }
+      }
+    ]
+  },
+  "foundation-tightness": {
+    "intro": [
+      "A bound can be true without being tight. Saying a linear function is O(n²) gives a valid ceiling, but Θ(n) captures its actual growth. Tightness means you have matching upper and lower bounds, up to fixed positive constant factors.",
+      "To prove an upper bound directly, choose c and n₀, then prove the inequality for all n≥n₀. A single failing n disproves a proposed pair of constants. A single successful n does not establish that the pair works for every larger n."
+    ],
+    "checks": [
+      {
+        "question": "Does c=1,n₀=1 prove 2n+1=O(n²)?",
+        "answer": "No: at n=1 it requires 3≤1. This rejects that pair, not the Big-O relationship itself."
+      },
+      {
+        "question": "What additional proof turns f=O(n²) into f=Θ(n²)?",
+        "answer": "Show f=Ω(n²) as well: choose a fixed positive c₁ with f(n)≥c₁n² for all sufficiently large n."
+      }
+    ],
+    "blocks": [
+      {
+        "title": "What Theta actually asserts",
+        "text": "Lecture 2 defines Theta as simultaneous membership in O(g) and Ω(g). Removing lower-order terms is a useful consequence for positive polynomials, not a replacement for the definition.",
+        "excerpt": {
+          "text": "f(n) = O(g(n))",
+          "source": "Lecture 2 CS2413 Sec A Fall 2026.pdf",
+          "page": 34
+        }
+      }
+    ]
+  },
+  "foundation-counting": {
+    "intro": [
+      "Runtime analysis begins with a cost model: decide which operation you count. HW1 counts printed asterisks and element comparisons. A loop-condition check, a swap, and an element comparison are different events; exact-count questions need this distinction.",
+      "Use the actual loop ranges, including endpoints. For integers a≤b, an inclusive loop from a through b executes b−a+1 times. Then ask whether the inner count stays fixed or depends on the outer index."
+    ],
+    "checks": [
+      {
+        "question": "Two successive loops each execute n times. Is their combined work n²?",
+        "answer": "No. Add their costs: n+n=2n, so Θ(n) for constant work per iteration."
+      },
+      {
+        "question": "How many terms are in 1+2+…+n², and what is its tight bound?",
+        "answer": "There are n² terms. Substitute n² as the endpoint in m(m+1)/2 to obtain Θ(n⁴)."
+      }
+    ]
+  },
+  "foundation-invariants": {
+    "intro": [
+      "Correctness means satisfying a specification for every permitted input. A precondition states what is assumed initially. A postcondition states what must hold at the end. For sorting, the output must be ordered and must preserve the original values, including duplicates.",
+      "A loop invariant is a statement about the changing state that holds at the same checkpoint every time. In this course that checkpoint is before the body, after assigning the next index, including the final “dummy” iteration where the loop exits. The statement stays true even though the array and index change."
+    ],
+    "checks": [
+      {
+        "question": "Must an invariant hold only while the loop body runs?",
+        "answer": "No. HW1 includes the exit checkpoint. A statement that fails there is not a loop invariant under the course convention."
+      },
+      {
+        "question": "Does “the output is sorted” fully specify a correct sorting algorithm?",
+        "answer": "No. It must also contain exactly the original values with their multiplicities. Replacing every value by zero would otherwise pass that incomplete specification."
+      }
+    ],
+    "blocks": [
+      {
+        "title": "Maintenance connects consecutive checkpoints",
+        "text": "This is induction over iterations: establish the first checkpoint, then prove each checkpoint leads to the next.",
+        "excerpt": {
+          "text": "Show if it’s true at start of an iteration, it’s still true at start of next iteration.",
+          "source": "Lecture 1 CS2413 Fall 2026 sec a.pdf",
+          "page": 37
+        }
+      },
+      {
+        "title": "Do not omit termination",
+        "text": "The lecture explicitly asks you to establish termination after proving the invariant.",
+        "excerpt": {
+          "text": "Having shown loop invariant holds, show that loop terminates.",
+          "source": "Lecture 1 CS2413 Fall 2026 sec a.pdf",
+          "page": 41
+        }
+      }
+    ]
+  },
+  "proof-bubble": {
+    "intro": [
+      "The lecture’s bubble sort scans its inner loop from right to left. Each outer iteration moves the smallest remaining value into the next position of a growing sorted prefix. Fix that direction before writing a proof: a different scan direction needs a different invariant.",
+      "Lecture 1 assumes distinct values for its explanation. The invariant is that, before outer iteration i, A[1:i−1] contains the i−1 smallest original values in sorted order and A[i:n] contains the rest. The proof below expands the lecture’s initialization, maintenance, and exit argument."
+    ],
+    "checks": [
+      {
+        "question": "Why does the first iteration satisfy the invariant before doing any work?",
+        "answer": "The prefix is empty, so it contains exactly the zero smallest elements in sorted order."
+      },
+      {
+        "question": "Why is the outer exit index n rather than n+1?",
+        "answer": "This outer loop runs from 1 through n−1. Its next checkpoint is i=n. That differs from insertion sort’s loop ending at n."
+      }
+    ],
+    "blocks": [
+      {
+        "title": "The lecture’s maintenance argument",
+        "text": "The right-to-left scan carries the smallest remaining value toward position i. The more explicit inner-loop argument above supplies the intermediate checkpoints.",
+        "excerpt": {
+          "text": "Once index j reaches it, ith smallest element continues getting swapped until it settles in position i",
+          "source": "Lecture 1 CS2413 Fall 2026 sec a.pdf",
+          "page": 40
+        }
+      }
+    ]
+  },
+  "proof-insertion": {
+    "intro": [
+      "Insertion sort maintains an ordered collection of the values processed so far. Unlike bubble sort’s prefix, these need not be the globally smallest input values. Save the next key, shift larger preceding values right, then insert the key into the gap.",
+      "The lecture refers insertion sort to the textbook; HW1 Q9 supplies its pseudocode and a checkpoint trace. The proof here is a prepared study expansion of that homework, not a verbatim lecture proof. Let A₀ denote the original input so the invariant can compare the current array with the original values."
+    ],
+    "checks": [
+      {
+        "question": "Why must key be saved before shifting?",
+        "answer": "A right shift overwrites the next slot. Saving key preserves the value that must eventually fill the gap."
+      },
+      {
+        "question": "What does the invariant say at i=n+1?",
+        "answer": "The prefix A[1:n] is sorted and contains precisely the original n values. The remaining suffix is empty."
+      }
+    ]
+  },
+  "proof-merge": {
+    "intro": [
+      "A recursive correctness proof assumes correctness only for smaller inputs, then proves the current input is handled correctly. Lecture 3 gives three obligations: the base case, dividing the work correctly, and combining correct recursive results correctly.",
+      "For mergesort, use strong induction on subarray length. Splitting yields two strictly smaller subarrays. Their recursive results may be assumed sorted, but you still have to justify the merge operation. The merge invariant below is a study expansion of the lecture’s combine-step requirement."
+    ],
+    "checks": [
+      {
+        "question": "Why can we assume each recursive half is sorted?",
+        "answer": "Strong induction grants correctness on smaller lengths. We establish the current length only after proving the merge step."
+      },
+      {
+        "question": "Would simply concatenating [2,6] and [1,5] satisfy the postcondition?",
+        "answer": "No: [2,6,1,5] is not sorted. Correct recursive results require a correct combining procedure."
+      }
+    ]
+  },
+  "proof-build-heap": {
+    "intro": [
+      "A max-heap is a complete binary tree where each parent is at least as large as its children. In its one-based array representation, children of index i are 2i and 2i+1 when those indices are within the heap. A leaf is automatically a max-heap.",
+      "Build-Max-Heap calls Max-Heapify from the last internal node down to the root. Its proof depends on the repair routine’s precondition: both child subtrees must already be heaps. Lecture 6 states that precondition and gives the outer loop invariant explicitly; the repair proof below expands their connection."
+    ],
+    "checks": [
+      {
+        "question": "Why can Build-Max-Heap skip indices greater than ⌊n/2⌋?",
+        "answer": "They have no children within the heap size, so each is already a valid one-node heap."
+      },
+      {
+        "question": "Which statement lets the proof call Max-Heapify at i?",
+        "answer": "The invariant says both child subtrees are heaps because their root indices are greater than i."
+      }
+    ],
+    "blocks": [
+      {
+        "title": "The repair routine’s precondition",
+        "text": "Max-Heapify repairs one possible violation at a node. It is not a general procedure for fixing an arbitrary unordered subtree in one call.",
+        "excerpt": {
+          "text": "Assumes that the left and right subtrees of node i are max-heaps",
+          "source": "Lecture 6 CS2413 Fall 2026 sec A.pdf",
+          "page": 31
+        }
+      }
+    ]
+  },
+  "proof-heapsort": {
+    "intro": [
+      "Heapsort first builds a max-heap, then repeatedly swaps the maximum at the root into the last active position, shrinks the heap, and repairs its root. The array has two regions whose relationship is essential to the proof.",
+      "Use i for the active heap size at the start of an extraction iteration. The lecture’s invariant says the heap prefix contains the smallest remaining items and the suffix is sorted. We make the relationship explicit: every prefix value is at most every suffix value, and all original values are preserved."
+    ],
+    "checks": [
+      {
+        "question": "Is it enough to know that the suffix alone is sorted?",
+        "answer": "No. You also need the heap property in the prefix and that every prefix value is at most every suffix value."
+      },
+      {
+        "question": "Why can the moved maximum be placed just before the old sorted suffix?",
+        "answer": "It is the largest remaining value, but still no larger than values already extracted into that suffix."
+      }
+    ],
+    "blocks": [
+      {
+        "title": "The same invariant is revisited in Lecture 7",
+        "text": "The second appearance reinforces the same two-region argument; it is not a different heapsort invariant.",
+        "excerpt": {
+          "text": "Remaining elements are in A[i+1…n] in sorted order",
+          "source": "Lecture 7 CS2413 Fall 2026 sec a.pdf",
+          "page": 20
+        }
+      }
+    ]
+  },
+  "proof-partition": {
+    "intro": [
+      "Partitioning orders values relative to a pivot, not relative to every other value. In the lecture’s one-based version, save x=A[n], scan j from 1 to n−1, and use i to mark the end of the low region. Initially i=0.",
+      "At the start of each scan iteration, A[1:i] contains values ≤x, A[i+1:j−1] contains values >x, A[j:n−1] is unprocessed, and A[n]=x. The high region ends at j−1, not at n: the pivot and unprocessed values are outside it. This matches Lecture 8 and clarifies the annotated Lecture 9 slide."
+    ],
+    "checks": [
+      {
+        "question": "What is the high region before processing A[j]?",
+        "answer": "A[i+1:j−1]. A[j] has not yet been classified, and A[n] is the pivot."
+      },
+      {
+        "question": "If all values equal the pivot, does Quicksort fail to terminate?",
+        "answer": "No. Each call excludes one pivot, so sizes decrease. It is still correct, but the n−1 and 0 splits give Θ(n²) time."
+      }
+    ],
+    "blocks": [
+      {
+        "title": "Lecture 9’s follow-up formulation",
+        "text": "Only the processed prefix is partitioned during the loop. The explanation above separates that prefix from the unprocessed region and the pivot.",
+        "excerpt": {
+          "text": "Elements in A[1:j-1] partitioned into “low side” (elements <= x) and “high side” (elements > x)",
+          "source": "Lecture 9 CS2413 Fall 2026 sec A.pdf",
+          "page": 16
+        }
+      }
+    ]
+  },
+  "foundation-induction": {
+    "intro": [
+      "Induction is the common proof pattern behind loop invariants and recursive algorithms. State a proposition P(n), prove the base cases, assume smaller cases, then prove the current one. Weak induction assumes the preceding case; strong induction assumes all smaller cases in the stated domain.",
+      "Keep the proposition clear. “This algorithm returns a sorted permutation” is a correctness claim. “Its runtime is at most 5n log₂ n” is a cost claim. Either can use induction, but proving the cost bound does not prove the returned answer is correct."
+    ],
+    "checks": [
+      {
+        "question": "Why is strong induction useful for a call on ⌊n/2⌋?",
+        "answer": "Knowing only the n−1 case does not directly bound that smaller argument. Strong induction grants all smaller cases in the hypothesis domain."
+      },
+      {
+        "question": "What is missing if you prove only T(n)≤5n log₂ n but claim Θ(n log n)?",
+        "answer": "A matching Ω(n log n) lower bound. The induction has proved only an upper bound."
+      }
+    ],
+    "blocks": [
+      {
+        "title": "Why the extra base case matters",
+        "text": "The lecture explicitly catches this gap rather than silently applying the hypothesis at size 1.",
+        "excerpt": {
+          "text": "Inductive hypothesis doesn’t tell us anything about T(1)",
+          "source": "Lecture 4 CS2413 sec a Fall 2026.pdf",
+          "page": 33
+        }
+      }
+    ]
+  },
+  "proof-radix": {
+    "intro": [
+      "Lecture 10 asks “Why does this work? Loop invariant?” for least-significant-digit radix sort. This lesson completes that proof prompt. The annotated old exam excludes radix sort and stability questions from Fall 2026 Exam 1; this extension is included for lecture-proof coverage, not restored exam practice.",
+      "Number digit columns from 1 at the least significant digit through d at the most significant digit. On pass i, stably sort by digit i. A stable sort preserves the previous relative order of items whose current digit is equal; that preservation is exactly what the proof needs."
+    ],
+    "checks": [
+      {
+        "question": "After two passes, what does the invariant guarantee for three-digit keys?",
+        "answer": "They are sorted by their last two digits. The hundreds digit has not yet been processed."
+      },
+      {
+        "question": "Why does a stable tens pass preserve the units ordering within equal tens?",
+        "answer": "Equal-tens items retain their previous relative order, which the earlier pass already arranged by units."
+      }
+    ]
   }
 }
